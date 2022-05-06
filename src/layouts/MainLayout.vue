@@ -28,7 +28,16 @@
         <q-item-label
           header
         >
-          Essential Links
+    <div class="row justify-center q-pa-md">
+    <q-img
+      src="https://placeimg.com/500/300/nature"
+      loading="lazy"
+      spinner-color="white"
+      height="140px"
+      style="max-width: 150px"
+    />
+    <q-btn class="q-mt-md" flat style="color: #E69138" label="Deconnexion" />
+  </div>
         </q-item-label>
 
         <EssentialLink
@@ -51,52 +60,28 @@ import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
+    title: 'Oeuvres',
+    caption: '',
+    icon: 'vrpano',
     link: 'https://quasar.dev'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: 'Types oeuvres',
+    caption: '',
+    icon: 'description',
+    link:{name:"ListTypeOeuvre"}
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
+    title: 'Artistes',
+    caption: '',
+    icon: 'person',
     link: 'https://chat.quasar.dev'
   },
   {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
+    title: 'Musées',
+    caption: ' ',
+    icon: 'account_balance',
     link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  },
-   {
-    title: 'Liste Oeuvres',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: {name:"ListTypeOeuvre"}
   }
 ]
 
