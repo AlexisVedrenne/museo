@@ -6,12 +6,19 @@
           <q-img style="height: 70%; width: 70%" src="~assets/logoMuseo.png" />
         </div>
       </section>
-      <main class="col row items-center q-pt-xl q-mr-xl">
+
+      <q-form class="col row items-center q-pt-xl q-mr-xl" @submit="submit">
         <section class="col">
-          <q-input class="q-mb-lg" color="secondary" label="Entrer votre identifiant">
+          <q-input
+            v-model="email"
+            class="q-mb-lg"
+            color="secondary"
+            label="Entrer votre identifiant"
+          >
             <template v-slot:prepend> <q-icon color="grey-10" name="person" /> </template
           ></q-input>
           <q-input
+            v-model="password"
             class="q-mb-xl"
             color="secondary"
             type="password"
@@ -21,6 +28,8 @@
           ></q-input>
           <div class="row justify-center">
             <q-btn
+              :loading="loading"
+              type="submit"
               class="q-pt-sm q-pb-sm"
               style="width: 180px"
               color="secondary"
@@ -29,11 +38,28 @@
             />
           </div>
         </section>
-      </main>
+      </q-form>
     </div>
   </q-layout>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      loading: false,
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    async submit() {
+      this.loading = true;
+      await this.$store.dispatch("signIn", {
+        infos: { password: this.password, email: this.email },
+      });
+      this.loading = false;
+    },
+  },
+};
 </script>
