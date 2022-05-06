@@ -14,10 +14,18 @@
             class="q-mb-lg"
             color="secondary"
             label="Entrer votre identifiant"
+            lazy-rules
+            :rules="[
+              (val) =>
+                (val.includes('@') && val.includes('.')) ||
+                'Entrer une adresse e-mail valide !',
+            ]"
           >
             <template v-slot:prepend> <q-icon color="grey-10" name="person" /> </template
           ></q-input>
           <q-input
+            lazy-rules
+            :rules="[(val) => val != '' || 'Vous devez entrer votre mot de passe !']"
             v-model="password"
             class="q-mb-xl"
             color="secondary"
@@ -55,10 +63,13 @@ export default {
   methods: {
     async submit() {
       this.loading = true;
-      await this.$store.dispatch("signIn", {
+      let user = await this.$store.dispatch("signIn", {
         infos: { password: this.password, email: this.email },
       });
       this.loading = false;
+      if (user) {
+        this.$router.push({ name: "home" });
+      }
     },
   },
 };

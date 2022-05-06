@@ -60,6 +60,7 @@ export async function signIn({ dispatch }, { infos }) {
       message: "Vous etes en ligne.",
       color: "positive",
     });
+    return res;
   } catch (error) {
     Notify.create({
       progress: true,
