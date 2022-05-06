@@ -91,6 +91,12 @@ const linksList = [
     caption: 'Community Quasar projects',
     icon: 'favorite',
     link: 'https://awesome.quasar.dev'
+  },
+   {
+    title: 'Liste Oeuvres',
+    caption: 'Community Quasar projects',
+    icon: 'favorite',
+    link: {name:"ListTypeOeuvre"}
   }
 ]
 
