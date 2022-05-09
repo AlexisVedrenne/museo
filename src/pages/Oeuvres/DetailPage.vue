@@ -59,7 +59,7 @@
         <section class="row items-center">
           <div class="col">
             <p class="q-ma-none q-ml-md q-mt-lg">
-              {{ oeuvre.description }}
+              {{ oeuvre.briefDescrition }}
             </p>
           </div>
           <span class="vertical text-grey q-mt-md q-ml-md"></span>
@@ -80,6 +80,7 @@
             <span><q-icon :name="oeuvre.etat.icon" /></span>
           </p>
           <q-btn
+            @click="detail = true"
             color="secondary"
             class="col-5"
             no-caps
@@ -89,11 +90,23 @@
       </div>
     </section>
   </main>
+  <q-dialog full-height v-model="detail" position="right">
+    <q-card class="bg-accent" style="width: 350px">
+      <q-card-section class="row items-center">
+        <q-btn v-close-popup flat round icon="close" />
+        <div style="font-size: 20px" class="text-bold text-primary q-ml-sm">
+          Description détailler
+        </div>
+        <p v-html="oeuvre.description" />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 export default {
   data() {
     return {
+      detail: false,
       oeuvre: null,
       artiste: null,
       exposition: null,
@@ -102,7 +115,7 @@ export default {
   },
   async mounted() {
     this.oeuvre = await this.$store.dispatch("fetchOeuvre", {
-      index: this.$route.params.index,
+      index: 0,
     });
     this.artiste = await this.$store.dispatch("fetchArtiste", {
       idArtiste: this.oeuvre.idArtiste,
