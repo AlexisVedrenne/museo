@@ -4,6 +4,9 @@ import { createStore } from "vuex";
 // import example from './module-example'
 
 import auth from "./auth";
+import oeuvre from "./oeuvre";
+import artiste from "./artiste";
+import musee from "./musee";
 
 /*
  * If not building with SSR mode, you can
@@ -18,6 +21,9 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
       auth,
+      oeuvre,
+      artiste,
+      musee,
     },
 
     // enable strict mode (adds overhead!)

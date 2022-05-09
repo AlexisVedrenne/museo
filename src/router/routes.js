@@ -15,6 +15,11 @@ const routes = [
         name: "home",
         component: () => import("pages/IndexPage.vue"),
       },
+      {
+        path: "/oeuvre/:index",
+        name: "detailOeuvre",
+        component: () => import("pages/Oeuvres/DetailPage.vue"),
+      },
     ],
   },
   // Always leave this as last one,
