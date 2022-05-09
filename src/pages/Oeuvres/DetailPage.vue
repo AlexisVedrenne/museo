@@ -115,7 +115,7 @@ export default {
   },
   async mounted() {
     this.oeuvre = await this.$store.dispatch("fetchOeuvre", {
-      index: 0,
+      index: this.$route.params.index,
     });
     this.artiste = await this.$store.dispatch("fetchArtiste", {
       idArtiste: this.oeuvre.idArtiste,
