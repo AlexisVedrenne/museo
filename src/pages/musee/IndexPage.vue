@@ -9,9 +9,14 @@
         ></q-card
       >
       <div v-if="musees">
-        <div v-for="(musee, index) in musees" :key="index" class="q-ma-md">
+        <q-intersection
+          transition="scale"
+          v-for="(musee, index) in musees"
+          :key="index"
+          class="q-ma-md"
+        >
           <CardMusee :id="res.docs[index].id" @reload="refresh" :proMusee="musee" />
-        </div>
+        </q-intersection>
 
         <div v-if="musees.length == 0">
           <p class="text-grey text-center q-mt-lg">Aucun musées trouvés...</p>
