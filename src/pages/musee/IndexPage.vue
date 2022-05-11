@@ -15,7 +15,7 @@
           :key="index"
           class="q-ma-md"
         >
-          <CardMusee :id="res.docs[index].id" @reload="refresh" :proMusee="musee" />
+          <CardMusee :id="res.docs[index].id" :proMusee="musee" />
         </q-intersection>
 
         <div v-if="musees.length == 0">
@@ -104,6 +104,8 @@
 </template>
 <script>
 import CardMusee from "components/musee/CardMusee.vue";
+import { collection, getDocs, query, onSnapshot } from "firebase/firestore";
+import fire from "src/boot/Firebase";
 export default {
   components: {
     CardMusee,
@@ -123,6 +125,20 @@ export default {
   },
   async mounted() {
     await this.refresh();
+    let res = await query(collection(fire.firebasebd, "musees"));
+    onSnapshot(res, (snapshot) => {
+      snapshot.docChanges().forEach(async (change) => {
+        if (change.type === "added") {
+          await this.refresh();
+        }
+        if (change.type === "modified") {
+          await this.refresh();
+        }
+        if (change.type === "removed") {
+          await this.refresh();
+        }
+      });
+    });
   },
   methods: {
     async refresh() {
@@ -144,7 +160,6 @@ export default {
         adresse: "",
         tel: "",
       };
-      await this.refresh();
     },
   },
 };

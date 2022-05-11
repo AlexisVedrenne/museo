@@ -117,7 +117,6 @@ export default {
       });
       this.loading = false;
       this.edit = false;
-      this.$emit("reload");
     },
     deleteMusee() {
       this.utils
@@ -141,7 +140,6 @@ export default {
           this.utils.loading.show();
           await this.$store.dispatch("deleteMusee", { id: this.id });
           this.utils.loading.hide();
-          this.$emit("reload");
         });
     },
   },
