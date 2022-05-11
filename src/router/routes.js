@@ -20,6 +20,11 @@ const routes = [
         name: "detailOeuvre",
         component: () => import("pages/Oeuvres/DetailPage.vue"),
       },
+      {
+        path: "/musee",
+        name: "listMusee",
+        component: () => import("pages/musee/IndexPage.vue"),
+      },
     ],
   },
   // Always leave this as last one,

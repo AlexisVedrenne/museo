@@ -50,7 +50,7 @@ const linksList = [
     title: "Oeuvres",
     caption: "",
     icon: "vrpano",
-    link: "https://quasar.dev",
+    link: { name: "home" },
   },
   {
     title: "Types oeuvres",
@@ -66,9 +66,9 @@ const linksList = [
   },
   {
     title: "Musées",
-    caption: " ",
+    caption: "",
     icon: "account_balance",
-    link: "https://forum.quasar.dev",
+    link: { name: "listMusee" },
   },
 ];
 
