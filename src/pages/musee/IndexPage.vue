@@ -7,12 +7,17 @@
         </p></q-card-section
       ></q-card
     >
-    <div v-for="(musee, index) in musees" :key="index" class="q-ma-md">
-      <CardMusee :id="res.docs[index].id" @reload="refresh" :proMusee="musee" />
-    </div>
+    <div v-if="musees">
+      <div v-for="(musee, index) in musees" :key="index" class="q-ma-md">
+        <CardMusee :id="res.docs[index].id" @reload="refresh" :proMusee="musee" />
+      </div>
 
-    <div v-if="musees.length == 0">
-      <p class="text-grey text-center q-mt-lg">Aucun musées trouvés...</p>
+      <div v-if="musees.length == 0">
+        <p class="text-grey text-center q-mt-lg">Aucun musées trouvés...</p>
+      </div>
+    </div>
+    <div v-else class="q-mt-xl row justify-center">
+      <q-spinner-puff color="primary" size="50px" />
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn @click="add = true" fab icon="add" color="secondary" />
@@ -99,7 +104,7 @@ export default {
     return {
       add: false,
       loading: false,
-      musees: [],
+      musees: null,
       res: null,
       musee: {
         nom: "",
@@ -114,7 +119,9 @@ export default {
   methods: {
     async refresh() {
       this.res = await this.$store.dispatch("fetchAllMusee");
-      this.musees = [];
+      if (this.res.docs.length > 0) {
+        this.musees = [];
+      }
       this.res.docs.forEach((musee) => {
         this.musees.push(musee.data());
       });
