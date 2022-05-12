@@ -124,7 +124,8 @@
 </template>
 <script>
 import { ref } from "vue";
-
+import { collection, getDocs, query, onSnapshot } from "firebase/firestore";
+import fire from "src/boot/Firebase";
 export default {
   data() {
     return {
@@ -170,24 +171,47 @@ export default {
     };
   },
   async mounted() {
-    await this.refresh();
+    await this.initMultiposte();
   },
   methods: {
-    async refresh() {
-      let resMusees = await this.$store.dispatch("fetchAllMusee");
-      let resArtistes = await this.$store.dispatch("fetchAllArtist");
-      let resTypeOeuvre = await this.$store.dispatch("fetchAllTypeOeuvre");
-      resMusees.docs.forEach((doc) => {
-        let data = doc.data();
-        this.museeOptions.push({ label: data.nom, value: doc.id });
-      });
-      resArtistes.docs.forEach((doc) => {
-        let data = doc.data();
-        this.artisteOptions.push({
-          label: data.nom + " " + data.prenom,
-          value: doc.id,
+    async setSnapshot(q, collection) {
+      onSnapshot(q, (snapshot) => {
+        snapshot.docChanges().forEach(async (change) => {
+          if (change.type === "added") {
+            collection === "musee"
+              ? await this.optionsMusee()
+              : collection === "artiste"
+              ? await this.optionsArtitste()
+              : await this.optionsType();
+          }
+          if (change.type === "modified") {
+            collection === "musee"
+              ? await this.optionsMusee()
+              : collection === "artiste"
+              ? await this.optionsArtitste()
+              : await this.optionsType();
+          }
+          if (change.type === "removed") {
+            collection === "musee"
+              ? await this.optionsMusee()
+              : collection === "artiste"
+              ? await this.optionsArtitste()
+              : await this.optionsType();
+          }
         });
       });
+    },
+    async initMultiposte() {
+      let resMusees = await query(collection(fire.firebasebd, "musees"));
+      let resArtistes = await query(collection(fire.firebasebd, "artistes"));
+      let resType = await query(collection(fire.firebasebd, "typeOeuvre"));
+      await this.setSnapshot(resMusees, "musee");
+      await this.setSnapshot(resArtistes, "artiste");
+      await this.setSnapshot(resType, "type");
+    },
+    async optionsType() {
+      this.typeOptions = [];
+      let resTypeOeuvre = await this.$store.dispatch("fetchAllTypeOeuvre");
       resTypeOeuvre.docs.forEach((doc) => {
         let data = doc.data();
         this.typeOptions.push({
@@ -206,6 +230,27 @@ export default {
       await this.$store.dispatch("addOeuvre", { oeuvre: this.oeuvre });
       this.loading = false;
       this.$router.push({ name: "home" });
+    },
+    async optionsMusee() {
+      this.museeOptions = [];
+      let resMusees = await this.$store.dispatch("fetchAllMusee");
+      resMusees.docs.forEach((doc) => {
+        let data = doc.data();
+        if (!this.museeOptions.find((element) => element.label === data.nom)) {
+          this.museeOptions.push({ label: data.nom, value: doc.id });
+        }
+      });
+    },
+    async optionsArtitste() {
+      this.artisteOptions = [];
+      let resArtistes = await this.$store.dispatch("fetchAllArtist");
+      resArtistes.docs.forEach((doc) => {
+        let data = doc.data();
+        this.artisteOptions.push({
+          label: data.nom + " " + data.prenom,
+          value: doc.id,
+        });
+      });
     },
   },
 };
