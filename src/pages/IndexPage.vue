@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { collection, getDocs, query, onSnapshot } from "firebase/firestore";
+import fire from "src/boot/Firebase";
 import CardPainting from "components/Oeuvres/CardPainting.vue";
 import { useQuasar } from "quasar";
 export default {
@@ -29,8 +31,27 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("fetchAllOeuvres");
-    this.oeuvres = this.utils.localStorage.getItem("oeuvres");
+    let res = await query(collection(fire.firebasebd, "oeuvre"));
+    onSnapshot(res, (snapshot) => {
+      snapshot.docChanges().forEach(async (change) => {
+        if (change.type === "added") {
+          await this.refresh();
+        }
+        if (change.type === "modified") {
+          await this.refresh();
+        }
+        if (change.type === "removed") {
+          await this.refresh();
+        }
+      });
+    });
+  },
+  methods: {
+    async refresh() {
+      this.oeuvres = null;
+      await this.$store.dispatch("fetchAllOeuvres");
+      this.oeuvres = this.utils.localStorage.getItem("oeuvres");
+    },
   },
 };
 </script>
