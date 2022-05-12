@@ -4,12 +4,20 @@
       <div class="row">
         <div class="col-6">
           <div class="q-gutter-y-md" style="max-width: 400px; margin-left: 120px">
-            <q-input color="secondary" v-model="oeuvre.nom" label="Nom de l'oeuvre">
+            <q-input
+              lazy-rules
+              :rules="[(val) => (val && val.length > 0) || 'Entrez un nom.']"
+              color="secondary"
+              v-model="oeuvre.nom"
+              label="Nom de l'oeuvre"
+            >
               <template v-slot:before>
                 <q-icon name="vrpano" />
               </template>
             </q-input>
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Selectionner un type.']"
               color="secondary"
               v-model="type"
               :options="typeOptions"
@@ -20,6 +28,8 @@
               </template>
             </q-select>
             <q-input
+              lazy-rules
+              :rules="[(val) => (val && val.length > 0) || 'Entrez une date.']"
               v-model="oeuvre.date"
               type="date"
               color="secondary"
@@ -30,6 +40,8 @@
               </template>
             </q-input>
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Selectionner un artiste.']"
               color="secondary"
               v-model="artiste"
               :options="artisteOptions"
@@ -40,6 +52,8 @@
               </template>
             </q-select>
             <q-file
+              lazy-rules
+              :rules="[(val) => val || 'Choisir une image.']"
               accept="image/*"
               color="secondary"
               bottom-slots
@@ -61,6 +75,8 @@
         <div class="col-6">
           <div class="q-gutter-y-md column" style="max-width: 400px; margin-left: 120px">
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Choisir un musée']"
               color="secondary"
               v-model="musee"
               :options="museeOptions"
@@ -71,6 +87,8 @@
               </template>
             </q-select>
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Choisir un musée.']"
               color="secondary"
               v-model="expo"
               :options="museeOptions"
@@ -81,6 +99,8 @@
               </template>
             </q-select>
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Spécifier son etat']"
               color="secondary"
               v-model="etat"
               :options="etatOptions"
@@ -92,6 +112,10 @@
             </q-select>
             <div class="q-pa-md" style="max-width: 400px">
               <q-input
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Ecire une courte description.',
+                ]"
                 color="secondary"
                 v-model="oeuvre.briefDescrition"
                 filled

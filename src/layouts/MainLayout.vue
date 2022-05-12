@@ -4,9 +4,10 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toolbar-title>
+          Administrateur
+          <q-avatar> <q-img src="~assets/logoMuseoBlanc.png" /> </q-avatar
+        ></q-toolbar-title>
       </q-toolbar>
     </q-header>
 
