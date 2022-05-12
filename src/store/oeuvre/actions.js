@@ -33,8 +33,14 @@ export async function fetchAllOeuvres() {
   }
 }
 
-export async function addOeuvre({ commit }, { oeuvre }) {
+export async function addOeuvre({ dispatch }, { oeuvre }) {
   try {
+    if (oeuvre.image) {
+      if (oeuvre.image.type.includes("image")) {
+        let url = await dispatch("uploadImage", { image: oeuvre.image });
+        oeuvre.image = url;
+      }
+    }
     const oeuvreRef = await addDoc(
       collection(fire.firebasebd, "oeuvre"),
       oeuvre

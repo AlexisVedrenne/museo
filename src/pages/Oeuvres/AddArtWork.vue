@@ -40,11 +40,11 @@
               </template>
             </q-select>
             <q-file
+              accept="image/*"
               color="secondary"
               bottom-slots
               v-model="oeuvre.image"
               counter
-              max-files="12"
             >
               <template v-slot:before>
                 <q-icon name="folder_open" />
