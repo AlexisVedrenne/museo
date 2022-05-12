@@ -15,6 +15,21 @@ const routes = [
         name: "home",
         component: () => import("pages/IndexPage.vue"),
       },
+      {
+        path: "/oeuvre/:index",
+        name: "detailOeuvre",
+        component: () => import("pages/Oeuvres/DetailPage.vue"),
+      },
+      {
+        path: "/oeuvre/ajout",
+        name: "ajoutOeuvre",
+        component: () => import("pages/Oeuvres/AddArtWork.vue"),
+      },
+      {
+        path: "/musee",
+        name: "listMusee",
+        component: () => import("pages/musee/IndexPage.vue"),
+      },
     ],
   },
   // Always leave this as last one,

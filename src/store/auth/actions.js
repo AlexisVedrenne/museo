@@ -77,7 +77,6 @@ export async function signLeft({ commit }) {
   try {
     await signOut(fire.auth);
     LocalStorage.clear();
-    commit("out");
     Notify.create({
       progress: true,
       position: "top",
