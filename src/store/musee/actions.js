@@ -52,14 +52,6 @@ export async function fetchAllMusee() {
 export async function addMusee({ commit }, { musee }) {
   try {
     const museeRef = await addDoc(collection(fire.firebasebd, "musees"), musee);
-    Notify.create({
-      progress: true,
-      position: "top",
-      timeout: 1000,
-      icon: "done",
-      message: "Le musée " + musee.nom + " à bien été ajouter.",
-      color: "positive",
-    });
     return museeRef;
   } catch (e) {
     Notify.create({
@@ -76,15 +68,6 @@ export async function addMusee({ commit }, { musee }) {
 export async function updateMusee({ commit }, { musee, id }) {
   try {
     await setDoc(doc(fire.firebasebd, "musees", id), musee);
-    Notify.create({
-      progress: true,
-      position: "top",
-      timeout: 1000,
-      message: "Le musée " + musee.nom + " a été mise à jour !",
-      color: "info",
-      textColor: "dark",
-      icon: "info",
-    });
   } catch (e) {
     console.log(e);
     Notify.create({
@@ -101,15 +84,6 @@ export async function updateMusee({ commit }, { musee, id }) {
 export async function deleteMusee({ commit }, { id }) {
   try {
     await deleteDoc(doc(fire.firebasebd, "musees", id));
-    Notify.create({
-      progress: true,
-      position: "top",
-      timeout: 1000,
-      message: "Le musée à été supprimer !",
-      color: "info",
-      textColor: "dark",
-      icon: "info",
-    });
   } catch (e) {
     console.log(e);
     Notify.create({

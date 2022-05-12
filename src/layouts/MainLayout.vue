@@ -29,8 +29,6 @@
               style="color: #e69138"
               label="Deconnexion"
             />
-
-            <q-btn class="q-mt-md" flat style="color: #e69138" label="Deconnexion" />
           </div>
         </q-item-label>
 

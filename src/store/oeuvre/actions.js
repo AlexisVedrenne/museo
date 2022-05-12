@@ -45,14 +45,6 @@ export async function addOeuvre({ dispatch }, { oeuvre }) {
       collection(fire.firebasebd, "oeuvre"),
       oeuvre
     );
-    Notify.create({
-      progress: true,
-      position: "top",
-      timeout: 1000,
-      icon: "done",
-      message: "L'oeuvre " + oeuvre.nom + " à bien été ajouter.",
-      color: "positive",
-    });
   } catch (error) {
     Notify.create({
       progress: true,
