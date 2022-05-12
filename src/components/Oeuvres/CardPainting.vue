@@ -6,13 +6,8 @@
       <q-card-section>
         <div class="text-h6 flex">
           Nom oeuvre
-          <q-btn
-            to="/start/pick-quasar-flavour"
-            label="Sculpture"
-            outline
-            color="purple"
-          />
-          <q-btn to="/start/pick-quasar-flavour" label="Artiste" outline color="green" />
+          <q-space />
+          <q-badge rounded outline color="green" label="Peinture" />
         </div>
 
         <div class="text-subtitle2">
@@ -32,15 +27,10 @@
       <img src="https://placeimg.com/500/200/nature" />
 
       <q-card-section>
-        <div class="text-h6">
+        <div class="text-h6 flex">
           Nom oeuvre
-          <q-btn
-            to="/start/pick-quasar-flavour"
-            label="Sculpture"
-            outline
-            color="purple"
-          />
-          <q-btn to="/start/pick-quasar-flavour" label="Artiste" outline color="green" />
+          <q-space />
+          <q-badge rounded outline color="purple" label="Sculpture" />
         </div>
 
         <div class="text-subtitle2">
