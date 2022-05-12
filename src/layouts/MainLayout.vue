@@ -28,6 +28,7 @@
               height="140px"
               style="max-width: 150px"
             />
+
             <q-btn
               @click="left"
               class="q-mt-md"

@@ -20,7 +20,7 @@ export async function fetchAllOeuvres() {
       oeuvres.push(oeuvre.data());
     });
     LocalStorage.set("oeuvres", oeuvres);
-    return oeuvres;
+    return res;
   } catch (error) {
     Notify.create({
       progress: true,
@@ -33,10 +33,35 @@ export async function fetchAllOeuvres() {
   }
 }
 
+export async function addOeuvre({ dispatch }, { oeuvre }) {
+  try {
+    if (oeuvre.image) {
+      if (oeuvre.image.type.includes("image")) {
+        let url = await dispatch("uploadImage", { image: oeuvre.image });
+        oeuvre.image = url;
+      }
+    }
+    const oeuvreRef = await addDoc(
+      collection(fire.firebasebd, "oeuvre"),
+      oeuvre
+    );
+  } catch (error) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de l'ajout d'une oeuvre",
+      color: "negative",
+    });
+  }
+}
+
 export async function fetchOeuvre({ dispatch }, { index }) {
   try {
     let oeuvres = await this.dispatch("fetchAllOeuvres");
-    return oeuvres[index];
+
+    return oeuvres.docs[index].data();
   } catch (error) {
     Notify.create({
       progress: true,

@@ -124,7 +124,6 @@ export default {
     };
   },
   async mounted() {
-    await this.refresh();
     let res = await query(collection(fire.firebasebd, "musees"));
     onSnapshot(res, (snapshot) => {
       snapshot.docChanges().forEach(async (change) => {
@@ -142,13 +141,13 @@ export default {
   },
   methods: {
     async refresh() {
+      this.musees = null;
       this.res = await this.$store.dispatch("fetchAllMusee");
-      if (this.res.docs.length > 0) {
-        this.musees = [];
+      let musees = [];
+      for (let i = 0; i < this.res.docs.length; i++) {
+        musees.push(this.res.docs[i].data());
       }
-      this.res.docs.forEach((musee) => {
-        this.musees.push(musee.data());
-      });
+      this.musees = Object.values(musees);
     },
     async submit() {
       this.loading = true;
