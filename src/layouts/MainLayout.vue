@@ -21,7 +21,7 @@
               height="140px"
               style="max-width: 150px"
             />
-            <<<<<<< HEAD
+
             <q-btn
               @click="left"
               class="q-mt-md"
@@ -29,9 +29,8 @@
               style="color: #e69138"
               label="Deconnexion"
             />
-            =======
+
             <q-btn class="q-mt-md" flat style="color: #e69138" label="Deconnexion" />
-            >>>>>>> Hugo-dev
           </div>
         </q-item-label>
 
@@ -77,15 +76,9 @@ const linksList = [
   },
   {
     title: "Musées",
-<<<<<<< HEAD
     caption: "",
     icon: "account_balance",
     link: { name: "listMusee" },
-=======
-    caption: " ",
-    icon: "account_balance",
-    link: "",
->>>>>>> Hugo-dev
   },
 ];
 
@@ -95,16 +88,12 @@ export default defineComponent({
   components: {
     EssentialLink,
   },
-<<<<<<< HEAD
   methods: {
     async left() {
       await this.$store.dispatch("signLeft");
       this.$router.push({ name: "connexion" });
     },
   },
-=======
-
->>>>>>> Hugo-dev
   setup() {
     const leftDrawerOpen = ref(false);
 

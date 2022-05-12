@@ -1,99 +1,212 @@
 <template>
-  <div class="q-pa-lg">
-    <div class="row">
-      <div class="col-6">
-        <div class="q-gutter-y-md" style="max-width: 400px; margin-left: 120px">
-          <q-input color="orange" v-model="text" label="Nom de l'oeuvre">
-            <template v-slot:before>
-              <q-icon name="vrpano" />
-            </template>
-          </q-input>
-          <q-select color="orange" v-model="model" :options="options" label="Type">
-            <template v-slot:before>
-              <q-icon name="description" />
-            </template>
-          </q-select>
-          <q-input type="date" color="orange" hint="Date de l'oeuvre">
-            <template v-slot:before>
-              <q-icon name="edit_calendar" />
-            </template>
-          </q-input>
-          <q-select color="orange" v-model="model" :options="options" label="Artiste">
-            <template v-slot:before>
-              <q-icon name="person" />
-            </template>
-          </q-select>
-          <q-file color="orange" bottom-slots v-model="model" counter max-files="12">
-            <template v-slot:before>
-              <q-icon name="folder_open" />
-            </template>
+  <q-page class="q-pa-lg">
+    <q-form @submit="submit">
+      <div class="row">
+        <div class="col-6">
+          <div class="q-gutter-y-md" style="max-width: 400px; margin-left: 120px">
+            <q-input color="secondary" v-model="oeuvre.nom" label="Nom de l'oeuvre">
+              <template v-slot:before>
+                <q-icon name="vrpano" />
+              </template>
+            </q-input>
+            <q-select
+              color="secondary"
+              v-model="type"
+              :options="typeOptions"
+              label="Type"
+            >
+              <template v-slot:before>
+                <q-icon name="description" />
+              </template>
+            </q-select>
+            <q-input
+              v-model="oeuvre.date"
+              type="date"
+              color="secondary"
+              hint="Date de l'oeuvre"
+            >
+              <template v-slot:before>
+                <q-icon name="edit_calendar" />
+              </template>
+            </q-input>
+            <q-select
+              color="secondary"
+              v-model="artiste"
+              :options="artisteOptions"
+              label="Artiste"
+            >
+              <template v-slot:before>
+                <q-icon name="person" />
+              </template>
+            </q-select>
+            <q-file
+              color="secondary"
+              bottom-slots
+              v-model="oeuvre.image"
+              counter
+              max-files="12"
+            >
+              <template v-slot:before>
+                <q-icon name="folder_open" />
+              </template>
 
-            <template v-slot:hint> Image(s) de l'oeuvre </template>
+              <template v-slot:hint> Image(s) de l'oeuvre </template>
 
-            <template v-slot:append>
-              <q-btn round dense flat icon="add" @click.stop />
-            </template>
-          </q-file>
-          <q-page-sticky position="bottom-left" :offset="[18, 18]">
-            <q-fab icon="close" direction="up" color="red"> </q-fab>
-          </q-page-sticky>
-          <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-fab icon="done" direction="up" color="green"> </q-fab>
-          </q-page-sticky>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="q-gutter-y-md column" style="max-width: 400px; margin-left: 120px">
-          <q-select
-            color="orange"
-            v-model="model"
-            :options="options"
-            label="Musée d'apartenance"
-          >
-            <template v-slot:before>
-              <q-icon name="account_balance" />
-            </template>
-          </q-select>
-          <q-select
-            color="orange"
-            v-model="model"
-            :options="options"
-            label="Musée d'expostion"
-          >
-            <template v-slot:before>
-              <q-icon name="account_balance" />
-            </template>
-          </q-select>
-          <q-select
-            color="orange"
-            v-model="model"
-            :options="options"
-            label="Etat de l'oeuvre"
-          >
-            <template v-slot:before>
-              <q-icon name="account_balance" />
-            </template>
-          </q-select>
-          <div class="q-pa-md" style="max-width: 400px">
-            <q-input v-model="text" filled type="textarea" label="Description brève" />
-          </div>
-          <div class="q-pa-md" style="max-width: 400px">
-            <q-input v-model="text" filled type="textarea" label="Description complete" />
+              <template v-slot:append>
+                <q-btn round dense flat icon="add" @click.stop />
+              </template>
+            </q-file>
           </div>
         </div>
+        <div class="col-6">
+          <div class="q-gutter-y-md column" style="max-width: 400px; margin-left: 120px">
+            <q-select
+              color="secondary"
+              v-model="musee"
+              :options="museeOptions"
+              label="Musée d'apartenance"
+            >
+              <template v-slot:before>
+                <q-icon name="account_balance" />
+              </template>
+            </q-select>
+            <q-select
+              color="secondary"
+              v-model="expo"
+              :options="museeOptions"
+              label="Musée d'expostion"
+            >
+              <template v-slot:before>
+                <q-icon name="account_balance" />
+              </template>
+            </q-select>
+            <q-select
+              color="secondary"
+              v-model="etat"
+              :options="etatOptions"
+              label="Etat de l'oeuvre"
+            >
+              <template v-slot:before>
+                <q-icon name="account_balance" />
+              </template>
+            </q-select>
+            <div class="q-pa-md" style="max-width: 400px">
+              <q-input
+                color="secondary"
+                v-model="oeuvre.briefDescrition"
+                filled
+                type="textarea"
+                label="Description brève"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+      <p class="text-grey">Description détailler</p>
+      <div class="q-pa-md row justify-center">
+        <q-editor class="col" v-model="oeuvre.description" min-height="5rem" />
+      </div>
+      <q-page-sticky position="bottom-left" :offset="[18, 18]">
+        <q-btn size="20px" icon="close" color="negative" round :to="{ name: 'home' }" />
+      </q-page-sticky>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn
+          :loading="loading"
+          size="20px"
+          icon="done"
+          color="positive"
+          round
+          type="submit"
+        />
+      </q-page-sticky>
+    </q-form>
+  </q-page>
 </template>
 <script>
 import { ref } from "vue";
 
 export default {
-  setup() {
+  data() {
     return {
-      model: ref(null),
-      options: ["Google", "Facebook", "Twitter", "Apple", "Oracle"],
+      loading: false,
+      museeOptions: [],
+      artisteOptions: [],
+      typeOptions: [],
+      type: "",
+      artiste: "",
+      musee: "",
+      expo: "",
+      etat: "",
+      etatOptions: [
+        {
+          label: "Exposition",
+          value: { icon: "filter_frames", nom: "exposition" },
+        },
+        {
+          label: "Stock",
+          value: { icon: "inventory_2", nom: "stock" },
+        },
+        {
+          label: "Prét",
+          value: { icon: "real_estate_agent", nom: "prét" },
+        },
+        {
+          label: "Restauration",
+          value: { icon: "brush", nom: "restauration" },
+        },
+      ],
+      oeuvre: {
+        nom: "",
+        type: "",
+        date: "",
+        idArtiste: "",
+        image: null,
+        idMuse: "",
+        idExposition: "",
+        etat: "",
+        description: "",
+        briefDescrition: "",
+      },
     };
+  },
+  async mounted() {
+    await this.refresh();
+  },
+  methods: {
+    async refresh() {
+      let resMusees = await this.$store.dispatch("fetchAllMusee");
+      let resArtistes = await this.$store.dispatch("fetchAllArtist");
+      let resTypeOeuvre = await this.$store.dispatch("fetchAllTypeOeuvre");
+      resMusees.docs.forEach((doc) => {
+        let data = doc.data();
+        this.museeOptions.push({ label: data.nom, value: doc.id });
+      });
+      resArtistes.docs.forEach((doc) => {
+        let data = doc.data();
+        this.artisteOptions.push({
+          label: data.nom + " " + data.prenom,
+          value: doc.id,
+        });
+      });
+      resTypeOeuvre.docs.forEach((doc) => {
+        let data = doc.data();
+        this.typeOptions.push({
+          label: data.nom,
+          value: { nom: data.nom, couleur: data.couleur },
+        });
+      });
+    },
+    async submit() {
+      this.loading = true;
+      this.oeuvre.type = this.type.value;
+      this.oeuvre.idArtiste = this.artiste.value;
+      this.oeuvre.idExposition = this.expo.value;
+      this.oeuvre.idMuse = this.musee.value;
+      this.oeuvre.etat = this.etat.value;
+      await this.$store.dispatch("addOeuvre", { oeuvre: this.oeuvre });
+      this.loading = false;
+      this.$router.push({ name: "home" });
+    },
   },
 };
 </script>

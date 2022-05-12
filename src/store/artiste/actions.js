@@ -19,8 +19,27 @@ export async function fetchArtiste({ commit }, { idArtiste }) {
     return artiste[0].data();
   } catch (e) {
     Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
       icon: "warning",
       message: "Une erreur lors de la récupération de l'artiste",
+      color: "negative",
+    });
+  }
+}
+
+export async function fetchAllArtist() {
+  try {
+    const res = await getDocs(collection(fire.firebasebd, "artistes"));
+    return res;
+  } catch (e) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur lors de la récupération des artistes",
       color: "negative",
     });
   }

@@ -10,6 +10,9 @@
         <CardPainting />
       </q-intersection>
     </div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn :to="{ name: 'ajoutOeuvre' }" fab icon="add" color="secondary" />
+    </q-page-sticky>
   </q-page>
 </template>
 
