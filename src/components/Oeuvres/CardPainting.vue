@@ -5,16 +5,24 @@
     <q-card-section>
       <div class="text-h6 flex">
         Nom oeuvre
-        <q-space />
-        <q-badge rounded outline color="green" label="Peinture" />
+        <div>
+          <q-badge
+            rounded
+            outline
+            color="green"
+            style="margin-left: 20px; margin-right: 10px"
+            label="Peinture"
+          />
+          <q-badge rounded outline color="black" label="Nom artiste" />
+        </div>
       </div>
 
       <div class="text-subtitle2">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-        <div class="float-right">
-          <q-icon color="yellow-10" name="edit" size="2.3em" />
-          <q-icon color="red-10" name="delete" size="2.3em" />
-        </div>
+        <q-card-actions align="right">
+          <q-btn flat color="orange" icon="edit" size="1.3em" />
+          <q-btn flat color="red" icon="delete" size="1.3em" />
+        </q-card-actions>
       </div>
     </q-card-section>
   </q-card>
