@@ -45,6 +45,14 @@ export async function addOeuvre({ dispatch }, { oeuvre }) {
       collection(fire.firebasebd, "oeuvre"),
       oeuvre
     );
+    let artiste = await dispatch("fetchArtiste", {
+      idArtiste: oeuvre.idArtiste,
+    });
+    await dispatch("addOeuvreArtiste", {
+      idArtiste: oeuvre.idArtiste,
+      idOeuvre: oeuvreRef.id,
+      artiste: artiste,
+    });
   } catch (error) {
     Notify.create({
       progress: true,
