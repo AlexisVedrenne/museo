@@ -21,6 +21,11 @@ const routes = [
         component: () => import("pages/Oeuvres/DetailPage.vue"),
       },
       {
+        path: "/oeuvre/edit/:index",
+        name: "editOeuvre",
+        component: () => import("pages/Oeuvres/AddArtWork.vue"),
+      },
+      {
         path: "/oeuvre/ajout",
         name: "ajoutOeuvre",
         component: () => import("pages/Oeuvres/AddArtWork.vue"),

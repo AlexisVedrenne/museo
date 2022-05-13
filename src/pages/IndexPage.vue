@@ -8,7 +8,12 @@
         v-for="(oeuvre, index) in oeuvres.docs"
         :key="index"
       >
-        <CardPainting @detail="detail(index)" :id="oeuvre.id" :oeuvre="oeuvre.data()" />
+        <CardPainting
+          @detail="detail(index)"
+          :index="index"
+          :id="oeuvre.id"
+          :oeuvre="oeuvre.data()"
+        />
       </q-intersection>
     </div>
     <q-page-sticky style="z-index: 2" position="bottom-right" :offset="[18, 18]">

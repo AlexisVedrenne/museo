@@ -52,6 +52,7 @@
               </template>
             </q-select>
             <q-file
+              v-if="oeuvre.image === null"
               lazy-rules
               :rules="[(val) => val || 'Choisir une image.']"
               accept="image/*"
@@ -70,6 +71,14 @@
                 <q-btn round dense flat icon="add" @click.stop />
               </template>
             </q-file>
+            <div v-else class="row justify-center">
+              <q-btn
+                @click="oeuvre.image = null"
+                flat
+                color="negative"
+                label="Changer l'image"
+              />
+            </div>
           </div>
         </div>
         <div class="col-6">
@@ -153,6 +162,7 @@ import fire from "src/boot/Firebase";
 export default {
   data() {
     return {
+      id: null,
       loading: false,
       museeOptions: [],
       artisteOptions: [],
@@ -195,6 +205,28 @@ export default {
     };
   },
   async mounted() {
+    if (this.$route.params.index) {
+      this.oeuvre = null;
+      let oeuvre = await this.$store.dispatch("fetchOeuvre", {
+        index: this.$route.params.index,
+      });
+      this.id = oeuvre.id;
+      this.oeuvre = oeuvre.data();
+      let artiste = await this.$store.dispatch("fetchArtiste", {
+        idArtiste: this.oeuvre.idArtiste,
+      });
+      let musee = await this.$store.dispatch("fetchMusee", {
+        idMusee: this.oeuvre.idMuse,
+      });
+      let expo = await this.$store.dispatch("fetchMusee", {
+        idMusee: this.oeuvre.idExposition,
+      });
+      this.artiste = artiste.nom + " " + artiste.prenom;
+      this.type = this.oeuvre.type.nom;
+      this.etat = this.oeuvre.etat.nom;
+      this.musee = musee.nom;
+      this.expo = expo.nom;
+    }
     await this.initMultiposte();
   },
   methods: {
@@ -251,7 +283,15 @@ export default {
       this.oeuvre.idExposition = this.expo.value;
       this.oeuvre.idMuse = this.musee.value;
       this.oeuvre.etat = this.etat.value;
-      await this.$store.dispatch("addOeuvre", { oeuvre: this.oeuvre });
+      if (this.$route.params.index) {
+        await this.$store.dispatch("updateOeuvre", {
+          id: this.id,
+          oeuvre: this.oeuvre,
+        });
+      } else {
+        await this.$store.dispatch("addOeuvre", { oeuvre: this.oeuvre });
+      }
+
       this.loading = false;
       this.$router.push({ name: "home" });
     },

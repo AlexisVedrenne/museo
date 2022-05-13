@@ -37,7 +37,7 @@
           <p class="text-justify">{{ oeuvre.briefDescrition }}</p>
         </q-expansion-item>
         <q-card-actions align="right">
-          <q-btn flat color="secondary" icon="edit" size="15px" />
+          <q-btn @click="edit" flat color="secondary" icon="edit" size="15px" />
           <q-btn
             :disable="oeuvre.etat.nom === 'stock' ? true : false"
             @click="archiveOeuvre"
@@ -90,6 +90,9 @@ export default {
       type: String,
       required: true,
     },
+    index: {
+      required: false,
+    },
   },
 
   data() {
@@ -104,6 +107,9 @@ export default {
     });
   },
   methods: {
+    edit() {
+      this.$router.push("/oeuvre/edit/" + this.index);
+    },
     archiveOeuvre() {
       this.utils
         .dialog({

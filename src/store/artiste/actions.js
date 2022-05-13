@@ -50,8 +50,10 @@ export async function addOeuvreArtiste(
   { idArtiste, idOeuvre, artiste }
 ) {
   try {
-    artiste.idOeuvre.push(idOeuvre);
-    await setDoc(doc(fire.firebasebd, "artistes", idArtiste), artiste);
+    if (!artiste.idOeuvre.includes(idOeuvre)) {
+      artiste.idOeuvre.push(idOeuvre);
+      await setDoc(doc(fire.firebasebd, "artistes", idArtiste), artiste);
+    }
   } catch (e) {
     Notify.create({
       progress: true,

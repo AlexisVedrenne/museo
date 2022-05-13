@@ -97,3 +97,33 @@ export async function fetchOeuvre({ dispatch }, { index }) {
     });
   }
 }
+
+export async function updateOeuvre({ dispatch }, { id, oeuvre }) {
+  try {
+    if (typeof oeuvre.image !== "string") {
+      if (oeuvre.image.type.includes("image")) {
+        let url = await dispatch("uploadImage", { image: oeuvre.image });
+        oeuvre.image = url;
+      }
+    }
+    const oeuvreRef = await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
+    let artiste = await dispatch("fetchArtiste", {
+      idArtiste: oeuvre.idArtiste,
+    });
+    await dispatch("addOeuvreArtiste", {
+      idArtiste: oeuvre.idArtiste,
+      idOeuvre: oeuvreRef.id,
+      artiste: artiste,
+    });
+  } catch (error) {
+    console.log(error);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de la mise à jour de l'oeuvre",
+      color: "negative",
+    });
+  }
+}
