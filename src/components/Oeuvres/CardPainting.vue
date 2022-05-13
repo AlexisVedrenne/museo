@@ -61,15 +61,15 @@
 }
 .scale-hover:hover {
   box-shadow: 0px 0px 150px #000000;
-  z-index: 1;
+  z-index: 2;
   -webkit-transition: all 200ms ease-in;
-  -webkit-transform: scale(1.005);
+  -webkit-transform: scale(1.05);
   -ms-transition: all 200ms ease-in;
-  -ms-transform: scale(1.005);
+  -ms-transform: scale(1.05);
   -moz-transition: all 200ms ease-in;
-  -moz-transform: scale(1.005);
+  -moz-transform: scale(1.05);
   transition: all 200ms ease-in;
-  transform: scale(1.005);
+  transform: scale(1.05);
 }
 </style>
 

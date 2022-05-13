@@ -11,7 +11,7 @@
         <CardPainting @detail="detail(index)" :id="oeuvre.id" :oeuvre="oeuvre.data()" />
       </q-intersection>
     </div>
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <q-page-sticky style="z-index: 2" position="bottom-right" :offset="[18, 18]">
       <q-btn :to="{ name: 'ajoutOeuvre' }" fab icon="add" color="secondary" />
     </q-page-sticky>
   </q-page>
