@@ -15,7 +15,12 @@
             :style="'margin-left: 20px; margin-right: 10px;color:' + oeuvre.type.couleur"
             :label="oeuvre.type.nom"
           />
-          <q-badge rounded outline color="black" :label="artiste.nom" />
+          <q-badge
+            rounded
+            outline
+            color="black"
+            :label="artiste.nom + ' ' + artiste.prenom"
+          />
           <span class="q-ml-sm"
             ><q-icon color="primary" :name="oeuvre.etat.icon" />
           </span>
