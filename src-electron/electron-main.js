@@ -1,5 +1,4 @@
 import { app, BrowserWindow, nativeTheme } from "electron";
-import { attachTitlebarToWindow } from "custom-electron-titlebar/main";
 import path from "path";
 import os from "os";
 
@@ -31,7 +30,7 @@ function createWindow() {
       preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
     },
   });
-  attachTitlebarToWindow(mainWindow);
+  mainWindow.setMenuBarVisibility(false);
   mainWindow.loadURL(process.env.APP_URL);
 
   if (process.env.DEBUGGING) {
