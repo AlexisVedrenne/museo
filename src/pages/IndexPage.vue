@@ -2,12 +2,13 @@
   <q-page>
     <div v-if="oeuvres" class="row q-col-gutter-md q-ma-sm">
       <q-intersection
+        once
         transition="scale"
         class="col-4"
-        v-for="(oeuvre, index) in oeuvres"
+        v-for="(oeuvre, index) in oeuvres.docs"
         :key="index"
       >
-        <CardPainting />
+        <CardPainting @detail="detail(index)" :id="oeuvre.id" :oeuvre="oeuvre.data()" />
       </q-intersection>
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -49,8 +50,10 @@ export default {
   methods: {
     async refresh() {
       this.oeuvres = null;
-      await this.$store.dispatch("fetchAllOeuvres");
-      this.oeuvres = this.utils.localStorage.getItem("oeuvres");
+      this.oeuvres = await this.$store.dispatch("fetchAllOeuvres");
+    },
+    detail(index) {
+      this.$router.push("/oeuvre/" + index);
     },
   },
 };
