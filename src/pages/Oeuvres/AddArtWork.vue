@@ -174,19 +174,19 @@ export default {
       etat: "",
       etatOptions: [
         {
-          label: "Exposition",
+          label: "exposition",
           value: { icon: "filter_frames", nom: "exposition" },
         },
         {
-          label: "Stock",
+          label: "stock",
           value: { icon: "inventory_2", nom: "stock" },
         },
         {
-          label: "Prét",
+          label: "prét",
           value: { icon: "real_estate_agent", nom: "prét" },
         },
         {
-          label: "Restauration",
+          label: "restauration",
           value: { icon: "brush", nom: "restauration" },
         },
       ],
@@ -221,11 +221,20 @@ export default {
       let expo = await this.$store.dispatch("fetchMusee", {
         idMusee: this.oeuvre.idExposition,
       });
-      this.artiste = artiste.nom + " " + artiste.prenom;
-      this.type = this.oeuvre.type.nom;
-      this.etat = this.oeuvre.etat.nom;
-      this.musee = musee.nom;
-      this.expo = expo.nom;
+      this.artiste = {
+        label: artiste.nom + " " + artiste.prenom,
+        value: this.oeuvre.idArtiste,
+      };
+      this.type = {
+        label: this.oeuvre.type.nom,
+        value: { nom: this.oeuvre.type.nom, couleur: this.oeuvre.type.couleur },
+      };
+      this.etat = {
+        label: this.oeuvre.etat.nom,
+        value: { icon: this.oeuvre.etat.icon, nom: this.oeuvre.etat.nom },
+      };
+      this.musee = { label: musee.nom, value: this.oeuvre.idMuse };
+      this.expo = { label: expo.nom, value: this.oeuvre.idExposition };
     }
     await this.initMultiposte();
   },
