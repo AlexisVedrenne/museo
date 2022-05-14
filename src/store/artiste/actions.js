@@ -44,3 +44,24 @@ export async function fetchAllArtist() {
     });
   }
 }
+
+export async function addOeuvreArtiste(
+  { commit },
+  { idArtiste, idOeuvre, artiste }
+) {
+  try {
+    if (!artiste.idOeuvre.includes(idOeuvre)) {
+      artiste.idOeuvre.push(idOeuvre);
+      await setDoc(doc(fire.firebasebd, "artistes", idArtiste), artiste);
+    }
+  } catch (e) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur lors de l'ajout d'une oeuvre à un artiste.",
+      color: "negative",
+    });
+  }
+}

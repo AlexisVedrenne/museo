@@ -11,7 +11,13 @@
         <div class="col row justify-end">
           <q-btn @click="edit = true" flat color="secondary" icon="edit" />
           <q-btn @click="deleteMusee" flat color="negative" icon="delete" />
-          <q-btn text-color="primary" color="accent" no-caps label="Voir les oeuvres" />
+          <q-btn
+            :to="'/musee/oeuvre/' + id"
+            text-color="primary"
+            color="accent"
+            no-caps
+            label="Voir les oeuvres exposées"
+          />
         </div></div
     ></q-card-section>
   </q-card>

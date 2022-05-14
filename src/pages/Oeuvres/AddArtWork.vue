@@ -4,12 +4,20 @@
       <div class="row">
         <div class="col-6">
           <div class="q-gutter-y-md" style="max-width: 400px; margin-left: 120px">
-            <q-input color="secondary" v-model="oeuvre.nom" label="Nom de l'oeuvre">
+            <q-input
+              lazy-rules
+              :rules="[(val) => (val && val.length > 0) || 'Entrez un nom.']"
+              color="secondary"
+              v-model="oeuvre.nom"
+              label="Nom de l'oeuvre"
+            >
               <template v-slot:before>
                 <q-icon name="vrpano" />
               </template>
             </q-input>
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Selectionner un type.']"
               color="secondary"
               v-model="type"
               :options="typeOptions"
@@ -20,6 +28,8 @@
               </template>
             </q-select>
             <q-input
+              lazy-rules
+              :rules="[(val) => (val && val.length > 0) || 'Entrez une date.']"
               v-model="oeuvre.date"
               type="date"
               color="secondary"
@@ -30,6 +40,8 @@
               </template>
             </q-input>
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Selectionner un artiste.']"
               color="secondary"
               v-model="artiste"
               :options="artisteOptions"
@@ -40,6 +52,9 @@
               </template>
             </q-select>
             <q-file
+              v-if="oeuvre.image === null"
+              lazy-rules
+              :rules="[(val) => val || 'Choisir une image.']"
               accept="image/*"
               color="secondary"
               bottom-slots
@@ -56,11 +71,21 @@
                 <q-btn round dense flat icon="add" @click.stop />
               </template>
             </q-file>
+            <div v-else class="row justify-center">
+              <q-btn
+                @click="oeuvre.image = null"
+                flat
+                color="negative"
+                label="Changer l'image"
+              />
+            </div>
           </div>
         </div>
         <div class="col-6">
           <div class="q-gutter-y-md column" style="max-width: 400px; margin-left: 120px">
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Choisir un musée']"
               color="secondary"
               v-model="musee"
               :options="museeOptions"
@@ -71,6 +96,8 @@
               </template>
             </q-select>
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Choisir un musée.']"
               color="secondary"
               v-model="expo"
               :options="museeOptions"
@@ -81,6 +108,8 @@
               </template>
             </q-select>
             <q-select
+              lazy-rules
+              :rules="[(val) => val || 'Spécifier son etat']"
               color="secondary"
               v-model="etat"
               :options="etatOptions"
@@ -92,6 +121,10 @@
             </q-select>
             <div class="q-pa-md" style="max-width: 400px">
               <q-input
+                lazy-rules
+                :rules="[
+                  (val) => (val && val.length > 0) || 'Ecire une courte description.',
+                ]"
                 color="secondary"
                 v-model="oeuvre.briefDescrition"
                 filled
@@ -129,6 +162,7 @@ import fire from "src/boot/Firebase";
 export default {
   data() {
     return {
+      id: null,
       loading: false,
       museeOptions: [],
       artisteOptions: [],
@@ -140,19 +174,19 @@ export default {
       etat: "",
       etatOptions: [
         {
-          label: "Exposition",
+          label: "exposition",
           value: { icon: "filter_frames", nom: "exposition" },
         },
         {
-          label: "Stock",
+          label: "stock",
           value: { icon: "inventory_2", nom: "stock" },
         },
         {
-          label: "Prét",
+          label: "prét",
           value: { icon: "real_estate_agent", nom: "prét" },
         },
         {
-          label: "Restauration",
+          label: "restauration",
           value: { icon: "brush", nom: "restauration" },
         },
       ],
@@ -171,6 +205,37 @@ export default {
     };
   },
   async mounted() {
+    if (this.$route.params.index) {
+      this.oeuvre = null;
+      let oeuvre = await this.$store.dispatch("fetchOeuvre", {
+        index: this.$route.params.index,
+      });
+      this.id = oeuvre.id;
+      this.oeuvre = oeuvre.data();
+      let artiste = await this.$store.dispatch("fetchArtiste", {
+        idArtiste: this.oeuvre.idArtiste,
+      });
+      let musee = await this.$store.dispatch("fetchMusee", {
+        idMusee: this.oeuvre.idMuse,
+      });
+      let expo = await this.$store.dispatch("fetchMusee", {
+        idMusee: this.oeuvre.idExposition,
+      });
+      this.artiste = {
+        label: artiste.nom + " " + artiste.prenom,
+        value: this.oeuvre.idArtiste,
+      };
+      this.type = {
+        label: this.oeuvre.type.nom,
+        value: { nom: this.oeuvre.type.nom, couleur: this.oeuvre.type.couleur },
+      };
+      this.etat = {
+        label: this.oeuvre.etat.nom,
+        value: { icon: this.oeuvre.etat.icon, nom: this.oeuvre.etat.nom },
+      };
+      this.musee = { label: musee.nom, value: this.oeuvre.idMuse };
+      this.expo = { label: expo.nom, value: this.oeuvre.idExposition };
+    }
     await this.initMultiposte();
   },
   methods: {
@@ -227,7 +292,15 @@ export default {
       this.oeuvre.idExposition = this.expo.value;
       this.oeuvre.idMuse = this.musee.value;
       this.oeuvre.etat = this.etat.value;
-      await this.$store.dispatch("addOeuvre", { oeuvre: this.oeuvre });
+      if (this.$route.params.index) {
+        await this.$store.dispatch("updateOeuvre", {
+          id: this.id,
+          oeuvre: this.oeuvre,
+        });
+      } else {
+        await this.$store.dispatch("addOeuvre", { oeuvre: this.oeuvre });
+      }
+
       this.loading = false;
       this.$router.push({ name: "home" });
     },
