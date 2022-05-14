@@ -127,3 +127,24 @@ export async function updateOeuvre({ dispatch }, { id, oeuvre }) {
     });
   }
 }
+
+export async function fetchOeuvreByMusee({ commit }, { idMusee }) {
+  try {
+    let q = await query(
+      collection(fire.firebasebd, "oeuvre"),
+      where("idExposition", "==", idMusee)
+    );
+    const res = await getDocs(q);
+    return res;
+  } catch (error) {
+    console.log(error);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de la mise à jour de l'oeuvre",
+      color: "negative",
+    });
+  }
+}

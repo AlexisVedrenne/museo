@@ -1,5 +1,15 @@
 <template>
   <q-page>
+    <div v-if="this.$route.params.idMusee" class="row">
+      <q-btn
+        :to="{ name: 'listMusee' }"
+        class="q-ml-md"
+        round
+        flat
+        color="secondary"
+        icon="arrow_back_ios"
+      />
+    </div>
     <div v-if="oeuvres" class="row q-col-gutter-md q-ma-sm">
       <q-intersection
         once
@@ -16,14 +26,25 @@
         />
       </q-intersection>
     </div>
-    <q-page-sticky style="z-index: 2" position="bottom-right" :offset="[18, 18]">
+    <div v-else>
+      <p class="text-center text-grey q-mt-lg" style="font-size: 18px">
+        Aucune oeuvres n'a été trouvé...
+      </p>
+    </div>
+
+    <q-page-sticky
+      v-if="!this.$route.params.idMusee"
+      style="z-index: 2"
+      position="bottom-right"
+      :offset="[18, 18]"
+    >
       <q-btn :to="{ name: 'ajoutOeuvre' }" fab icon="add" color="secondary" />
     </q-page-sticky>
   </q-page>
 </template>
 
 <script>
-import { collection, getDocs, query, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, query, onSnapshot, where } from "firebase/firestore";
 import fire from "src/boot/Firebase";
 import CardPainting from "components/Oeuvres/CardPainting.vue";
 import { useQuasar } from "quasar";
@@ -37,25 +58,57 @@ export default {
     };
   },
   async mounted() {
-    let res = await query(collection(fire.firebasebd, "oeuvre"));
-    onSnapshot(res, (snapshot) => {
-      snapshot.docChanges().forEach(async (change) => {
-        if (change.type === "added") {
-          await this.refresh();
-        }
-        if (change.type === "modified") {
-          await this.refresh();
-        }
-        if (change.type === "removed") {
-          await this.refresh();
-        }
-      });
-    });
+    if (this.$route.params.idMusee) {
+      await this.snapshotByMusee();
+    } else {
+      await this.snapshot();
+    }
   },
   methods: {
     async refresh() {
       this.oeuvres = null;
       this.oeuvres = await this.$store.dispatch("fetchAllOeuvres");
+    },
+    async refreshByMusee() {
+      this.oeuvres = null;
+      this.oeuvres = await this.$store.dispatch("fetchOeuvreByMusee", {
+        idMusee: this.$route.params.idMusee,
+      });
+    },
+    async snapshotByMusee() {
+      let res = await query(
+        collection(fire.firebasebd, "oeuvre"),
+        where("idExposition", "==", this.$route.params.idMusee)
+      );
+      onSnapshot(res, (snapshot) => {
+        snapshot.docChanges().forEach(async (change) => {
+          if (change.type === "added") {
+            await this.refreshByMusee();
+          }
+          if (change.type === "modified") {
+            await this.refreshByMusee();
+          }
+          if (change.type === "removed") {
+            await this.refreshByMusee();
+          }
+        });
+      });
+    },
+    async snapshot() {
+      let res = await query(collection(fire.firebasebd, "oeuvre"));
+      onSnapshot(res, (snapshot) => {
+        snapshot.docChanges().forEach(async (change) => {
+          if (change.type === "added") {
+            await this.refresh();
+          }
+          if (change.type === "modified") {
+            await this.refresh();
+          }
+          if (change.type === "removed") {
+            await this.refresh();
+          }
+        });
+      });
     },
     detail(index) {
       this.$router.push("/oeuvre/" + index);
