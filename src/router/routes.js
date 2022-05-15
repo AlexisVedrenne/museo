@@ -1,5 +1,6 @@
 const routes = [
   {
+
     meta: { mustBeLogged: false },
     path: "/",
     name: "connexion",
@@ -21,9 +22,39 @@ const routes = [
         component: () => import("pages/Oeuvres/DetailPage.vue"),
       },
       {
-        path: "/oeuvre/edit/:index",
-        name: "editOeuvre",
+        path: "/oeuvre/ajout",
+        name: "ajoutOeuvre",
         component: () => import("pages/Oeuvres/AddArtWork.vue"),
+      },
+      {
+        path: "/musee",
+        name: "listMusee",
+        component: () => import("pages/musee/IndexPage.vue"),
+      },
+      { path: '/list-artist',
+        name:"listArtist",
+        component: () => import('pages/Artiste/IndexPage.vue') 
+      }
+
+    ],
+  },
+
+  //Artist
+  /*
+  {
+    meta: { mustBeLogged: true },
+    path: "/museo",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "home",
+        component: () => import("pages/IndexPage.vue"),
+      },
+      {
+        path: "/oeuvre/:index",
+        name: "detailOeuvre",
+        component: () => import("pages/Oeuvres/DetailPage.vue"),
       },
       {
         path: "/oeuvre/ajout",
@@ -35,19 +66,26 @@ const routes = [
         name: "listMusee",
         component: () => import("pages/musee/IndexPage.vue"),
       },
-      {
-        path: "/musee/oeuvre/:idMusee",
-        name: "listeMuseeOeuvre",
-        component: () => import("pages/IndexPage.vue"),
-      },
+      { path: '/list-artist',
+        name:"listArtist",
+        component: () => import('pages/Artiste/ListArtist.vue') 
+      }
+
     ],
   },
+  */
+
+
+
+
+
   // Always leave this as last one,
   // but you can also remove it
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),
   },
+
 ];
 
 export default routes;

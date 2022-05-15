@@ -39,16 +39,8 @@
 
     <q-page-container>
       <transition
-        :enter-active-class="
-          this.$route.name === 'detailOeuvre'
-            ? 'animated slideInLeft'
-            : 'animated slideInDown'
-        "
-        :leave-active-class="
-          this.$route.name === 'detailOeuvre'
-            ? 'animated slideOutLeft'
-            : 'animated slideOutDown'
-        "
+        enter-active-class="animated slideInDown"
+        leave-active-class="animated slideOutDown"
         appear
         :duration="2000"
       >
@@ -79,7 +71,7 @@ const linksList = [
     title: "Artistes",
     caption: "",
     icon: "person",
-    link: "https://chat.quasar.dev",
+    link: { name: "listArtist" },
   },
   {
     title: "Musées",
