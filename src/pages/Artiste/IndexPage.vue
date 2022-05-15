@@ -15,7 +15,7 @@
           :key="index"
           class="q-ma-md"
         >
-          <CardArtiste :id="res.docs[index].id" :proArtiste="artiste" />
+          <CardAtiste :id="res.docs[index].id" :proArtiste="artiste" />
         </q-intersection>
 
         <div v-if="artiste.length == 0">
@@ -55,37 +55,39 @@
                 color="secondary"
                 class="col q-mr-md"
                 label="Nom"
-              >
-                <template v-slot:prepend>
-                  <q-icon name="account_balance" /> </template></q-input
-              ><q-input
-                lazy-rules
-                :rules="[
-                  (val) => (val && val.length == 10) || 'Un numéro possède 10 chiffres !',
-                ]"
-                type="number"
-                v-model="artiste.tel"
-                color="secondary"
-                class="col"
-                label="Téléphone"
-              >
-                <template v-slot:prepend> <q-icon name="phone" /> </template
               ></q-input>
             </div>
-            <div class="row justify-center">
+            <div class="row">
               <q-input
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length > 0) || 'Vous devez écrire une addresse',
+                  (val) =>
+                    (val && val.length > 0) || 'Le prenom du artiste doit être saisie !',
                 ]"
-                v-model="artiste.adresse"
+                v-model="artiste.prenom"
                 color="secondary"
-                class="col-7"
-                label="Addresse"
-              >
-                <template v-slot:prepend> <q-icon name="place" /> </template
+                class="col q-mr-md"
+                label="Prenom"
               ></q-input>
             </div>
+            <div class="row">
+              <q-input
+                v-model="artiste.image"
+                color="secondary"
+                class="col q-mr-md"
+                label="image"
+              ></q-input>
+            </div>
+
+            <div class="row">
+              <q-input
+                v-model="artiste.bibliographie"
+                color="secondary"
+                class="col q-mr-md"
+                label="bibliographie"
+              ></q-input>
+            </div>
+
             <div class="row justify-center q-mt-lg">
               <q-btn
                 :loading="loading"
@@ -103,12 +105,12 @@
   </q-page>
 </template>
 <script>
-import CardArtiste from "components/musee/CardMusee.vue";
+import CardAtiste from "components/Artiste/CardAtiste.vue";
 import { collection, getDocs, query, onSnapshot } from "firebase/firestore";
 import fire from "src/boot/Firebase";
 export default {
   components: {
-    CardArtiste,
+    CardAtiste,
   },
   data() {
     return {
@@ -124,7 +126,10 @@ export default {
     };
   },
   async mounted() {
+    console.log("teeeeeeeeeeeeeeest");
     let res = await query(collection(fire.firebasebd, "artistes"));
+    console.log("teeeeeeeeeeeeeeest 1", res);
+
     onSnapshot(res, (snapshot) => {
       snapshot.docChanges().forEach(async (change) => {
         if (change.type === "added") {
@@ -142,12 +147,17 @@ export default {
   methods: {
     async refresh() {
       this.artistes = null;
-      this.res = await this.$store.dispatch("fetchAllMusee");
+      this.res = await this.$store.dispatch("fetchAllArtist");
       let artistes = [];
+      console.log("test3", this.res);
       for (let i = 0; i < this.res.docs.length; i++) {
+        console.log("a");
         artistes.push(this.res.docs[i].data());
+        console.log(this.res.docs[i].data());
       }
+
       this.artistes = Object.values(artistes);
+      console.log(this.artistes);
     },
     async submit() {
       this.loading = true;

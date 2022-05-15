@@ -45,6 +45,23 @@ export async function fetchAllArtist() {
   }
 }
 
+export async function addArtiste({ commit }, { artiste }) {
+  try {
+    console.log(artiste)
+    const artisteRef = await addDoc(collection(fire.firebasebd, "artiste"), artiste);
+    return artisteRef;
+  } catch (e) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur lors de l'ajout d'un artiste",
+      color: "negative",
+    });
+  }
+}
+
 export async function addOeuvreArtiste(
   { commit },
   { idArtiste, idOeuvre, artiste }
@@ -64,4 +81,6 @@ export async function addOeuvreArtiste(
       color: "negative",
     });
   }
+
+  
 }

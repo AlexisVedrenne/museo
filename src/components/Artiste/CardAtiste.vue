@@ -1,18 +1,34 @@
 <template>
   <q-card>
-    <q-card-section
-      ><div class="row">
+    <q-card-section>
+      <div class="row">
         <div class="col">
           <p style="font-size: 15px" class="q-ma-none">{{ artiste.nom }}</p>
           <p style="font-size: 15px" class="text-grey q-ma-none q-ml-sm">
-            {{ artiste.tel }}, {{ artiste.adresse }}
+            {{ artiste.prenom }}
           </p>
+          <p style="font-size: 15px" class="q-ma-none">{{ artiste.bibliographie }}</p>
+
+          <q-parallax>
+            <template v-slot:media>
+              <img :src="artiste.image" />
+            </template>
+          </q-parallax>
+          <q-intersection
+            once
+            transition="scale"
+            class="col-4"
+            v-for="(style, index) in artiste.style"
+            :key="index"
+          >
+            <p style="font-size: 15px" class="q-ma-none">{{ style }}</p>
+          </q-intersection>
         </div>
         <div class="col row justify-end">
           <q-btn @click="edit = true" flat color="secondary" icon="edit" />
-          <q-btn @click="deleteMusee" flat color="negative" icon="delete" />
+          <q-btn @click="deleteArtiste" flat color="negative" icon="delete" />
           <q-btn
-            :to="'/musee/oeuvre/' + id"
+            :to="'/artiste/oeuvre/' + id"
             text-color="primary"
             color="accent"
             no-caps
@@ -40,43 +56,73 @@
             <q-input
               lazy-rules
               :rules="[
-                (val) => (val && val.length > 0) || 'Le nom du musée doit être saisie !',
+                (val) =>
+                  (val && val.length > 0) || 'Le nom de article doit être saisie !',
               ]"
               v-model="artiste.nom"
               color="secondary"
               class="col q-mr-md"
               label="Nom"
             >
-              <template v-slot:prepend>
-                <q-icon name="account_balance" /> </template></q-input
-            ><q-input
-              lazy-rules
-              :rules="[
-                (val) => (val && val.length == 10) || 'Un numéro possède 10 chiffres !',
-              ]"
-              type="number"
-              v-model="artiste.tel"
-              color="secondary"
-              class="col"
-              label="Téléphone"
-            >
-              <template v-slot:prepend> <q-icon name="phone" /> </template
+              <template v-slot:prepend> <q-icon name="account_balance" /> </template
             ></q-input>
           </div>
-          <div class="row justify-center">
+
+          <div class="row">
             <q-input
               lazy-rules
               :rules="[
-                (val) => (val && val.length > 0) || 'Vous devez écrire une addresse',
+                (val) =>
+                  (val && val.length > 0) || 'Le nom de article doit être saisie !',
               ]"
-              v-model="artiste.adresse"
+              v-model="artiste.nom"
               color="secondary"
-              class="col-7"
-              label="Addresse"
+              class="col q-mr-md"
+              label="Nom"
             >
-              <template v-slot:prepend> <q-icon name="place" /> </template
+              <template v-slot:prepend> <q-icon name="account_balance" /> </template
             ></q-input>
           </div>
+
+          <div class="row">
+            <q-input
+              lazy-rules
+              :rules="[
+                (val) =>
+                  (val && val.length > 0) || 'Le prenom de article doit être saisie !',
+              ]"
+              v-model="artiste.prenom"
+              color="secondary"
+              class="col q-mr-md"
+              label="Prenom"
+            >
+              <template v-slot:prepend> <q-icon name="account_balance" /> </template
+            ></q-input>
+          </div>
+
+          <div class="row">
+            <q-input
+              lazy-rules
+              v-model="artiste.bibliographie"
+              color="secondary"
+              class="col q-mr-md"
+              label="Bibliographie"
+            >
+              <template v-slot:prepend> <q-icon name="account_balance" /> </template
+            ></q-input>
+          </div>
+
+          <div class="row">
+            <q-input
+              v-model="artiste.image"
+              color="secondary"
+              class="col q-mr-md"
+              label="Images"
+            >
+              <template v-slot:prepend> <q-icon name="account_balance" /> </template
+            ></q-input>
+          </div>
+
           <div class="row justify-center q-mt-lg">
             <q-btn
               :loading="loading"
@@ -106,11 +152,12 @@ export default {
     },
   },
   data() {
+    console.log("yyyyyyyyyy");
     return {
       utils: useQuasar(),
       loading: false,
       edit: false,
-      musee: this.proArtiste,
+      artiste: this.proArtiste,
     };
   },
   mounted() {},
@@ -129,7 +176,7 @@ export default {
         .dialog({
           title: "Attention !",
           message:
-            "Vous etes sur de vouloir retirer le musée '" + this.Artiste.nom + "' ?",
+            "Vous etes sur de vouloir retirer le musée '" + this.artiste.nom + "' ?",
           cancel: true,
           persistent: true,
           ok: {
@@ -145,7 +192,7 @@ export default {
         })
         .onOk(async () => {
           this.utils.loading.show();
-          await this.$store.dispatch("deleteMusee", { id: this.id });
+          await this.$store.dispatch("deleteArtiste", { id: this.id });
           this.utils.loading.hide();
         });
     },

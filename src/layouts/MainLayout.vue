@@ -65,7 +65,7 @@ const linksList = [
     title: "Types oeuvres",
     caption: "",
     icon: "description",
-    link: "https://github.com/quasarframework",
+    link: { name: "listMusee" },
   },
   {
     title: "Artistes",
