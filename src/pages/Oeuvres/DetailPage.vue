@@ -99,7 +99,7 @@
               color="secondary"
               class="col-5"
               no-caps
-              label="Voir description détailler"
+              label="Description détaillée"
             />
           </div>
         </div>
