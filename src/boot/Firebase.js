@@ -11,16 +11,20 @@ const storage = getStorage(app);
 const firebasebd = firestore.getFirestore();
 const auth = fireauth.getAuth(app);
 
+console.log();
+
 function createNotify(message) {
-  Notify.create({
-    progress: true,
-    position: "top-right",
-    timeout: 2000,
-    icon: "info",
-    html: true,
-    message: message,
-    color: "info",
-  });
+  if (document.location.pathname !== "/") {
+    Notify.create({
+      progress: true,
+      position: "top-right",
+      timeout: 2000,
+      icon: "info",
+      html: true,
+      message: message,
+      color: "info",
+    });
+  }
 }
 
 async function setSnapshot(q, collection) {

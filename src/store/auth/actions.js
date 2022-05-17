@@ -43,6 +43,40 @@ export async function fetchUserInfo() {
   }
 }
 
+export async function signInPartenaire({ dispatch }, { infos }) {
+  try {
+    const res = await signInWithEmailAndPassword(
+      fire.auth,
+      infos.email.toString().trim(),
+      infos.password.toString().trim()
+    );
+    await LocalStorage.set("authCredential", res);
+    const userInfos = await dispatch("fetchUserInfo");
+    if (userInfos.role !== "part") {
+      throw "Compte non partenaire";
+    }
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "insert_emoticon",
+      message: "Vous etes en ligne.",
+      color: "positive",
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Adresse e-mail ou mot de passe incorrect.",
+      color: "negative",
+    });
+  }
+}
+
 export async function signIn({ dispatch }, { infos }) {
   try {
     const res = await signInWithEmailAndPassword(
@@ -76,7 +110,9 @@ export async function signIn({ dispatch }, { infos }) {
 export async function signLeft({ commit }) {
   try {
     await signOut(fire.auth);
+    const saveConfig = LocalStorage.getItem("config");
     LocalStorage.clear();
+    LocalStorage.set("config", saveConfig);
     Notify.create({
       progress: true,
       position: "top",
@@ -92,6 +128,44 @@ export async function signLeft({ commit }) {
       timeout: 1000,
       message: e.message,
       color: "red",
+    });
+  }
+}
+
+export async function fetchCodePartenaire({ commit }, { code }) {
+  try {
+    const q = await query(
+      collection(fire.firebasebd, "utilisateurs"),
+      where("uid", "==", code)
+    );
+    const res = await getDocs(q);
+    const infos = res.docs[0].data();
+    await LocalStorage.set("user", infos);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "done",
+      message: "Le code est bon.",
+      color: "positive",
+    });
+    return infos.uid;
+  } catch (error) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Contactez votre fournisseur !",
+      color: "negative",
+    });
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Ce code partenaire est faux.",
+      color: "negative",
     });
   }
 }

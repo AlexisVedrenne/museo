@@ -65,23 +65,39 @@
 </template>
 
 <script>
+import { useQuasar } from "quasar";
 export default {
   data() {
     return {
+      config: null,
+      utils: useQuasar(),
       loading: false,
       email: "",
       password: "",
     };
   },
+  mounted() {
+    this.config = this.utils.localStorage.getItem("config");
+  },
   methods: {
     async submit() {
       this.loading = true;
-      let user = await this.$store.dispatch("signIn", {
-        infos: { password: this.password, email: this.email },
-      });
-      this.loading = false;
-      if (user) {
-        this.$router.push({ name: "home" });
+      if (this.config.type == "1") {
+        let user = await this.$store.dispatch("signIn", {
+          infos: { password: this.password, email: this.email },
+        });
+        this.loading = false;
+        if (user) {
+          this.$router.push({ name: "home" });
+        }
+      } else {
+        let user = await this.$store.dispatch("signInPartenaire", {
+          infos: { password: this.password, email: this.email },
+        });
+        this.loading = false;
+        if (user) {
+          this.$router.push({ name: "home" });
+        }
       }
     },
   },

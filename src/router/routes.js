@@ -1,9 +1,37 @@
 const routes = [
   {
     meta: { mustBeLogged: false },
+    path: "/connexion",
+    component: () => import("layouts/EmptyLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "connexion",
+        component: () => import("pages/ConnexionPage.vue"),
+      },
+    ],
+  },
+  {
+    meta: { mustBeLogged: false, config: true },
     path: "/",
-    name: "connexion",
-    component: () => import("pages/ConnexionPage.vue"),
+    component: () => import("layouts/EmptyLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "debut",
+        component: () => import("pages/configuration/DebutPage.vue"),
+      },
+      {
+        path: "code-partenaire",
+        name: "codePartenaire",
+        component: () => import("pages/configuration/CodePartenaire.vue"),
+      },
+      {
+        path: "fin-partenaire",
+        name: "finPartenaire",
+        component: () => import("pages/configuration/FinPartenaire.vue"),
+      },
+    ],
   },
   {
     meta: { mustBeLogged: true },
