@@ -15,7 +15,9 @@
       </div>
       <div class="col-1">Nom</div>
       <div class="col-1"><q-badge outline color="primary" label="Type" /></div>
-      <div class="col-2"><q-select>Bibliographie</q-select></div>
+      <div class="col-2" style="width: 250px">
+        <q-expansion-item expand-separator label="Bibliographie"> </q-expansion-item>
+      </div>
       <div class="col row justify-end">
         <q-btn flat color="secondary" icon="edit" />
         <q-btn flat color="negative" icon="delete" />
