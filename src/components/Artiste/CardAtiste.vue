@@ -7,13 +7,19 @@
           <p style="font-size: 15px" class="text-grey q-ma-none q-ml-sm">
             {{ artiste.prenom }}
           </p>
-          <p style="font-size: 15px" class="q-ma-none">{{ artiste.bibliographie }}</p>
-
-          <q-parallax>
+          <p style="font-size: 15px" class="q-ma-none">
+            {{ artiste.bibliographie }}
+          </p>
+          <q-parallax style="height: 250px">
             <template v-slot:media>
-              <img :src="artiste.image" />
+              <div class="q-pa-md q-gutter-sm">
+                <q-avatar square size="200px">
+                  <img :src="artiste.image" />
+                </q-avatar>
+              </div>
             </template>
           </q-parallax>
+
           <q-intersection
             once
             transition="scale"
