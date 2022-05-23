@@ -79,7 +79,7 @@ const linksList = [
     title: "Artistes",
     caption: "",
     icon: "person",
-    link: "https://chat.quasar.dev",
+    link: { name: "ListeArtiste" },
   },
   {
     title: "Musées",
