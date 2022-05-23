@@ -44,6 +44,12 @@ const routes = [
         component: () => import("pages/IndexPage.vue"),
       },
       {
+        path: "/liste-type-oeuvre",
+        name: "ListTypeOeuvre",
+        component: () => import("pages/Oeuvres/TypeOeuvres.vue"),
+      },
+
+      {
         path: "/oeuvre/:index",
         name: "detailOeuvre",
         component: () => import("pages/Oeuvres/DetailPage.vue"),
@@ -67,6 +73,11 @@ const routes = [
         path: "/musee/oeuvre/:idMusee",
         name: "listeMuseeOeuvre",
         component: () => import("pages/IndexPage.vue"),
+      },
+      {
+        path: "/artiste",
+        name: "ListeArtiste",
+        component: () => import("pages/artiste/ListeArtistePage.vue"),
       },
     ],
   },

@@ -2,7 +2,14 @@
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="toggleLeftDrawer"
+        />
 
         <q-toolbar-title>
           Administrateur
@@ -33,7 +40,11 @@
           </div>
         </q-item-label>
 
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <EssentialLink
+          v-for="link in essentialLinks"
+          :key="link.title"
+          v-bind="link"
+        />
       </q-list>
     </q-drawer>
 
@@ -73,13 +84,13 @@ const linksList = [
     title: "Types oeuvres",
     caption: "",
     icon: "description",
-    link: "https://github.com/quasarframework",
+    link: { name: "ListTypeOeuvre" },
   },
   {
     title: "Artistes",
     caption: "",
     icon: "person",
-    link: "https://chat.quasar.dev",
+    link: { name: "ListeArtiste" },
   },
   {
     title: "Musées",

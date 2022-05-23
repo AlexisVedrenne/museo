@@ -137,7 +137,88 @@
       </div>
       <p class="text-grey">Description détailler</p>
       <div class="q-pa-md row justify-center">
-        <q-editor class="col" v-model="oeuvre.description" min-height="5rem" />
+        <q-editor
+          class="col"
+          v-model="oeuvre.description"
+          min-height="5rem"
+          :dense="utils.screen.lt.md"
+          :toolbar="[
+            [
+              {
+                label: utils.lang.editor.align,
+                icon: utils.iconSet.editor.align,
+                fixedLabel: true,
+                list: 'only-icons',
+                options: ['left', 'center', 'right', 'justify'],
+              },
+              {
+                label: utils.lang.editor.align,
+                icon: utils.iconSet.editor.align,
+                fixedLabel: true,
+                options: ['left', 'center', 'right', 'justify'],
+              },
+            ],
+            ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+            ['token', 'hr', 'link', 'custom_btn'],
+            ['print', 'fullscreen'],
+            [
+              {
+                label: utils.lang.editor.formatting,
+                icon: utils.iconSet.editor.formatting,
+                list: 'no-icons',
+                options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code'],
+              },
+              {
+                label: utils.lang.editor.fontSize,
+                icon: utils.iconSet.editor.fontSize,
+                fixedLabel: true,
+                fixedIcon: true,
+                list: 'no-icons',
+                options: [
+                  'size-1',
+                  'size-2',
+                  'size-3',
+                  'size-4',
+                  'size-5',
+                  'size-6',
+                  'size-7',
+                ],
+              },
+              {
+                label: utils.lang.editor.defaultFont,
+                icon: utils.iconSet.editor.font,
+                fixedIcon: true,
+                list: 'no-icons',
+                options: [
+                  'default_font',
+                  'arial',
+                  'arial_black',
+                  'comic_sans',
+                  'courier_new',
+                  'impact',
+                  'lucida_grande',
+                  'times_new_roman',
+                  'verdana',
+                ],
+              },
+              'removeFormat',
+            ],
+            ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+
+            ['undo', 'redo'],
+            ['viewsource'],
+          ]"
+          :fonts="{
+            arial: 'Arial',
+            arial_black: 'Arial Black',
+            comic_sans: 'Comic Sans MS',
+            courier_new: 'Courier New',
+            impact: 'Impact',
+            lucida_grande: 'Lucida Grande',
+            times_new_roman: 'Times New Roman',
+            verdana: 'Verdana',
+          }"
+        />
       </div>
       <q-page-sticky position="bottom-left" :offset="[18, 18]">
         <q-btn size="20px" icon="close" color="negative" round :to="{ name: 'home' }" />
@@ -159,9 +240,11 @@
 import { ref } from "vue";
 import { collection, getDocs, query, onSnapshot } from "firebase/firestore";
 import fire from "src/boot/Firebase";
+import { useQuasar } from "quasar";
 export default {
   data() {
     return {
+      utils: useQuasar(),
       id: null,
       loading: false,
       museeOptions: [],
@@ -225,10 +308,15 @@ export default {
         label: artiste.nom + " " + artiste.prenom,
         value: this.oeuvre.idArtiste,
       };
+      let type = await this.$store.dispatch("fecthTypeOeuvre", {
+        id: this.oeuvre.type,
+      });
+
       this.type = {
-        label: this.oeuvre.type.nom,
-        value: { nom: this.oeuvre.type.nom, couleur: this.oeuvre.type.couleur },
+        label: type.nom,
+        value: this.oeuvre.type,
       };
+      this.oeuvre.type = type;
       this.etat = {
         label: this.oeuvre.etat.nom,
         value: { icon: this.oeuvre.etat.icon, nom: this.oeuvre.etat.nom },
@@ -279,10 +367,9 @@ export default {
       let resTypeOeuvre = await this.$store.dispatch("fetchAllTypeOeuvre");
       resTypeOeuvre.docs.forEach((doc) => {
         let data = doc.data();
-        this.typeOptions.push({
-          label: data.nom,
-          value: { nom: data.nom, couleur: data.couleur },
-        });
+        if (!this.typeOptions.find((element) => element.label === data.nom)) {
+          this.typeOptions.push({ label: data.nom, value: doc.id });
+        }
       });
     },
     async submit() {
@@ -319,10 +406,9 @@ export default {
       let resArtistes = await this.$store.dispatch("fetchAllArtist");
       resArtistes.docs.forEach((doc) => {
         let data = doc.data();
-        this.artisteOptions.push({
-          label: data.nom + " " + data.prenom,
-          value: doc.id,
-        });
+        if (!this.artisteOptions.find((element) => element.label === data.nom)) {
+          this.artisteOptions.push({ label: data.nom, value: doc.id });
+        }
       });
     },
   },

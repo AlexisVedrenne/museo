@@ -81,11 +81,27 @@ export async function archiveOeuvre({ commit }, { oeuvre, id }) {
   }
 }
 
+export async function expoOeuvre({ commit }, { oeuvre, id }) {
+  try {
+    oeuvre.etat = { nom: "exposition ", icon: "filter_frames" };
+    await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
+  } catch (error) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de l'archivage de l'oeuvre",
+      color: "negative",
+    });
+  }
+}
+
 export async function fetchOeuvre({ dispatch }, { index }) {
   try {
     let oeuvres = await this.dispatch("fetchAllOeuvres");
-
-    return oeuvres.docs[index];
+    let oeuvre = oeuvres.docs[index];
+    return oeuvre;
   } catch (error) {
     Notify.create({
       progress: true,
@@ -106,6 +122,7 @@ export async function updateOeuvre({ dispatch }, { id, oeuvre }) {
         oeuvre.image = url;
       }
     }
+    console.log(oeuvre);
     const oeuvreRef = await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
     let artiste = await dispatch("fetchArtiste", {
       idArtiste: oeuvre.idArtiste,
