@@ -169,6 +169,10 @@ export default {
       });
       this.id = oeuvre.id;
       this.oeuvre = oeuvre.data();
+      let type = await this.$store.dispatch("fecthTypeOeuvre", {
+        id: this.oeuvre.type,
+      });
+      this.oeuvre.type = type;
       this.artiste = await this.$store.dispatch("fetchArtiste", {
         idArtiste: this.oeuvre.idArtiste,
       });

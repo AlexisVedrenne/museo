@@ -1,5 +1,5 @@
 <template>
-  <q-card v-ripple class="my-box cursor-pointer q-hoverable scale-hover">
+  <q-card v-if="oeuvre" v-ripple class="my-box cursor-pointer q-hoverable scale-hover">
     <q-parallax @click="this.$emit('detail')" :height="150" :speed="0.5">
       <template v-slot:media>
         <img :src="oeuvre.image" />
@@ -82,7 +82,7 @@
 import { useQuasar } from "quasar";
 export default {
   props: {
-    oeuvre: {
+    proOeuvre: {
       type: Object,
       required: true,
     },
@@ -99,12 +99,17 @@ export default {
     return {
       utils: useQuasar(),
       artiste: {},
+      oeuvre: this.proOeuvre,
     };
   },
   async mounted() {
     this.artiste = await this.$store.dispatch("fetchArtiste", {
       idArtiste: this.oeuvre.idArtiste,
     });
+    let type = await this.$store.dispatch("fecthTypeOeuvre", {
+      id: this.oeuvre.type,
+    });
+    this.oeuvre.type = type;
   },
   methods: {
     edit() {

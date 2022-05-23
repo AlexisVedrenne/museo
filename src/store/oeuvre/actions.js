@@ -100,8 +100,8 @@ export async function expoOeuvre({ commit }, { oeuvre, id }) {
 export async function fetchOeuvre({ dispatch }, { index }) {
   try {
     let oeuvres = await this.dispatch("fetchAllOeuvres");
-
-    return oeuvres.docs[index];
+    let oeuvre = oeuvres.docs[index];
+    return oeuvre;
   } catch (error) {
     Notify.create({
       progress: true,
@@ -122,6 +122,7 @@ export async function updateOeuvre({ dispatch }, { id, oeuvre }) {
         oeuvre.image = url;
       }
     }
+    console.log(oeuvre);
     const oeuvreRef = await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
     let artiste = await dispatch("fetchArtiste", {
       idArtiste: oeuvre.idArtiste,
