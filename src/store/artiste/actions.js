@@ -45,9 +45,11 @@ export async function fetchAllArtist() {
   }
 }
 
-export async function addArtiste({ commit }, { artiste }) {
+export async function addArtiste({ dispatch }, { artiste }) {
   try {
-    console.log(artiste);
+    if (artiste.image) {
+      artiste.image = await dispatch("uploadImage", { image: artiste.image });
+    }
     const artisteRef = await addDoc(
       collection(fire.firebasebd, "artistes"),
       artiste
