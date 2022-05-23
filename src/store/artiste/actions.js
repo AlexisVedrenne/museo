@@ -87,3 +87,24 @@ export async function addOeuvreArtiste(
     });
   }
 }
+
+export async function updateArtiste({ dispatch }, { artiste, id }) {
+  try {
+    if (typeof artiste.image !== "string") {
+      if (artiste.image.type.includes("image")) {
+        let url = await dispatch("uploadImage", { image: artiste.image });
+        artiste.image = url;
+      }
+    }
+    await setDoc(doc(fire.firebasebd, "artistes", id), artiste);
+  } catch (e) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      message: "Une erreur s'est produite lors de la modification",
+      color: "negative",
+      icon: "warning",
+    });
+  }
+}
