@@ -10,6 +10,26 @@
         icon="arrow_back_ios"
       />
     </div>
+    <div v-if="this.$route.params.idType" class="row">
+      <q-btn
+        :to="{ name: 'ListTypeOeuvre' }"
+        class="q-ml-md"
+        round
+        flat
+        color="secondary"
+        icon="arrow_back_ios"
+      />
+      <div v-if="this.$route.params.idArtiste" class="row">
+        <q-btn
+          :to="{ name: 'ListeArtiste' }"
+          class="q-ml-md"
+          round
+          flat
+          color="secondary"
+          icon="arrow_back_ios"
+        />
+      </div>
+    </div>
     <div v-if="oeuvres" class="row q-col-gutter-md q-ma-sm">
       <q-intersection
         once
@@ -60,6 +80,8 @@ export default {
   async mounted() {
     if (this.$route.params.idMusee) {
       await this.snapshotByMusee();
+    } else if (this.$route.params.idType) {
+      await this.snapshotByType();
     } else {
       await this.snapshot();
     }
@@ -73,6 +95,31 @@ export default {
       this.oeuvres = null;
       this.oeuvres = await this.$store.dispatch("fetchOeuvreByMusee", {
         idMusee: this.$route.params.idMusee,
+      });
+    },
+    async refreshByType() {
+      this.oeuvres = null;
+      this.oeuvres = await this.$store.dispatch("fetchOeuvreByType", {
+        idType: this.$route.params.idType,
+      });
+    },
+    async snapshotByType() {
+      let res = await query(
+        collection(fire.firebasebd, "oeuvre"),
+        where("type", "==", this.$route.params.idType)
+      );
+      onSnapshot(res, (snapshot) => {
+        snapshot.docChanges().forEach(async (change) => {
+          if (change.type === "added") {
+            await this.refreshByType();
+          }
+          if (change.type === "modified") {
+            await this.refreshByType();
+          }
+          if (change.type === "removed") {
+            await this.refreshByType();
+          }
+        });
       });
     },
     async snapshotByMusee() {

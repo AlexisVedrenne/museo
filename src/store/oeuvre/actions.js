@@ -165,3 +165,45 @@ export async function fetchOeuvreByMusee({ commit }, { idMusee }) {
     });
   }
 }
+
+export async function fetchOeuvreByType({ commit }, { idType }) {
+  try {
+    let q = await query(
+      collection(fire.firebasebd, "oeuvre"),
+      where("type", "==", idType)
+    );
+    const res = await getDocs(q);
+    return res;
+  } catch (error) {
+    console.log(error);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de la mise à jour de l'oeuvre",
+      color: "negative",
+    });
+  }
+}
+
+export async function fetchOeuvreByArtiste({ commit }, { idArtiste }) {
+  try {
+    let q = await query(
+      collection(fire.firebasebd, "oeuvre"),
+      where("idArtiste", "==", idArtiste)
+    );
+    const res = await getDocs(q);
+    return res;
+  } catch (error) {
+    console.log(error);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de la mise à jour de l'oeuvre",
+      color: "negative",
+    });
+  }
+}

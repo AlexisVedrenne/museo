@@ -47,6 +47,11 @@ const routes = [
         component: () => import("pages/IndexPage.vue"),
       },
       {
+        path: "/oeuvre/type/:idType",
+        name: "listeTypeOeuvre",
+        component: () => import("pages/IndexPage.vue"),
+      },
+      {
         path: "/artiste",
         name: "ListeArtiste",
         component: () => import("pages/artiste/ListeArtistePage.vue"),

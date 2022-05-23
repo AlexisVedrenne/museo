@@ -13,7 +13,9 @@
     </q-item-section>
     <q-btn @click="edit = true" round flat color="secondary" icon="edit" />
     <q-btn @click="deleteType" round flat color="negative" icon="delete" />
-    <q-btn no-caps text-color="black" color="accent">Voir les oeuvres</q-btn>
+    <q-btn :to="'/oeuvre/type/' + id" no-caps text-color="black" color="accent"
+      >Voir les oeuvres</q-btn
+    >
   </q-item>
   <q-separator spaced inset />
 
