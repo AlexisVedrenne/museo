@@ -362,10 +362,9 @@ export default {
       let resTypeOeuvre = await this.$store.dispatch("fetchAllTypeOeuvre");
       resTypeOeuvre.docs.forEach((doc) => {
         let data = doc.data();
-        this.typeOptions.push({
-          label: data.nom,
-          value: { nom: data.nom, couleur: data.couleur },
-        });
+        if (!this.typeOptions.find((element) => element.label === data.nom)) {
+          this.typeOptions.push({ label: data.nom, value: doc.id });
+        }
       });
     },
     async submit() {
