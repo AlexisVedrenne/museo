@@ -108,3 +108,59 @@ export async function updateArtiste({ dispatch }, { artiste, id }) {
     });
   }
 }
+
+export async function deleteArtiste({ dispatch }, { id, artiste }) {
+  try {
+    let oeuvres = await dispatch("fetchAllOeuvres");
+    artiste.idOeuvre.forEach(async (idOeuvre) => {
+      oeuvres.docs.forEach(async (oeuvre) => {
+        if (idOeuvre === oeuvre.id) {
+          await dispatch("archiveOeuvre", {
+            oeuvre: oeuvre.data(),
+            id: idOeuvre,
+          });
+        }
+      });
+    });
+    artiste.archiver = true;
+    await setDoc(doc(fire.firebasebd, "artistes", id), artiste);
+  } catch (e) {
+    console.log(e);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      message: "Une erreur s'est produite lors de la supression",
+      color: "negative",
+      icon: "warning",
+    });
+  }
+}
+
+export async function activeArtiste({ dispatch }, { id, artiste }) {
+  try {
+    let oeuvres = await dispatch("fetchAllOeuvres");
+    artiste.idOeuvre.forEach(async (idOeuvre) => {
+      oeuvres.docs.forEach(async (oeuvre) => {
+        if (idOeuvre === oeuvre.id) {
+          await dispatch("expoOeuvre", {
+            oeuvre: oeuvre.data(),
+            id: idOeuvre,
+          });
+        }
+      });
+    });
+    artiste.archiver = false;
+    await setDoc(doc(fire.firebasebd, "artistes", id), artiste);
+  } catch (e) {
+    console.log(e);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      message: "Une erreur s'est produite lors de la supression",
+      color: "negative",
+      icon: "warning",
+    });
+  }
+}

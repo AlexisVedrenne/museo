@@ -22,8 +22,21 @@
         </q-expansion-item>
       </div>
       <div class="col-4 row justify-end">
+        <q-btn
+          color="info"
+          flat
+          v-if="proArtiste.archiver"
+          @click="active"
+          label="Activer"
+        />
         <q-btn @click="edit = true" flat color="secondary" icon="edit" />
-        <q-btn @click="deleteArtiste" flat color="negative" icon="delete" />
+        <q-btn
+          :disable="proArtiste.archiver"
+          @click="deleteArtiste"
+          flat
+          color="negative"
+          icon="delete"
+        />
         <q-btn text-color="primary" color="accent" no-caps label="Voir les oeuvres" />
       </div>
     </div>
@@ -240,16 +253,27 @@ export default {
       this.loading = false;
       this.edit = false;
     },
+    async active() {
+      this.utils.loading.show();
+      await this.$store.dispatch("activeArtiste", {
+        id: this.id,
+        artiste: this.artiste,
+      });
+      this.utils.loading.hide();
+    },
     deleteArtiste() {
       this.utils
         .dialog({
           title: "Attention !",
+          html: true,
           message:
-            "Vous etes sur de vouloir retirer le musée '" + this.artiste.nom + "' ?",
+            "Vous etes sur de vouloir désactiver l'artiste <strong>'" +
+            this.artiste.nom +
+            "'</strong> et d'archiver toutes ses oeuvres ?",
           cancel: true,
           persistent: true,
           ok: {
-            label: "Supprimer",
+            label: "Désactiver",
             color: "negative",
             flat: true,
           },
@@ -261,7 +285,10 @@ export default {
         })
         .onOk(async () => {
           this.utils.loading.show();
-          await this.$store.dispatch("deleteArtiste", { id: this.id });
+          await this.$store.dispatch("deleteArtiste", {
+            id: this.id,
+            artiste: this.artiste,
+          });
           this.utils.loading.hide();
         });
     },

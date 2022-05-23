@@ -235,6 +235,8 @@ export default {
         image: null,
         style: [],
         bibliographie: "",
+        idOeuvre: [],
+        archiver: false,
       },
     };
   },
@@ -280,6 +282,8 @@ export default {
         image: null,
         style: [],
         bibliographie: "",
+        idOeuvre: [],
+        archiver: false,
       };
     },
   },
