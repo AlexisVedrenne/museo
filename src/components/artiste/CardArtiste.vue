@@ -9,6 +9,7 @@
       <div class="col-1">{{ proArtiste.nom }} {{ proArtiste.prenom }}</div>
       <div class="col-2 row">
         <q-badge
+          class="q-mr-sm q-mb-sm"
           v-for="(style, index) in proArtiste.style"
           :key="index"
           outline
@@ -237,12 +238,19 @@ export default {
   data() {
     return {
       utils: useQuasar(),
+      types: [],
       loading: false,
       edit: false,
       artiste: this.proArtiste,
     };
   },
-  mounted() {},
+  async mounted() {
+    let types = await this.$store.dispatch("fetchAllTypeOeuvre");
+    types.docs.forEach((type) => {
+      let temp = type.data();
+      this.types.push(temp);
+    });
+  },
   methods: {
     async submit() {
       this.loading = true;

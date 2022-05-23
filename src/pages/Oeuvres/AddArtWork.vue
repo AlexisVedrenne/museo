@@ -308,10 +308,15 @@ export default {
         label: artiste.nom + " " + artiste.prenom,
         value: this.oeuvre.idArtiste,
       };
+      let type = await this.$store.dispatch("fecthTypeOeuvre", {
+        id: this.oeuvre.type,
+      });
+
       this.type = {
-        label: this.oeuvre.type.nom,
-        value: { nom: this.oeuvre.type.nom, couleur: this.oeuvre.type.couleur },
+        label: type.nom,
+        value: this.oeuvre.type,
       };
+      this.oeuvre.type = type;
       this.etat = {
         label: this.oeuvre.etat.nom,
         value: { icon: this.oeuvre.etat.icon, nom: this.oeuvre.etat.nom },
@@ -362,10 +367,9 @@ export default {
       let resTypeOeuvre = await this.$store.dispatch("fetchAllTypeOeuvre");
       resTypeOeuvre.docs.forEach((doc) => {
         let data = doc.data();
-        this.typeOptions.push({
-          label: data.nom,
-          value: { nom: data.nom, couleur: data.couleur },
-        });
+        if (!this.typeOptions.find((element) => element.label === data.nom)) {
+          this.typeOptions.push({ label: data.nom, value: doc.id });
+        }
       });
     },
     async submit() {

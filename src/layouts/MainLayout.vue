@@ -65,7 +65,7 @@ const linksList = [
     title: "Types oeuvres",
     caption: "",
     icon: "description",
-    link: { name: "listMusee" },
+    link: { name: "ListTypeOeuvre" },
   },
   {
     title: "Artistes",

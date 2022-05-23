@@ -22,7 +22,7 @@
           @detail="detail(index)"
           :index="index"
           :id="oeuvre.id"
-          :oeuvre="oeuvre.data()"
+          :proOeuvre="oeuvre.data()"
         />
       </q-intersection>
     </div>
