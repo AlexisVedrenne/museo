@@ -1,6 +1,5 @@
 const routes = [
   {
-
     meta: { mustBeLogged: false },
     path: "/",
     name: "connexion",
@@ -31,11 +30,11 @@ const routes = [
         name: "listMusee",
         component: () => import("pages/musee/IndexPage.vue"),
       },
-      { path: '/list-artist',
-        name:"listArtist",
-        component: () => import('pages/Artiste/IndexPage.vue') 
-      }
-
+      {
+        path: "/list-artist",
+        name: "listArtist",
+        component: () => import("pages/Artiste/IndexPage.vue"),
+      },
     ],
   },
 
@@ -52,32 +51,13 @@ const routes = [
         component: () => import("pages/IndexPage.vue"),
       },
       {
-        path: "/oeuvre/:index",
-        name: "detailOeuvre",
-        component: () => import("pages/Oeuvres/DetailPage.vue"),
+        path: "/artiste",
+        name: "ListeArtiste",
+        component: () => import("pages/artiste/ListeArtistePage.vue"),
       },
-      {
-        path: "/oeuvre/ajout",
-        name: "ajoutOeuvre",
-        component: () => import("pages/Oeuvres/AddArtWork.vue"),
-      },
-      {
-        path: "/musee",
-        name: "listMusee",
-        component: () => import("pages/musee/IndexPage.vue"),
-      },
-      { path: '/list-artist',
-        name:"listArtist",
-        component: () => import('pages/Artiste/ListArtist.vue') 
-      }
-
     ],
   },
   */
-
-
-
-
 
   // Always leave this as last one,
   // but you can also remove it
@@ -85,7 +65,6 @@ const routes = [
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),
   },
-
 ];
 
 export default routes;

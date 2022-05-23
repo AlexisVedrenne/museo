@@ -71,7 +71,7 @@ const linksList = [
     title: "Artistes",
     caption: "",
     icon: "person",
-    link: { name: "listArtist" },
+    link: { name: "ListeArtiste" },
   },
   {
     title: "Musées",

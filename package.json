@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
-    "windows": "cross-env QENV=DEV quasar dev quasar dev",
+    "windows": "cross-env QENV=DEV  quasar dev -m electron",
     "buildWindows": "cross-env QENV=DEV quasar dev quasar build -m electron",
     "format": "prettier --write \"**/*.{js,vue,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0"
