@@ -40,9 +40,10 @@ const routes = [
         name: "listeMuseeOeuvre",
         component: () => import("pages/IndexPage.vue"),
       },
-      { path:"/artiste",
-        name:"ListeArtiste",
-        component: () => import('pages/Artiste/ListeArtiste.vue'),
+      {
+        path: "/artiste",
+        name: "ListeArtiste",
+        component: () => import("pages/artiste/ListeArtistePage.vue"),
       },
     ],
   },
