@@ -16,6 +16,12 @@ const routes = [
         component: () => import("pages/IndexPage.vue"),
       },
       {
+        path: "/liste-type-oeuvre",
+        name: "ListTypeOeuvre",
+        component: () => import("pages/Oeuvres/TypeOeuvres.vue"),
+      },
+
+      {
         path: "/oeuvre/:index",
         name: "detailOeuvre",
         component: () => import("pages/Oeuvres/DetailPage.vue"),
