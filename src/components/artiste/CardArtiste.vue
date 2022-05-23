@@ -33,10 +33,11 @@
     transition-hide="flip-up"
     persistent
     v-model="edit"
+    full-width
   >
     <q-card style="width: 500px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Modification</div>
+        <div class="text-h6">Ajout d'un artiste</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -44,60 +45,155 @@
       <q-card-section>
         <q-form @submit="submit">
           <div class="row">
-            <q-input
-              lazy-rules
-              :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Le nom de article doit être saisie !',
-              ]"
-              v-model="artiste.nom"
-              color="secondary"
-              class="col q-mr-md"
-              label="Nom"
-            >
-              <template v-slot:prepend> <q-icon name="account_balance" /> </template
-            ></q-input>
-          </div>
+            <div class="col">
+              <q-input
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Le nom du artiste doit être saisie !',
+                ]"
+                v-model="artiste.nom"
+                color="secondary"
+                class="col q-mr-md"
+                label="Nom"
+                ><template v-slot:prepend> <q-icon name="person" /> </template
+              ></q-input>
+              <q-input
+                lazy-rules
+                :rules="[
+                  (val) =>
+                    (val && val.length > 0) || 'Le prenom du artiste doit être saisie !',
+                ]"
+                v-model="artiste.prenom"
+                color="secondary"
+                class="col q-mr-md"
+                label="Prénom"
+                ><template v-slot:prepend> <q-icon name="person" /> </template
+              ></q-input>
+            </div>
+            <div class="col">
+              <q-file
+                v-if="artiste.image === null"
+                lazy-rules
+                :rules="[(val) => val || 'Choisir une image.']"
+                accept="image/*"
+                color="secondary"
+                bottom-slots
+                v-model="artiste.image"
+                counter
+              >
+                <template v-slot:before>
+                  <q-icon name="wallpaper" />
+                </template>
 
-          <div class="row">
-            <q-input
-              lazy-rules
-              :rules="[
-                (val) =>
-                  (val && val.length > 0) || 'Le prenom de article doit être saisie !',
-              ]"
-              v-model="artiste.prenom"
-              color="secondary"
-              class="col q-mr-md"
-              label="Prenom"
-            >
-              <template v-slot:prepend> <q-icon name="account_balance" /> </template
-            ></q-input>
-          </div>
+                <template v-slot:hint> Image(s) de l'oeuvre </template>
 
-          <div class="row">
-            <q-input
-              lazy-rules
-              v-model="artiste.bibliographie"
-              color="secondary"
-              class="col q-mr-md"
-              label="Bibliographie"
-            >
-              <template v-slot:prepend> <q-icon name="account_balance" /> </template
-            ></q-input>
+                <template v-slot:append>
+                  <q-btn round dense flat icon="add" @click.stop />
+                </template>
+              </q-file>
+              <div v-else class="row justify-center">
+                <q-btn
+                  @click="artiste.image = null"
+                  flat
+                  color="negative"
+                  label="Changer l'image"
+                />
+              </div>
+              <q-checkbox
+                class="q-mt-md"
+                v-for="(type, index) in types"
+                :key="index"
+                dense
+                v-model="artiste.style"
+                :val="type"
+                :label="type.nom"
+                :style="'color:' + type.couleur"
+              />
+            </div>
           </div>
+          <q-editor
+            class="col"
+            v-model="artiste.bibliographie"
+            min-height="5rem"
+            :dense="utils.screen.lt.md"
+            :toolbar="[
+              [
+                {
+                  label: utils.lang.editor.align,
+                  icon: utils.iconSet.editor.align,
+                  fixedLabel: true,
+                  list: 'only-icons',
+                  options: ['left', 'center', 'right', 'justify'],
+                },
+                {
+                  label: utils.lang.editor.align,
+                  icon: utils.iconSet.editor.align,
+                  fixedLabel: true,
+                  options: ['left', 'center', 'right', 'justify'],
+                },
+              ],
+              ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+              ['token', 'hr', 'link', 'custom_btn'],
+              ['print', 'fullscreen'],
+              [
+                {
+                  label: utils.lang.editor.formatting,
+                  icon: utils.iconSet.editor.formatting,
+                  list: 'no-icons',
+                  options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code'],
+                },
+                {
+                  label: utils.lang.editor.fontSize,
+                  icon: utils.iconSet.editor.fontSize,
+                  fixedLabel: true,
+                  fixedIcon: true,
+                  list: 'no-icons',
+                  options: [
+                    'size-1',
+                    'size-2',
+                    'size-3',
+                    'size-4',
+                    'size-5',
+                    'size-6',
+                    'size-7',
+                  ],
+                },
+                {
+                  label: utils.lang.editor.defaultFont,
+                  icon: utils.iconSet.editor.font,
+                  fixedIcon: true,
+                  list: 'no-icons',
+                  options: [
+                    'default_font',
+                    'arial',
+                    'arial_black',
+                    'comic_sans',
+                    'courier_new',
+                    'impact',
+                    'lucida_grande',
+                    'times_new_roman',
+                    'verdana',
+                  ],
+                },
+                'removeFormat',
+              ],
+              ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-          <div class="row">
-            <q-input
-              v-model="artiste.image"
-              color="secondary"
-              class="col q-mr-md"
-              label="Images"
-            >
-              <template v-slot:prepend> <q-icon name="account_balance" /> </template
-            ></q-input>
-          </div>
-
+              ['undo', 'redo'],
+              ['viewsource'],
+            ]"
+            :fonts="{
+              arial: 'Arial',
+              arial_black: 'Arial Black',
+              comic_sans: 'Comic Sans MS',
+              courier_new: 'Courier New',
+              impact: 'Impact',
+              lucida_grande: 'Lucida Grande',
+              times_new_roman: 'Times New Roman',
+              verdana: 'Verdana',
+            }"
+          />
           <div class="row justify-center q-mt-lg">
             <q-btn
               :loading="loading"

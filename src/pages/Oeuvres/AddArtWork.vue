@@ -402,10 +402,9 @@ export default {
       let resArtistes = await this.$store.dispatch("fetchAllArtist");
       resArtistes.docs.forEach((doc) => {
         let data = doc.data();
-        this.artisteOptions.push({
-          label: data.nom + " " + data.prenom,
-          value: doc.id,
-        });
+        if (!this.artisteOptions.find((element) => element.label === data.nom)) {
+          this.artisteOptions.push({ label: data.nom, value: doc.id });
+        }
       });
     },
   },
