@@ -19,16 +19,16 @@
         color="secondary"
         icon="arrow_back_ios"
       />
-      <div v-if="this.$route.params.idArtiste" class="row">
-        <q-btn
-          :to="{ name: 'ListeArtiste' }"
-          class="q-ml-md"
-          round
-          flat
-          color="secondary"
-          icon="arrow_back_ios"
-        />
-      </div>
+    </div>
+    <div v-if="this.$route.params.idArtiste" class="row">
+      <q-btn
+        :to="{ name: 'ListeArtiste' }"
+        class="q-ml-md"
+        round
+        flat
+        color="secondary"
+        icon="arrow_back_ios"
+      />
     </div>
     <div v-if="oeuvres" class="row q-col-gutter-md q-ma-sm">
       <q-intersection
@@ -82,6 +82,8 @@ export default {
       await this.snapshotByMusee();
     } else if (this.$route.params.idType) {
       await this.snapshotByType();
+    } else if (this.$route.params.idArtiste) {
+      await this.snapshotByArtiste();
     } else {
       await this.snapshot();
     }
@@ -90,6 +92,12 @@ export default {
     async refresh() {
       this.oeuvres = null;
       this.oeuvres = await this.$store.dispatch("fetchAllOeuvres");
+    },
+    async refreshByArtiste() {
+      this.oeuvres = null;
+      this.oeuvres = await this.$store.dispatch("fetchOeuvreByArtiste", {
+        idArtiste: this.$route.params.idArtiste,
+      });
     },
     async refreshByMusee() {
       this.oeuvres = null;
@@ -118,6 +126,25 @@ export default {
           }
           if (change.type === "removed") {
             await this.refreshByType();
+          }
+        });
+      });
+    },
+    async snapshotByArtiste() {
+      let res = await query(
+        collection(fire.firebasebd, "oeuvre"),
+        where("idArtiste", "==", this.$route.params.idArtiste)
+      );
+      onSnapshot(res, (snapshot) => {
+        snapshot.docChanges().forEach(async (change) => {
+          if (change.type === "added") {
+            await this.refreshByArtiste();
+          }
+          if (change.type === "modified") {
+            await this.refreshByArtiste();
+          }
+          if (change.type === "removed") {
+            await this.refreshByArtiste();
           }
         });
       });
