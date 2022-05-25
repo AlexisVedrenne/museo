@@ -244,9 +244,13 @@ export default {
     async filtre() {
       if (this.filtreArtiste) {
         await this.refreshByArtiste(this.filtreArtiste.value);
-      }
-      if (this.filtreType) {
+      } else if (this.filtreType) {
         await this.refreshByType(this.filtreType.value);
+      } else if (this.filtreStatus) {
+        this.oeuvres = null;
+        this.oeuvres = await this.$store.dispatch("fetchOeuvreByStatus", {
+          status: this.filtreStatus.value,
+        });
       }
     },
     async refreshOptions() {

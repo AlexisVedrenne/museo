@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { Notify } from "quasar";
 import "core-js/es/array";
+import { parseStringStyle } from "@vue/shared";
 
 export async function fetchAllOeuvres() {
   try {
@@ -212,6 +213,31 @@ export async function fetchOeuvreByArtiste({ commit }, { idArtiste }) {
       timeout: 1000,
       icon: "warning",
       message: "Error lors de la mise à jour de l'oeuvre",
+      color: "negative",
+    });
+  }
+}
+
+export async function fetchOeuvreByStatus({ dispatch }, { status }) {
+  try {
+    let res = await dispatch("fetchAllOeuvres");
+    let reStatus = [];
+    res.docs.forEach((oeuvre) => {
+      let data = oeuvre.data();
+      if (data.etat.nom.trim() === status.trim()) {
+        reStatus.push(oeuvre);
+      }
+    });
+    let oeuvre = { docs: reStatus };
+    return oeuvre;
+  } catch (error) {
+    console.log(error);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors du filtrage par statu",
       color: "negative",
     });
   }
