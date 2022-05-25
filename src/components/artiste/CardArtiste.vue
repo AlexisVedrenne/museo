@@ -38,7 +38,13 @@
           color="negative"
           icon="delete"
         />
-        <q-btn text-color="primary" color="accent" no-caps label="Voir les oeuvres" />
+        <q-btn
+          :to="'/artiste/oeuvre/' + id"
+          text-color="primary"
+          color="accent"
+          no-caps
+          label="Voir les oeuvres"
+        />
       </div>
     </div>
   </q-card>

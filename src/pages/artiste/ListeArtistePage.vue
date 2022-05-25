@@ -18,7 +18,7 @@
           <CardArtiste :id="res.docs[index].id" :proArtiste="artiste" />
         </q-intersection>
 
-        <div v-if="artiste.length == 0">
+        <div v-if="artistes.length == 0">
           <p class="text-grey text-center q-mt-lg">Aucun artiste trouvés...</p>
         </div>
       </div>
@@ -241,6 +241,7 @@ export default {
     };
   },
   async mounted() {
+    await this.refresh();
     let types = await this.$store.dispatch("fetchAllTypeOeuvre");
     types.docs.forEach((type) => {
       let temp = type.data();
