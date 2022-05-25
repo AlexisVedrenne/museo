@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "windows": "cross-env QENV=DEV  quasar dev -m electron",
-    "buildWindows": "cross-env QENV=DEV quasar dev quasar build -m electron",
+    "buildWindows": "cross-env QENV=DEV quasar build -m electron",
     "format": "prettier --write \"**/*.{js,vue,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -27,6 +27,7 @@
     "@quasar/app-webpack": "^3.0.0",
     "dotenv": "^16.0.0",
     "electron": "^18.1.0",
+    "electron-packager": "^15.2.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^8.5.0",

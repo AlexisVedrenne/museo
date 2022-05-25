@@ -2,13 +2,7 @@
   <q-item>
     <q-item-section>
       <div class="row items-center">
-        <p class="q-ma-none q-mr-md">{{ proType.nom }}</p>
-        <div
-          class="col"
-          :style="'background-color:' + proType.couleur + ' ; border-radius: 30px'"
-        >
-          <p></p>
-        </div>
+        <q-badge :style="'color:'+proType.couleur" outline :label="proType.nom"/>
       </div>
     </q-item-section>
     <q-btn @click="edit = true" round flat color="secondary" icon="edit" />
