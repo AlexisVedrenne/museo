@@ -18,7 +18,7 @@
           <CardArtiste :id="res.docs[index].id" :proArtiste="artiste" />
         </q-intersection>
 
-        <div v-if="artiste.length == 0">
+        <div v-if="artistes.length == 0">
           <p class="text-grey text-center q-mt-lg">Aucun artiste trouvés...</p>
         </div>
       </div>
@@ -102,16 +102,18 @@
                     label="Changer l'image"
                   />
                 </div>
-                <q-checkbox
-                  class="q-mt-md"
-                  v-for="(type, index) in types"
-                  :key="index"
-                  dense
-                  v-model="artiste.style"
-                  :val="type"
-                  :label="type.nom"
-                  :style="'color:' + type.couleur"
-                />
+                <div class="row justify-center">
+                  <q-checkbox
+                    class="q-mt-md q-mr-sm"
+                    v-for="(type, index) in types"
+                    :key="index"
+                    dense
+                    v-model="artiste.style"
+                    :val="type"
+                    :label="type.nom"
+                    :style="'color:' + type.couleur"
+                  />
+                </div>
               </div>
             </div>
             <q-editor
@@ -241,6 +243,7 @@ export default {
     };
   },
   async mounted() {
+    await this.refresh();
     let types = await this.$store.dispatch("fetchAllTypeOeuvre");
     types.docs.forEach((type) => {
       let temp = type.data();
