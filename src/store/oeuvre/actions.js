@@ -67,14 +67,18 @@ export async function addOeuvre({ dispatch }, { oeuvre }) {
 
 export async function archiveOeuvre({ commit }, { oeuvre, id }) {
   try {
-    let q = await query(
-      collection(fire.firebasebd, "typeOeuvre"),
-      where("nom", "==", oeuvre.type.nom)
-    );
-    const res = await getDocs(q);
-    oeuvre.type = res.docs[0].id;
-    oeuvre.etat = { nom: "stock", icon: "inventory_2" };
-    await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
+    if (typeof oeuvre.type !== "string") {
+      let q = await query(
+        collection(fire.firebasebd, "typeOeuvre"),
+        where("nom", "==", oeuvre.type.nom)
+      );
+      const res = await getDocs(q);
+      oeuvre.type = res.docs[0].id;
+    }
+    if (oeuvre.etat.nom !== "stock") {
+      oeuvre.etat = { nom: "stock", icon: "inventory_2" };
+      await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
+    }
   } catch (error) {
     Notify.create({
       progress: true,
