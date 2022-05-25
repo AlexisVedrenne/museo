@@ -84,18 +84,20 @@
           />
         </div>
 
-        <q-input
-          rounded
-          color="secondary"
-          bg-color="white"
-          outlined
-          v-model="recherche"
-          class="col q-mr-sm"
-          label="Rechercher une oeuvre..."
-        >
-          <template v-slot:prepend> <q-icon name="search" /> </template
-        ></q-input>
-        <q-btn color="secondary" flat icon="search" /> </q-card-section
+        <q-form class="col row" @submit="search">
+          <q-input
+            rounded
+            color="secondary"
+            bg-color="white"
+            outlined
+            v-model="recherche"
+            class="col q-mr-sm"
+            label="Rechercher une oeuvre..."
+          >
+            <template v-slot:prepend> <q-icon name="search" /> </template
+          ></q-input>
+          <q-btn type="submit" color="secondary" flat icon="search"
+        /></q-form> </q-card-section
     ></q-card>
     <div v-if="this.$route.params.idMusee" class="row">
       <q-btn
@@ -235,6 +237,18 @@ export default {
     }
   },
   methods: {
+    search() {
+      let oeuvres = this.oeuvres;
+      this.ouvres = null;
+      let res = [];
+      oeuvres.docs.forEach((oeuvre) => {
+        let data = oeuvre.data();
+        if (data.nom.trim().toLowerCase().includes(this.recherche.trim().toLowerCase())) {
+          res.push(oeuvre);
+        }
+      });
+      this.oeuvres = { docs: res };
+    },
     async resetAll() {
       this.filtreArtiste = ref(null);
       this.filtreStatus = ref(null);
