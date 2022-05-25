@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "windows": "cross-env QENV=DEV  quasar dev -m electron",
-    "buildWindows": "cross-env QENV=DEV quasar dev quasar build -m electron",
+    "buildWindows": "cross-env QENV=DEV quasar build -m electron",
     "format": "prettier --write \"**/*.{js,vue,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -16,7 +16,6 @@
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.3",
-    "custom-electron-titlebar": "^4.1.0",
     "firebase": "^9.7.0",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",

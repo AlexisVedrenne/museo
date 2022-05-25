@@ -12,9 +12,12 @@ import { Notify } from "quasar";
 import "core-js/es/array";
 
 export async function fecthTypeOeuvre({ dispatch }, { id }) {
-  let res = await dispatch("fetchAllTypeOeuvre");
+  try{  let res = await dispatch("fetchAllTypeOeuvre");
   let type = await res.docs.find((type) => type.id === id);
-  return type.data();
+  return type.data();}catch(error){
+    
+  }
+
 }
 
 export async function fetchAllTypeOeuvre() {
