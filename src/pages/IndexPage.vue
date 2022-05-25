@@ -1,15 +1,17 @@
 <template>
   <q-page>
-    <q-card class="bg-primary text-white" square
-      ><q-card-section class="row items-center"
+    <q-card class="bg-primary text-white" square>
+      <q-card-section class="row items-center"
         ><q-select
+          v-if="!this.$route.params.idArtiste"
           class="col-2 q-mr-md"
-          color="accent"
+          color="primary"
           bg-color="secondary"
           filled
-          v-model="sss"
+          v-model="filtreArtiste"
           :options="artistes"
           label="Choisir un artiste"
+          clearable
         >
           <template v-slot:option="artistes">
             <q-item v-bind="artistes.itemProps">
@@ -24,13 +26,15 @@
             </q-item>
           </template></q-select
         ><q-select
+          v-if="!this.$route.params.idType"
           class="col-2 q-mr-md"
-          color="accent"
+          color="primary"
           bg-color="secondary"
           filled
-          v-model="model"
+          v-model="filtreType"
           :options="types"
           label="Choisir un type d'oeuvre"
+          clearable
         >
           <template v-slot:option="types">
             <q-item v-bind="types.itemProps">
@@ -50,10 +54,10 @@
           </template></q-select
         ><q-select
           class="col-2 q-mr-md"
-          color="accent"
+          color="primary"
           bg-color="secondary"
           filled
-          v-model="model"
+          v-model="filtreStatus"
           :options="status"
           label="Status"
           clearable
@@ -69,11 +73,23 @@
             </q-item>
           </template>
         </q-select>
+        <div class="column">
+          <q-btn @click="filtre" color="info" flat class="q-mr-sm" label="Filtrer" />
+          <q-btn
+            @click="resetAll"
+            flat
+            color="negative"
+            class="q-mr-sm"
+            label="Effacer filtre"
+          />
+        </div>
+
         <q-input
+          rounded
           color="secondary"
           bg-color="white"
           outlined
-          v-model="text"
+          v-model="recherche"
           class="col q-mr-sm"
           label="Rechercher une oeuvre..."
         >
@@ -111,6 +127,21 @@
         icon="arrow_back_ios"
       />
     </div>
+    <div class="row justify-center q-mt-md">
+      <q-badge outline color="info" class="q-mr-sm" v-if="filtreArtiste"
+        ><q-avatar><q-img :src="filtreArtiste.image" /></q-avatar
+      ></q-badge>
+      <q-badge
+        outline
+        class="q-mr-sm"
+        :style="'color:' + filtreType.couleur"
+        v-if="filtreType"
+        :label="filtreType.nom"
+      />
+      <q-badge outline color="info" v-if="filtreStatus"
+        ><q-avatar><q-icon :name="filtreStatus.icon" /></q-avatar
+      ></q-badge>
+    </div>
     <div v-if="oeuvres" class="row q-col-gutter-md q-ma-sm">
       <q-intersection
         once
@@ -126,11 +157,14 @@
           :proOeuvre="oeuvre.data()"
         />
       </q-intersection>
+      <div class="col" v-if="oeuvres.docs.length === 0">
+        <p class="text-center text-grey q-mt-lg" style="font-size: 18px">
+          Aucune oeuvres n'a été trouvé...
+        </p>
+      </div>
     </div>
-    <div v-else>
-      <p class="text-center text-grey q-mt-lg" style="font-size: 18px">
-        Aucune oeuvres n'a été trouvé...
-      </p>
+    <div class="row justify-center q-mt-lg" v-else>
+      <q-spinner-puff color="primary" size="50px" />
     </div>
 
     <q-page-sticky
@@ -149,12 +183,18 @@ import { collection, getDocs, query, onSnapshot, where } from "firebase/firestor
 import fire from "src/boot/Firebase";
 import CardPainting from "components/Oeuvres/CardPainting.vue";
 import { useQuasar } from "quasar";
+import { ref } from "vue";
 export default {
   name: "IndexPage",
   components: { CardPainting },
   data() {
     return {
+      save: null,
       utils: useQuasar(),
+      recherche: "",
+      filtreStatus: ref(null),
+      filtreType: ref(null),
+      filtreArtiste: ref(null),
       oeuvres: null,
       types: [],
       artistes: [],
@@ -190,22 +230,39 @@ export default {
     } else if (this.$route.params.idArtiste) {
       await this.snapshotByArtiste();
     } else {
+      await this.refresh();
       await this.snapshot();
     }
   },
   methods: {
+    async resetAll() {
+      this.filtreArtiste = ref(null);
+      this.filtreStatus = ref(null);
+      this.filtreType = ref(null);
+      await this.refresh();
+    },
+    async filtre() {
+      if (this.filtreArtiste) {
+        await this.refreshByArtiste(this.filtreArtiste.value);
+      }
+      if (this.filtreType) {
+        await this.refreshByType(this.filtreType.value);
+      }
+    },
     async refreshOptions() {
       let types = await this.$store.dispatch("fetchAllTypeOeuvre");
       let artistes = await this.$store.dispatch("fetchAllArtist");
       types.docs.forEach((type) => {
         let data = type.data();
         if (!this.types.find((element) => element.nom === data.nom)) {
+          data.value = type.id;
           this.types.push(data);
         }
       });
       artistes.forEach((artiste) => {
         let data = artiste.data();
         if (!this.artistes.find((element) => element.nom === data.nom)) {
+          data.value = artiste.id;
           this.artistes.push(data);
         }
       });
@@ -215,11 +272,11 @@ export default {
       this.oeuvres = null;
       this.oeuvres = await this.$store.dispatch("fetchAllOeuvres");
     },
-    async refreshByArtiste() {
+    async refreshByArtiste(id) {
       await this.refreshOptions();
       this.oeuvres = null;
       this.oeuvres = await this.$store.dispatch("fetchOeuvreByArtiste", {
-        idArtiste: this.$route.params.idArtiste,
+        idArtiste: id,
       });
     },
     async refreshByMusee() {
@@ -229,11 +286,11 @@ export default {
         idMusee: this.$route.params.idMusee,
       });
     },
-    async refreshByType() {
+    async refreshByType(id) {
       await this.refreshOptions();
       this.oeuvres = null;
       this.oeuvres = await this.$store.dispatch("fetchOeuvreByType", {
-        idType: this.$route.params.idType,
+        idType: id,
       });
     },
     async snapshotByType() {
@@ -244,13 +301,13 @@ export default {
       onSnapshot(res, (snapshot) => {
         snapshot.docChanges().forEach(async (change) => {
           if (change.type === "added") {
-            await this.refreshByType();
+            await this.refreshByType(this.$route.params.idType);
           }
           if (change.type === "modified") {
-            await this.refreshByType();
+            await this.refreshByType(this.$route.params.idType);
           }
           if (change.type === "removed") {
-            await this.refreshByType();
+            await this.refreshByType(this.$route.params.idType);
           }
         });
       });
@@ -263,13 +320,13 @@ export default {
       onSnapshot(res, (snapshot) => {
         snapshot.docChanges().forEach(async (change) => {
           if (change.type === "added") {
-            await this.refreshByArtiste();
+            await this.refreshByArtiste(this.$route.params.idArtiste);
           }
           if (change.type === "modified") {
-            await this.refreshByArtiste();
+            await this.refreshByArtiste(this.$route.params.idArtiste);
           }
           if (change.type === "removed") {
-            await this.refreshByArtiste();
+            await this.refreshByArtiste(this.$route.params.idArtiste);
           }
         });
       });
