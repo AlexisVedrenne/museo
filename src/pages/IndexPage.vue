@@ -86,6 +86,7 @@
 
         <q-form class="col row" @submit="search">
           <q-input
+            @click="resetSearch"
             rounded
             color="secondary"
             bg-color="white"
@@ -237,9 +238,9 @@ export default {
     }
   },
   methods: {
-    search() {
+    async search() {
+      await this.resetSearch();
       let oeuvres = this.oeuvres;
-      this.ouvres = null;
       let res = [];
       oeuvres.docs.forEach((oeuvre) => {
         let data = oeuvre.data();
@@ -249,11 +250,31 @@ export default {
       });
       this.oeuvres = { docs: res };
     },
+    async resetSearch() {
+      if (this.$route.params.idMusee) {
+        await this.refreshByMusee();
+      } else if (this.$route.params.idType) {
+        await this.refreshByType();
+      } else if (this.$route.params.idArtiste) {
+        await this.refreshByArtiste();
+      } else {
+        await this.refresh();
+      }
+      await this.filtre();
+    },
     async resetAll() {
       this.filtreArtiste = ref(null);
       this.filtreStatus = ref(null);
       this.filtreType = ref(null);
-      await this.refresh();
+      if (this.$route.params.idMusee) {
+        await this.refreshByMusee();
+      } else if (this.$route.params.idType) {
+        await this.refreshByType();
+      } else if (this.$route.params.idArtiste) {
+        await this.refreshByArtiste();
+      } else {
+        await this.refresh();
+      }
     },
     async filtre() {
       if (this.filtreArtiste && this.filtreType && this.filtreStatus) {
