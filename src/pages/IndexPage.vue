@@ -242,16 +242,44 @@ export default {
       await this.refresh();
     },
     async filtre() {
-      if (this.filtreArtiste) {
+      if (this.filtreArtiste && this.filtreType && this.filtreStatus) {
+        await this.refreshByArtiste(this.filtreArtiste.value);
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreType.value, "type");
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
+      } else if (this.filtreArtiste && this.filtreType) {
+        await this.refreshByArtiste(this.filtreArtiste.value);
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreType.value, "type");
+      } else if (this.filtreArtiste && this.filtreStatus) {
+        await this.refreshByArtiste(this.filtreArtiste.value);
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
+      } else if (this.filtreType && this.filtreStatus) {
+        await this.refreshByType(this.filtreType.value);
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
+      } else if (this.filtreArtiste) {
         await this.refreshByArtiste(this.filtreArtiste.value);
       } else if (this.filtreType) {
         await this.refreshByType(this.filtreType.value);
       } else if (this.filtreStatus) {
-        this.oeuvres = null;
-        this.oeuvres = await this.$store.dispatch("fetchOeuvreByStatus", {
-          status: this.filtreStatus.value,
-        });
+        await this.refresh();
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
       }
+    },
+    filtreLocal(oeuvres, filtre, typeFiltre) {
+      let reStatus = [];
+      oeuvres.docs.forEach((oeuvre) => {
+        let data = oeuvre.data();
+        if (
+          (typeFiltre === "status"
+            ? data.etat.nom.trim()
+            : typeFiltre === "type"
+            ? data.type.trim()
+            : "") === filtre.trim()
+        ) {
+          reStatus.push(oeuvre);
+        }
+      });
+      let oeuvre = { docs: reStatus };
+      return oeuvre;
     },
     async refreshOptions() {
       let types = await this.$store.dispatch("fetchAllTypeOeuvre");
