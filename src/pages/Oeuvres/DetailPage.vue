@@ -30,16 +30,6 @@
               :src="oeuvre.image"
             />
           </div>
-          <q-expansion-item
-            class="q-mt-sm"
-            icon="art_track"
-            label="Bibliographie"
-            :caption="artiste.nom + ' ' + artiste.prenom"
-          >
-            <q-card>
-              <q-card-section v-html="artiste.bibliographie" />
-            </q-card>
-          </q-expansion-item>
         </div>
         <div class="col">
           <div class="row">
@@ -116,6 +106,16 @@
           </q-card-section>
         </q-card>
       </q-dialog>
+      <q-expansion-item
+        class="q-mt-sm"
+        icon="art_track"
+        label="Bibliographie"
+        :caption="artiste.nom + ' ' + artiste.prenom"
+      >
+        <q-card>
+          <q-card-section v-html="artiste.bibliographie" />
+        </q-card>
+      </q-expansion-item>
     </main>
   </q-page>
 </template>
