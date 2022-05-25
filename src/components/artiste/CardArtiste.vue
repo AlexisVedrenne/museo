@@ -6,8 +6,8 @@
           <img :src="proArtiste.image" />
         </q-avatar>
       </div>
-      <div class="col-1">{{ proArtiste.nom }} {{ proArtiste.prenom }}</div>
-      <div class="col-2 row">
+      <div class="col">{{ proArtiste.nom }} {{ proArtiste.prenom }}</div>
+      <div class="col row items-center">
         <q-badge
           class="q-mr-sm q-mb-sm"
           v-for="(style, index) in proArtiste.style"
@@ -16,11 +16,6 @@
           :style="'color:' + style.couleur"
           :label="style.nom"
         />
-      </div>
-      <div class="col" style="width: 250px">
-        <q-expansion-item expand-separator label="Bibliographie"
-          ><p v-html="proArtiste.bibliographie"></p>
-        </q-expansion-item>
       </div>
       <div class="col-4 row justify-end">
         <q-btn
@@ -47,6 +42,13 @@
         />
       </div>
     </div>
+    <q-expansion-item
+      class="q-mt-sm"
+      icon="art_track"
+      label="Bibliographie"
+      expand-separator
+      ><p v-html="proArtiste.bibliographie"></p>
+    </q-expansion-item>
   </q-card>
   <q-dialog
     transition-show="flip-down"
