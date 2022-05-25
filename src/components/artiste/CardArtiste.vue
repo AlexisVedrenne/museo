@@ -120,16 +120,30 @@
                   label="Changer l'image"
                 />
               </div>
-              <q-checkbox
-                class="q-mt-md"
-                v-for="(type, index) in types"
-                :key="index"
-                dense
-                v-model="artiste.style"
-                :val="type"
-                :label="type.nom"
-                :style="'color:' + type.couleur"
-              />
+              <div class="column items-center">
+                <div class="row q-mt-md">
+                  <q-badge
+                    v-ripple
+                    class="q-mr-sm cursor-pointer q-hoverable"
+                    @click="deleteStyle(index)"
+                    v-for="(sty, index) in artiste.style"
+                    :key="index"
+                    :label="sty.nom"
+                  />
+                </div>
+                <div class="row">
+                  <div v-for="(type, index) in types" :key="index">
+                    <q-checkbox
+                      class="q-mt-md"
+                      dense
+                      v-model="style"
+                      :val="type"
+                      :label="type.nom"
+                      :style="'color:' + type.couleur"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <q-editor
@@ -244,6 +258,7 @@ export default {
   data() {
     return {
       utils: useQuasar(),
+      style: [],
       types: [],
       loading: false,
       edit: false,
@@ -258,8 +273,16 @@ export default {
     });
   },
   methods: {
+    deleteStyle(index) {
+      this.artiste.style.splice(1, index);
+    },
     async submit() {
       this.loading = true;
+      this.style.forEach((sty) => {
+        if (!this.artiste.style.find((val) => val.nom === sty.nom)) {
+          this.artiste.style.push(sty);
+        }
+      });
       await this.$store.dispatch("updateArtiste", {
         artiste: this.artiste,
         id: this.id,

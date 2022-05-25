@@ -102,16 +102,18 @@
                     label="Changer l'image"
                   />
                 </div>
-                <q-checkbox
-                  class="q-mt-md"
-                  v-for="(type, index) in types"
-                  :key="index"
-                  dense
-                  v-model="artiste.style"
-                  :val="type"
-                  :label="type.nom"
-                  :style="'color:' + type.couleur"
-                />
+                <div class="row justify-center">
+                  <q-checkbox
+                    class="q-mt-md q-mr-sm"
+                    v-for="(type, index) in types"
+                    :key="index"
+                    dense
+                    v-model="artiste.style"
+                    :val="type"
+                    :label="type.nom"
+                    :style="'color:' + type.couleur"
+                  />
+                </div>
               </div>
             </div>
             <q-editor
