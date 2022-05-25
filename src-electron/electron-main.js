@@ -30,7 +30,7 @@ function createWindow() {
       preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD),
     },
   });
-  // mainWindow.setMenuBarVisibility(false);
+  mainWindow.setMenuBarVisibility(false);
   mainWindow.loadURL(process.env.APP_URL);
 
   if (process.env.DEBUGGING) {
