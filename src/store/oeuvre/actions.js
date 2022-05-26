@@ -94,7 +94,7 @@ export async function archiveOeuvre({ commit }, { oeuvre, id }) {
 
 export async function expoOeuvre({ commit }, { oeuvre, id }) {
   try {
-    oeuvre.etat = { nom: "exposition ", icon: "filter_frames" };
+    oeuvre.etat = { icon: "filter_frames", nom: "exposition" };
     await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
   } catch (error) {
     Notify.create({
