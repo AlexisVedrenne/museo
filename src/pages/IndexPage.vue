@@ -153,12 +153,21 @@
         v-for="(oeuvre, index) in oeuvres.docs"
         :key="index"
       >
-        <CardPainting
-          @detail="detail(index)"
-          :index="index"
-          :id="oeuvre.id"
-          :proOeuvre="oeuvre.data()"
-        />
+        <div v-if="user.role !== 'part'">
+          <CardPainting
+            @detail="detail(index)"
+            :index="index"
+            :id="oeuvre.id"
+            :proOeuvre="oeuvre.data()"
+          />
+        </div>
+        <div v-else>
+          <CardOeuvrePartenaire
+            @detail="detail(index)"
+            :index="index"
+            :proOeuvre="oeuvre.data()"
+          />
+        </div>
       </q-intersection>
       <div class="col" v-if="oeuvres.docs.length === 0">
         <p class="text-center text-grey q-mt-lg" style="font-size: 18px">
@@ -185,11 +194,12 @@
 import { collection, getDocs, query, onSnapshot, where } from "firebase/firestore";
 import fire from "src/boot/Firebase";
 import CardPainting from "components/Oeuvres/CardPainting.vue";
+import CardOeuvrePartenaire from "components/Oeuvres/CardOeuvrePartenaire.vue";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 export default {
   name: "IndexPage",
-  components: { CardPainting },
+  components: { CardPainting, CardOeuvrePartenaire },
   data() {
     return {
       save: null,
@@ -199,6 +209,7 @@ export default {
       filtreType: ref(null),
       filtreArtiste: ref(null),
       oeuvres: null,
+      user: null,
       types: [],
       artistes: [],
       status: [
@@ -226,6 +237,7 @@ export default {
     };
   },
   async mounted() {
+    this.user = this.utils.localStorage.getItem("user");
     if (this.$route.params.idMusee) {
       await this.snapshotByMusee();
     } else if (this.$route.params.idType) {
