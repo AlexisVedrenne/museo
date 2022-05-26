@@ -28,8 +28,7 @@ export default defineComponent({
     },
 
     link: {
-      type: String,
-      default: "#",
+      type: Object,
     },
 
     icon: {

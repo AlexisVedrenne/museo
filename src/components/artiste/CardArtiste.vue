@@ -6,8 +6,8 @@
           <img :src="proArtiste.image" />
         </q-avatar>
       </div>
-      <div class="col-1">{{ proArtiste.nom }} {{ proArtiste.prenom }}</div>
-      <div class="col-2 row">
+      <div class="col">{{ proArtiste.nom }} {{ proArtiste.prenom }}</div>
+      <div class="col row items-center">
         <q-badge
           class="q-mr-sm q-mb-sm"
           v-for="(style, index) in proArtiste.style"
@@ -16,11 +16,6 @@
           :style="'color:' + style.couleur"
           :label="style.nom"
         />
-      </div>
-      <div class="col" style="width: 250px">
-        <q-expansion-item expand-separator label="Bibliographie"
-          ><p v-html="proArtiste.bibliographie"></p>
-        </q-expansion-item>
       </div>
       <div class="col-4 row justify-end">
         <q-btn
@@ -38,9 +33,22 @@
           color="negative"
           icon="delete"
         />
-        <q-btn text-color="primary" color="accent" no-caps label="Voir les oeuvres" />
+        <q-btn
+          :to="'/artiste/oeuvre/' + id"
+          text-color="primary"
+          color="accent"
+          no-caps
+          label="Voir les oeuvres"
+        />
       </div>
     </div>
+    <q-expansion-item
+      class="q-mt-sm"
+      icon="art_track"
+      label="Bibliographie"
+      expand-separator
+      ><p v-html="proArtiste.bibliographie"></p>
+    </q-expansion-item>
   </q-card>
   <q-dialog
     transition-show="flip-down"
@@ -114,16 +122,30 @@
                   label="Changer l'image"
                 />
               </div>
-              <q-checkbox
-                class="q-mt-md"
-                v-for="(type, index) in types"
-                :key="index"
-                dense
-                v-model="artiste.style"
-                :val="type"
-                :label="type.nom"
-                :style="'color:' + type.couleur"
-              />
+              <div class="column items-center">
+                <div class="row q-mt-md">
+                  <q-badge
+                    v-ripple
+                    class="q-mr-sm cursor-pointer q-hoverable"
+                    @click="deleteStyle(index)"
+                    v-for="(sty, index) in artiste.style"
+                    :key="index"
+                    :label="sty.nom"
+                  />
+                </div>
+                <div class="row">
+                  <div v-for="(type, index) in types" :key="index">
+                    <q-checkbox
+                      class="q-mt-md"
+                      dense
+                      v-model="style"
+                      :val="type"
+                      :label="type.nom"
+                      :style="'color:' + type.couleur"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <q-editor
@@ -238,6 +260,7 @@ export default {
   data() {
     return {
       utils: useQuasar(),
+      style: [],
       types: [],
       loading: false,
       edit: false,
@@ -252,8 +275,16 @@ export default {
     });
   },
   methods: {
+    deleteStyle(index) {
+      this.artiste.style.splice(1, index);
+    },
     async submit() {
       this.loading = true;
+      this.style.forEach((sty) => {
+        if (!this.artiste.style.find((val) => val.nom === sty.nom)) {
+          this.artiste.style.push(sty);
+        }
+      });
       await this.$store.dispatch("updateArtiste", {
         artiste: this.artiste,
         id: this.id,
