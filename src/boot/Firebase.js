@@ -4,23 +4,27 @@ import * as fireauth from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { Notify } from "quasar";
 import "core-js/es/array";
+import { LocalStorage } from "quasar";
 
 const firebaseConfig = process.env.QENV.FIREBASE_CONFIG;
 const app = firebase.initializeApp(firebaseConfig);
 const storage = getStorage(app);
 const firebasebd = firestore.getFirestore();
 const auth = fireauth.getAuth(app);
-
+const user = LocalStorage.getItem("user")
 function createNotify(message) {
-  Notify.create({
-    progress: true,
-    position: "top-right",
-    timeout: 2000,
-    icon: "info",
-    html: true,
-    message: message,
-    color: "info",
-  });
+  if(user){
+    Notify.create({
+      progress: true,
+      position: "top-right",
+      timeout: 2000,
+      icon: "info",
+      html: true,
+      message: message,
+      color: "info",
+    });
+  }
+
 }
 
 async function setSnapshot(q, collection) {
@@ -124,5 +128,4 @@ async function initNotify(bd) {
 }
 
 initNotify(firebasebd);
-
 export default { firebasebd, storage, auth };
