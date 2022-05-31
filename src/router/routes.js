@@ -89,6 +89,11 @@ const routes = [
         name: "listeOeuvreArtiste",
         component: () => import("pages/IndexPage.vue"),
       },
+      {
+        path: "/partenaire/demandes",
+        name: "listeDemandes",
+        component: () => import("pages/demande/ListeDemandePage.vue"),
+      },
     ],
   },
   // Always leave this as last one,

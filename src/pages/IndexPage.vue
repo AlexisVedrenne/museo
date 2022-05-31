@@ -178,15 +178,16 @@
     <div class="row justify-center q-mt-lg" v-else>
       <q-spinner-puff color="primary" size="50px" />
     </div>
-
-    <q-page-sticky
-      v-if="!this.$route.params.idMusee"
-      style="z-index: 2"
-      position="bottom-right"
-      :offset="[18, 18]"
-    >
-      <q-btn :to="{ name: 'ajoutOeuvre' }" fab icon="add" color="secondary" />
-    </q-page-sticky>
+    <div v-if="user">
+      <q-page-sticky
+        v-if="!this.$route.params.idMusee && user.role !== 'part'"
+        style="z-index: 2"
+        position="bottom-right"
+        :offset="[18, 18]"
+      >
+        <q-btn :to="{ name: 'ajoutOeuvre' }" fab icon="add" color="secondary" />
+      </q-page-sticky>
+    </div>
   </q-page>
 </template>
 

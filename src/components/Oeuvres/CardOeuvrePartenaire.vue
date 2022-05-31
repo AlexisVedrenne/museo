@@ -26,14 +26,20 @@
       </div>
 
       <div class="text-subtitle2">
-        <q-expansion-item
-          group="somegroup"
-          icon="description"
-          label="Description"
-          header-class="text-primary"
-        >
-          <p class="text-justify">{{ oeuvre.briefDescrition }}</p>
-        </q-expansion-item>
+        <div class="row items-center">
+          <q-expansion-item
+            class="col"
+            group="somegroup"
+            icon="description"
+            label="Description"
+            header-class="text-primary"
+          >
+            <p class="text-justify">{{ oeuvre.briefDescrition }}</p>
+          </q-expansion-item>
+          <div class="col-1 q-mr-md q-ml-md">
+            <q-btn push size="18px" round icon="mail" color="secondary" />
+          </div>
+        </div>
       </div>
     </q-card-section>
   </q-card>
@@ -101,7 +107,6 @@ export default {
   },
   methods: {
     setActive() {
-      console.log(this.oeuvre.etat.nom);
       if (this.oeuvre.etat.nom === "exposition") {
         this.active.color = "positive";
         this.active.state = true;

@@ -14,15 +14,17 @@ const auth = fireauth.getAuth(app);
 const user = LocalStorage.getItem("user");
 function createNotify(message) {
   if (user) {
-    Notify.create({
-      progress: true,
-      position: "top-right",
-      timeout: 2000,
-      icon: "info",
-      html: true,
-      message: message,
-      color: "info",
-    });
+    if (user.role !== "part") {
+      Notify.create({
+        progress: true,
+        position: "top-right",
+        timeout: 2000,
+        icon: "info",
+        html: true,
+        message: message,
+        color: "info",
+      });
+    }
   }
 }
 

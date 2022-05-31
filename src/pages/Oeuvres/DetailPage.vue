@@ -17,7 +17,7 @@
           color="secondary"
           icon="arrow_back_ios"
         />
-        <div class="col row justify-end q-mr-md">
+        <div v-if="user && user.role !== 'part'" class="col row justify-end q-mr-md">
           <q-btn round flat color="secondary" icon="edit" />
           <q-btn @click="archiveOeuvre" round flat color="negative" icon="delete" />
         </div>
@@ -133,9 +133,11 @@ export default {
       exposition: null,
       musee: null,
       id: null,
+      user: null,
     };
   },
   async mounted() {
+    this.user = this.utils.localStorage.getItem("user");
     let resMusees = await query(collection(fire.firebasebd, "musees"));
     let resArtistes = await query(collection(fire.firebasebd, "artistes"));
     let resOeuvre = await query(collection(fire.firebasebd, "oeuvre"));
