@@ -164,7 +164,7 @@
         <div v-else>
           <CardOeuvrePartenaire
             @detail="detail(oeuvre.id)"
-            :index="index"
+            :id="oeuvre.id"
             :proOeuvre="oeuvre.data()"
           />
         </div>

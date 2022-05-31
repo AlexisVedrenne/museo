@@ -37,7 +37,14 @@
             <p class="text-justify">{{ oeuvre.briefDescrition }}</p>
           </q-expansion-item>
           <div class="col-1 q-mr-md q-ml-md">
-            <q-btn push size="18px" round icon="mail" color="secondary" />
+            <q-btn
+              @click="createDemande"
+              push
+              size="18px"
+              round
+              icon="mail"
+              color="secondary"
+            />
           </div>
         </div>
       </div>
@@ -79,8 +86,9 @@ export default {
       type: Object,
       required: true,
     },
-    index: {
-      required: false,
+    id: {
+      type: String,
+      required: true,
     },
   },
 
@@ -114,6 +122,9 @@ export default {
         this.active.color = "negative";
         this.active.state = false;
       }
+    },
+    async createDemande(id) {
+      await this.$store.dispatch("createDemande", { idOeuvre: this.id });
     },
   },
 };
