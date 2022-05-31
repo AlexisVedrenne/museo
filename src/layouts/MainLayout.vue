@@ -103,7 +103,7 @@ const linksList = [
     title: "Mes emprunts",
     caption: "",
     icon: "bookmark",
-    link: { name: "" },
+    link: { name: "listeEmprunts" },
     type: "1",
   },
 ];

@@ -30,7 +30,7 @@ export async function fetchAllDemandes() {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Une erreur lors des demandes.",
+      message: "Une erreur lors récupération des demandes.",
       color: "negative",
     });
   }
@@ -82,6 +82,29 @@ export async function createDemande({ dispatch }, { idOeuvre }) {
       timeout: 1000,
       icon: "warning",
       message: "Une erreur lors de la création d'une demande.",
+      color: "negative",
+    });
+  }
+}
+
+export async function fetchAllEmprunt() {
+  try {
+    let user = LocalStorage.getItem("user");
+    const q = await query(
+      collection(fire.firebasebd, "demande"),
+      where("idUser", "==", user.uid),
+      where("etat", "==", 1)
+    );
+    const res = await getDocs(q);
+    return res || { docs: [] };
+  } catch (e) {
+    console.log(e);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur lors de la récupération des emprunts.",
       color: "negative",
     });
   }
