@@ -94,6 +94,11 @@ const routes = [
         name: "listeDemandes",
         component: () => import("pages/demande/ListeDemandePage.vue"),
       },
+      {
+        path: "partenaire/emprunts",
+        name: "listeEmprunts",
+        component: () => import("pages/demande/ListEmpruntPage.vue"),
+      },
     ],
   },
   // Always leave this as last one,
