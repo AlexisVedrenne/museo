@@ -9,6 +9,7 @@ import artiste from "./artiste";
 import musee from "./musee";
 import typeOeuvre from "./typeOeuvre";
 import storage from "./storage";
+import demande from "./demande";
 
 /*
  * If not building with SSR mode, you can
@@ -28,6 +29,7 @@ export default store(function (/* { ssrContext } */) {
       musee,
       typeOeuvre,
       storage,
+      demande,
     },
 
     // enable strict mode (adds overhead!)

@@ -108,10 +108,10 @@ export async function expoOeuvre({ commit }, { oeuvre, id }) {
   }
 }
 
-export async function fetchOeuvre({ dispatch }, { index }) {
+export async function fetchOeuvre({ dispatch }, { id }) {
   try {
     let oeuvres = await this.dispatch("fetchAllOeuvres");
-    let oeuvre = oeuvres.docs[index];
+    let oeuvre = oeuvres.docs.find((val) => val.id === id);
     return oeuvre;
   } catch (error) {
     Notify.create({
