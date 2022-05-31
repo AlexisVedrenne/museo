@@ -155,7 +155,7 @@
       >
         <div v-if="user.role !== 'part'">
           <CardPainting
-            @detail="detail(index)"
+            @detail="detail(oeuvre.id)"
             :index="index"
             :id="oeuvre.id"
             :proOeuvre="oeuvre.data()"
@@ -163,7 +163,7 @@
         </div>
         <div v-else>
           <CardOeuvrePartenaire
-            @detail="detail(index)"
+            @detail="detail(oeuvre.id)"
             :index="index"
             :proOeuvre="oeuvre.data()"
           />
@@ -446,8 +446,8 @@ export default {
         });
       });
     },
-    detail(index) {
-      this.$router.push("/oeuvre/" + index);
+    detail(id) {
+      this.$router.push("/oeuvre/" + id);
     },
   },
 };
