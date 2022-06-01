@@ -30,6 +30,15 @@
           <p class="q-ma-none">Demande Refusée</p>
         </div>
       </div>
+      <div v-if="demande.etat === 2">
+        <q-btn
+          @click="cloture"
+          text-color="black"
+          color="accent"
+          no-caps
+          label="Clôturer cette demande"
+        />
+      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -39,6 +48,9 @@ export default {
     demande: {
       type: Object,
       required: true,
+    },
+    id: {
+      type: String,
     },
   },
   data() {
@@ -57,6 +69,11 @@ export default {
       id: this.oeuvre.type,
     });
     this.type = type;
+  },
+  methods: {
+    async cloture() {
+      this.$store.dispatch("clotureDemande", { id: this.id });
+    },
   },
 };
 </script>

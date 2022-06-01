@@ -18,7 +18,7 @@ export async function fetchMusee({ commit }, { idMusee }) {
   try {
     const res = await getDocs(collection(fire.firebasebd, "musees"));
 
-    let musee = res.docs.filter((docMusee) => docMusee.id == idMusee);
+    let musee = res.docs.filter((docMusee) => docMusee.id === idMusee);
     return musee.length > 0 ? musee[0].data() : null;
   } catch (e) {
     console.log(e);

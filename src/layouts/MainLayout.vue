@@ -85,11 +85,26 @@ const linksList = [
     link: { name: "ListeArtiste" },
     type: "2",
   },
+
   {
     title: "Musées",
     caption: "",
     icon: "account_balance",
     link: { name: "listMusee" },
+    type: "2",
+  },
+  {
+    title: "Compte partenaire",
+    caption: "",
+    icon: "apartment",
+    link: { name: "" },
+    type: "2",
+  },
+  {
+    title: "Gestion des demandes",
+    caption: "",
+    icon: "bookmark",
+    link: { name: "gestionDemande" },
     type: "2",
   },
   {
@@ -99,6 +114,7 @@ const linksList = [
     link: { name: "listeDemandes" },
     type: "1",
   },
+
   {
     title: "Mes emprunts",
     caption: "",

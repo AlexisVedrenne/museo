@@ -109,3 +109,74 @@ export async function fetchAllEmprunt() {
     });
   }
 }
+
+export async function fetchAllDemande() {
+  try {
+    const q = await query(
+      collection(fire.firebasebd, "demande"),
+      where("etat", "==", 0)
+    );
+    const res = await getDocs(q);
+    return res || { docs: [] };
+  } catch (e) {
+    console.log(e);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur lors de la récupération des emprunts.",
+      color: "negative",
+    });
+  }
+}
+
+export async function acceptDemande({ commit }, { demande, id }) {
+  try {
+    demande.etat = 1;
+    await setDoc(doc(fire.firebasebd, "demande", id), demande);
+  } catch (e) {
+    console.log(e);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur s'est produite !",
+      color: "negative",
+    });
+  }
+}
+
+export async function refuseDemande({ commit }, { demande, id }) {
+  try {
+    demande.etat = 2;
+    await setDoc(doc(fire.firebasebd, "demande", id), demande);
+  } catch (e) {
+    console.log(e);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur s'est produite !",
+      color: "negative",
+    });
+  }
+}
+
+export async function clotureDemande({ commit }, { id }) {
+  try {
+    await deleteDoc(doc(fire.firebasebd, "demande", id));
+  } catch (e) {
+    console.log(e);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur s'est produite !",
+      color: "negative",
+    });
+  }
+}

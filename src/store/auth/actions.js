@@ -169,3 +169,24 @@ export async function fetchCodePartenaire({ commit }, { code }) {
     });
   }
 }
+
+export async function fetchUserInfosById({ commit }, { id }) {
+  try {
+    const q = await query(
+      collection(fire.firebasebd, "utilisateurs"),
+      where("uid", "==", id)
+    );
+    const res = await getDocs(q);
+    let userInfo = res.docs[0].data();
+    return userInfo;
+  } catch (error) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de la récupération des informations !",
+      color: "negative",
+    });
+  }
+}

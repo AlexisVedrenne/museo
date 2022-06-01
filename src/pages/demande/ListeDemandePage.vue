@@ -14,7 +14,7 @@
         :key="index"
         class="q-ma-md"
       >
-        <CardDemande :demande="demande.data()" />
+        <CardDemande :id="demande.id" :demande="demande.data()" />
       </q-intersection>
     </div>
   </q-page>

@@ -90,6 +90,11 @@ const routes = [
         component: () => import("pages/IndexPage.vue"),
       },
       {
+        path: "/demandes",
+        name: "gestionDemande",
+        component: () => import("pages/demande/GestionDemandePage.vue"),
+      },
+      {
         path: "/partenaire/demandes",
         name: "listeDemandes",
         component: () => import("pages/demande/ListeDemandePage.vue"),
