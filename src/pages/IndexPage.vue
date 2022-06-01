@@ -154,7 +154,7 @@
         :key="index"
       >
         <CardPainting
-          @detail="detail(index)"
+          @detail="detail(oeuvre.id)"
           :index="index"
           :id="oeuvre.id"
           :proOeuvre="oeuvre.data()"
@@ -343,7 +343,7 @@ export default {
       await this.refreshOptions();
       this.oeuvres = null;
       this.oeuvres = await this.$store.dispatch("fetchOeuvreByArtiste", {
-        idArtiste: id,
+        idArtiste: id ? id : this.$route.params.idArtiste,
       });
     },
     async refreshByMusee() {

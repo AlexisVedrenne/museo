@@ -113,7 +113,7 @@ export default {
   },
   methods: {
     edit() {
-      this.$router.push("/oeuvre/edit/" + this.index);
+      this.$router.push("/oeuvre/edit/" + this.id);
     },
     archiveOeuvre() {
       this.utils
