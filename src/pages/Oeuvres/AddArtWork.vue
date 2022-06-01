@@ -291,7 +291,7 @@ export default {
     if (this.$route.params.index) {
       this.oeuvre = null;
       let oeuvre = await this.$store.dispatch("fetchOeuvre", {
-        index: this.$route.params.index,
+        id: this.$route.params.index,
       });
       this.id = oeuvre.id;
       this.oeuvre = oeuvre.data();
