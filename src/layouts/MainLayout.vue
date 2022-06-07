@@ -97,7 +97,7 @@ const linksList = [
     title: "Compte partenaire",
     caption: "",
     icon: "apartment",
-    link: { name: "" },
+    link: { name: "listeComptePartenaire" },
     type: "2",
   },
   {

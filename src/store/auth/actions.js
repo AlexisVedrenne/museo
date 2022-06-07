@@ -109,8 +109,8 @@ export async function signIn({ dispatch }, { infos }) {
 
 export async function signLeft({ commit }) {
   try {
-    await signOut(fire.auth);
     const saveConfig = LocalStorage.getItem("config");
+    await signOut(fire.auth);
     LocalStorage.clear();
     LocalStorage.set("config", saveConfig);
     Notify.create({
@@ -186,6 +186,26 @@ export async function fetchUserInfosById({ commit }, { id }) {
       timeout: 1000,
       icon: "warning",
       message: "Error lors de la récupération des informations !",
+      color: "negative",
+    });
+  }
+}
+
+export async function fetchComptePartenaire() {
+  try {
+    const q = await query(
+      collection(fire.firebasebd, "utilisateurs"),
+      where("role", "==", "part")
+    );
+    const res = await getDocs(q);
+    return res;
+  } catch (error) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de la récupération des comptes partenaires !",
       color: "negative",
     });
   }

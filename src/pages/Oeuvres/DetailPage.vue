@@ -107,6 +107,7 @@
         </q-card>
       </q-dialog>
       <q-expansion-item
+        v-if="user.role === 'admin'"
         class="q-mt-sm"
         icon="art_track"
         label="Bibliographie"

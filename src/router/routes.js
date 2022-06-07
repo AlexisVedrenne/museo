@@ -95,6 +95,11 @@ const routes = [
         component: () => import("pages/demande/GestionDemandePage.vue"),
       },
       {
+        path: "demandes/compte",
+        name: "listeComptePartenaire",
+        component: () => import("pages/demande/GestionComptePartenaire.vue"),
+      },
+      {
         path: "/partenaire/demandes",
         name: "listeDemandes",
         component: () => import("pages/demande/ListeDemandePage.vue"),
