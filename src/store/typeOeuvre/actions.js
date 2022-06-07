@@ -58,7 +58,6 @@ export async function deleteType({ commit }, { id }) {
   try {
     await deleteDoc(doc(fire.firebasebd, "typeOeuvre", id));
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",

@@ -24,6 +24,15 @@
           <img :src="artiste.image" />
         </q-avatar>
       </div>
+      <div>
+        <q-btn
+          @click="cloture"
+          text-color="black"
+          color="accent"
+          no-caps
+          label="Clôturer cette emprunt"
+        />
+      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -33,6 +42,9 @@ export default {
     emprunt: {
       type: Object,
       required: true,
+    },
+    id: {
+      type: String,
     },
   },
   data() {
@@ -56,6 +68,11 @@ export default {
       idArtiste: this.oeuvre.idArtiste,
     });
     this.artiste = artiste;
+  },
+  methods: {
+    async cloture() {
+      this.$store.dispatch("clotureDemande", { id: this.id });
+    },
   },
 };
 </script>

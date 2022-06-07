@@ -125,7 +125,6 @@ export async function deleteArtiste({ dispatch }, { id, artiste }) {
     artiste.archiver = true;
     await setDoc(doc(fire.firebasebd, "artistes", id), artiste);
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -153,7 +152,6 @@ export async function activeArtiste({ dispatch }, { id, artiste }) {
     artiste.archiver = false;
     await setDoc(doc(fire.firebasebd, "artistes", id), artiste);
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",

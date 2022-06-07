@@ -6,7 +6,7 @@
       </template>
     </q-parallax>
     <q-card-section>
-      <div class="text-h6 flex">
+      <div class="text-h6">
         {{ oeuvre.nom }}
         <div class="">
           <q-badge
@@ -21,7 +21,9 @@
             color="black"
             :label="artiste.nom + ' ' + artiste.prenom"
           />
-          <span class="q-ml-sm"><q-icon :color="active.color" name="blur_on" /> </span>
+          <span class="q-ml-sm"
+            ><q-icon :color="active.color" name="radio_button_checked" />
+          </span>
         </div>
       </div>
 
@@ -38,6 +40,7 @@
           </q-expansion-item>
           <div class="col-1 q-mr-md q-ml-md">
             <q-btn
+              :disabled="!active.state"
               @click="createDemande"
               push
               size="18px"

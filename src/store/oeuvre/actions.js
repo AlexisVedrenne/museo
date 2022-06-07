@@ -143,7 +143,6 @@ export async function updateOeuvre({ dispatch }, { id, oeuvre }) {
       artiste: artiste,
     });
   } catch (error) {
-    console.log(error);
     Notify.create({
       progress: true,
       position: "top",
@@ -164,7 +163,6 @@ export async function fetchOeuvreByMusee({ commit }, { idMusee }) {
     const res = await getDocs(q);
     return res;
   } catch (error) {
-    console.log(error);
     Notify.create({
       progress: true,
       position: "top",
@@ -185,7 +183,6 @@ export async function fetchOeuvreByType({ commit }, { idType }) {
     const res = await getDocs(q);
     return res;
   } catch (error) {
-    console.log(error);
     Notify.create({
       progress: true,
       position: "top",
@@ -206,7 +203,6 @@ export async function fetchOeuvreByArtiste({ commit }, { idArtiste }) {
     const res = await getDocs(q);
     return res;
   } catch (error) {
-    console.log(error);
     Notify.create({
       progress: true,
       position: "top",
@@ -231,7 +227,6 @@ export async function fetchOeuvreByStatus({ dispatch }, { status }) {
     let oeuvre = { docs: reStatus };
     return oeuvre;
   } catch (error) {
-    console.log(error);
     Notify.create({
       progress: true,
       position: "top",

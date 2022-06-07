@@ -153,7 +153,7 @@
         v-for="(oeuvre, index) in oeuvres.docs"
         :key="index"
       >
-        <div v-if="user.role !== 'part'">
+        <div v-if="user.role === 'admin'">
           <CardPainting
             @detail="detail(oeuvre.id)"
             :index="index"
@@ -238,7 +238,14 @@ export default {
     };
   },
   async mounted() {
+    await this.$store.dispatch("fetchUserInfo");
     this.user = this.utils.localStorage.getItem("user");
+    if (this.user.role === "part") {
+      if (this.user.etat === false) {
+        await this.$store.dispatch("signLeft");
+        this.$router.push("connexion");
+      }
+    }
     if (this.$route.params.idMusee) {
       await this.snapshotByMusee();
     } else if (this.$route.params.idType) {

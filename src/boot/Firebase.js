@@ -14,7 +14,7 @@ const auth = fireauth.getAuth(app);
 const user = LocalStorage.getItem("user");
 function createNotify(message) {
   if (user) {
-    if (user.role !== "part") {
+    if (user.role === "admin") {
       Notify.create({
         progress: true,
         position: "top-right",
@@ -53,6 +53,8 @@ async function setSnapshot(q, collection) {
                 data.nom +
                 "</strong> a été ajouter !"
             )
+          : collection === "demande"
+          ? createNotify("Une nouvelle demande de prêt a été effectué !")
           : createNotify(
               "L'oeuvre <strong class='text-black'>" +
                 data.nom +
@@ -80,6 +82,8 @@ async function setSnapshot(q, collection) {
                 data.nom +
                 "</strong> a été modifier !"
             )
+          : collection === "demande"
+          ? createNotify("Une demande a été traité !")
           : createNotify(
               "L'oeuvre <strong class='text-black'>" +
                 data.nom +
@@ -107,6 +111,8 @@ async function setSnapshot(q, collection) {
                 data.nom +
                 "</strong> a été retirer !"
             )
+          : collection === "demande"
+          ? createNotify("Une demande a été cloturé")
           : createNotify(
               "L'oeuvre <strong class='text-black'>" +
                 data.nom +
@@ -122,10 +128,12 @@ async function initNotify(bd) {
   let resArtistes = await firestore.query(firestore.collection(bd, "artistes"));
   let resType = await firestore.query(firestore.collection(bd, "typeOeuvre"));
   let resOeuvre = await firestore.query(firestore.collection(bd, "oeuvre"));
+  let resDemande = await firestore.query(firestore.collection(bd, "demande"));
   await setSnapshot(resMusees, "musee");
   await setSnapshot(resArtistes, "artiste");
   await setSnapshot(resType, "type");
   await setSnapshot(resOeuvre, "oeuvre");
+  await setSnapshot(resDemande, "demande");
 }
 
 initNotify(firebasebd);

@@ -14,7 +14,7 @@
         :key="index"
         class="q-ma-md"
       >
-        <CardDemande :demande="demande.data()" />
+        <CardDemande :id="demande.id" :demande="demande.data()" />
       </q-intersection>
     </div>
   </q-page>
@@ -35,7 +35,14 @@ export default {
     };
   },
   async mounted() {
+    await this.$store.dispatch("fetchUserInfo");
     let user = this.utils.localStorage.getItem("user");
+    if (user.role === "part") {
+      if (user.etat === false) {
+        await this.$store.dispatch("signLeft");
+        this.$router.push("connexion");
+      }
+    }
     let res = await query(
       collection(fire.firebasebd, "demande"),
       where("idUser", "==", user.uid)

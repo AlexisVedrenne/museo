@@ -107,6 +107,7 @@
         </q-card>
       </q-dialog>
       <q-expansion-item
+        v-if="user.role === 'admin'"
         class="q-mt-sm"
         icon="art_track"
         label="Bibliographie"
@@ -137,7 +138,12 @@ export default {
     };
   },
   async mounted() {
+    await this.$store.dispatch("fetchUserInfo");
     this.user = this.utils.localStorage.getItem("user");
+    if (!this.user.etat) {
+      await this.$store.dispatch("signLeft");
+      this.$router.push("connexion");
+    }
     let resMusees = await query(collection(fire.firebasebd, "musees"));
     let resArtistes = await query(collection(fire.firebasebd, "artistes"));
     let resOeuvre = await query(collection(fire.firebasebd, "oeuvre"));
