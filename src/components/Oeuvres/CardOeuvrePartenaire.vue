@@ -6,7 +6,7 @@
       </template>
     </q-parallax>
     <q-card-section>
-      <div class="text-h6 flex">
+      <div class="text-h6">
         {{ oeuvre.nom }}
         <div class="">
           <q-badge
@@ -38,6 +38,7 @@
           </q-expansion-item>
           <div class="col-1 q-mr-md q-ml-md">
             <q-btn
+              :disabled="!active.state"
               @click="createDemande"
               push
               size="18px"
