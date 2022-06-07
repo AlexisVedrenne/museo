@@ -153,7 +153,7 @@
         v-for="(oeuvre, index) in oeuvres.docs"
         :key="index"
       >
-        <div v-if="user.role !== 'part'">
+        <div v-if="user.role === 'admin'">
           <CardPainting
             @detail="detail(oeuvre.id)"
             :index="index"

@@ -21,7 +21,9 @@
             color="black"
             :label="artiste.nom + ' ' + artiste.prenom"
           />
-          <span class="q-ml-sm"><q-icon :color="active.color" name="blur_on" /> </span>
+          <span class="q-ml-sm"
+            ><q-icon :color="active.color" name="radio_button_checked" />
+          </span>
         </div>
       </div>
 
