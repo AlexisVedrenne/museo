@@ -17,13 +17,19 @@
           </p>
         </div>
         <div class="col-3 row justify-end">
-          <q-btn @click="deleteMusee" flat color="negative" icon="delete" />
+          <q-btn
+            v-if="infos.etat"
+            @click="desactive"
+            flat
+            color="negative"
+            icon="delete"
+          />
           <q-btn
             :to="'/musee/oeuvre/' + id"
             text-color="primary"
             color="accent"
             no-caps
-            label="Voir les emprunts"
+            :label="infos.etat ? 'Voir les emprunts' : 'Activer ce compte'"
           />
         </div></div
     ></q-card-section>
@@ -36,6 +42,9 @@ export default {
   props: {
     infos: {
       type: Object,
+    },
+    id: {
+      type: String,
     },
   },
   data() {
@@ -50,6 +59,13 @@ export default {
     });
     this.musee = musee;
   },
-  methods: {},
+  methods: {
+    async desactive() {
+      await this.$store.dispatch("desactivePartenaire", {
+        id: this.id,
+        compte: this.infos,
+      });
+    },
+  },
 };
 </script>

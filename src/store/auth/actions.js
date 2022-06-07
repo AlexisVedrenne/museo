@@ -13,6 +13,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   createUserWithEmailAndPassword,
+  ds,
 } from "firebase/auth";
 import { Notify } from "quasar";
 import "core-js/es/array";
@@ -217,7 +218,6 @@ export async function fetchComptePartenaire() {
 
 export async function createPartenaire({ commit }, { compte }) {
   try {
-    console.log(compte.mail);
     let res = await createUserWithEmailAndPassword(
       fire.auth,
       compte.mail,
@@ -231,13 +231,32 @@ export async function createPartenaire({ commit }, { compte }) {
     );
     return userRef;
   } catch (error) {
-    console.log(error);
     Notify.create({
       progress: true,
       position: "top",
       timeout: 1000,
       icon: "warning",
       message: "Error lors de la création d'un compte partenaire !",
+      color: "negative",
+    });
+  }
+}
+
+export async function desactivePartenaire({ dispatch }, { id, compte }) {
+  try {
+    compte.etat = false;
+    await setDoc(doc(fire.firebasebd, "utilisateurs", id), compte);
+    let demandes = await dispatch("fetchDemandeByUser", { id: compte.uid });
+    for (let i = 0; i < demandes.docs.length; i++) {
+      await dispatch("clotureDemande", { id: demandes.docs[i].id });
+    }
+  } catch (error) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de suppression d'un partenaire",
       color: "negative",
     });
   }

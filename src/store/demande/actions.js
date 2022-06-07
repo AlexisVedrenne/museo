@@ -180,3 +180,24 @@ export async function clotureDemande({ commit }, { id }) {
     });
   }
 }
+
+export async function fetchDemandeByUser({ commit }, { id }) {
+  try {
+    const q = await query(
+      collection(fire.firebasebd, "demande"),
+      where("idUser", "==", id)
+    );
+    const res = await getDocs(q);
+    return res;
+  } catch (e) {
+    console.log(e);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur lors récupération des demandes.",
+      color: "negative",
+    });
+  }
+}

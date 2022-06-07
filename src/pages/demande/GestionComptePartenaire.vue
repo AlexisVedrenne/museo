@@ -14,7 +14,7 @@
         :key="index"
         class="q-ma-md"
       >
-        <CardCompte :infos="compte.data()" />
+        <CardCompte :id="compte.id" :infos="compte.data()" />
       </q-intersection>
 
       <div v-if="comptes.docs.length == 0">
