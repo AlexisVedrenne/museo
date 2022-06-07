@@ -24,7 +24,6 @@ export async function fetchAllDemandes() {
     const res = await getDocs(q);
     return res;
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -105,7 +104,6 @@ export async function fetchAllEmprunt() {
     const res = await getDocs(q);
     return res || { docs: [] };
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -126,7 +124,6 @@ export async function fetchAllDemande() {
     const res = await getDocs(q);
     return res || { docs: [] };
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -143,7 +140,6 @@ export async function acceptDemande({ commit }, { demande, id }) {
     demande.etat = 1;
     await setDoc(doc(fire.firebasebd, "demande", id), demande);
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -160,7 +156,6 @@ export async function refuseDemande({ commit }, { demande, id }) {
     demande.etat = 2;
     await setDoc(doc(fire.firebasebd, "demande", id), demande);
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -176,7 +171,6 @@ export async function clotureDemande({ commit }, { id }) {
   try {
     await deleteDoc(doc(fire.firebasebd, "demande", id));
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -197,7 +191,6 @@ export async function fetchDemandeByUser({ commit }, { id }) {
     const res = await getDocs(q);
     return res;
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",

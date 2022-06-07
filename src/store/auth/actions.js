@@ -70,7 +70,6 @@ export async function signInPartenaire({ dispatch }, { infos }) {
     });
     return res;
   } catch (error) {
-    console.log(error);
     Notify.create({
       progress: true,
       position: "top",
@@ -230,7 +229,6 @@ export async function createPartenaire({ commit }, { compte }) {
       "123456"
     );
     compte.uid = res.user.uid;
-    console.log(compte);
     const userRef = await addDoc(
       collection(fire.firebasebd, "utilisateurs"),
       compte
