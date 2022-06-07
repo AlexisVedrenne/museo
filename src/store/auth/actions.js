@@ -267,3 +267,19 @@ export async function desactivePartenaire({ dispatch }, { id, compte }) {
     });
   }
 }
+
+export async function activePartenaire({ dispatch }, { id, compte }) {
+  try {
+    compte.etat = true;
+    await setDoc(doc(fire.firebasebd, "utilisateurs", id), compte);
+  } catch (error) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de suppression d'un partenaire",
+      color: "negative",
+    });
+  }
+}

@@ -32,11 +32,20 @@
             icon="delete"
           />
           <q-btn
+            v-if="infos.etat"
             :to="'/musee/oeuvre/' + id"
             text-color="primary"
             color="accent"
             no-caps
-            :label="infos.etat ? 'Voir les emprunts' : 'Activer ce compte'"
+            label="Voir les emprunts"
+          />
+          <q-btn
+            v-if="!infos.etat"
+            @click="active"
+            text-color="primary"
+            color="accent"
+            no-caps
+            label="Activer ce compte"
           />
         </div></div
     ></q-card-section>
@@ -69,6 +78,12 @@ export default {
   methods: {
     async desactive() {
       await this.$store.dispatch("desactivePartenaire", {
+        id: this.id,
+        compte: this.infos,
+      });
+    },
+    async active() {
+      await this.$store.dispatch("activePartenaire", {
         id: this.id,
         compte: this.infos,
       });
