@@ -118,7 +118,12 @@ export default {
         });
         this.loading = false;
         if (user) {
-          this.$router.push({ name: "home" });
+          let u = this.utils.localStorage.getItem("user");
+          if (u.etat) {
+            this.$router.push({ name: "home" });
+          } else {
+            await this.$store.dispatch("signLeft");
+          }
         }
       }
     },

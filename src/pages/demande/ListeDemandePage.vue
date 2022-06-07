@@ -35,7 +35,14 @@ export default {
     };
   },
   async mounted() {
+    await this.$store.dispatch("fetchUserInfo");
     let user = this.utils.localStorage.getItem("user");
+    if (user.role === "part") {
+      if (user.etat === false) {
+        await this.$store.dispatch("signLeft");
+        this.$router.push("connexion");
+      }
+    }
     let res = await query(
       collection(fire.firebasebd, "demande"),
       where("idUser", "==", user.uid)

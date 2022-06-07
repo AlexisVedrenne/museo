@@ -91,6 +91,7 @@ export async function signIn({ dispatch }, { infos }) {
     );
     await LocalStorage.set("authCredential", res);
     await dispatch("fetchUserInfo");
+    let user = LocalStorage.getItem("user");
     Notify.create({
       progress: true,
       position: "top",
@@ -145,7 +146,12 @@ export async function fetchCodePartenaire({ commit }, { code }) {
     );
     const res = await getDocs(q);
     const infos = res.docs[0].data();
-    await LocalStorage.set("user", infos);
+    if (infos.etat) {
+      await LocalStorage.set("user", infos);
+    } else {
+      throw "Compte désactiver";
+    }
+
     Notify.create({
       progress: true,
       position: "top",

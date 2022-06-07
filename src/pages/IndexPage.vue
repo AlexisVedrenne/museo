@@ -238,7 +238,14 @@ export default {
     };
   },
   async mounted() {
+    await this.$store.dispatch("fetchUserInfo");
     this.user = this.utils.localStorage.getItem("user");
+    if (this.user.role === "part") {
+      if (this.user.etat === false) {
+        await this.$store.dispatch("signLeft");
+        this.$router.push("connexion");
+      }
+    }
     if (this.$route.params.idMusee) {
       await this.snapshotByMusee();
     } else if (this.$route.params.idType) {

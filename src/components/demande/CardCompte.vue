@@ -1,9 +1,16 @@
 <template>
-  <q-card>
+  <q-card :class="!infos.etat ? 'bg-grey-5' : ''">
     <q-card-section
       ><div class="row">
         <div v-if="musee" class="col row items-center">
-          <p style="font-size: 15px" class="col-2 q-ma-none text-bold">
+          <p
+            style="font-size: 15px"
+            :class="
+              infos.etat == true
+                ? 'col-2 q-ma-none text-bold'
+                : 'col-2 q-ma-none text-grey'
+            "
+          >
             {{ musee.nom }}
           </p>
           <p style="font-size: 15px" class="col text-grey q-ma-none q-ml-sm">
