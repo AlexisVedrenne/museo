@@ -9,7 +9,11 @@ import {
   setDoc,
   doc,
 } from "firebase/firestore";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { Notify } from "quasar";
 import "core-js/es/array";
 
@@ -206,6 +210,34 @@ export async function fetchComptePartenaire() {
       timeout: 1000,
       icon: "warning",
       message: "Error lors de la récupération des comptes partenaires !",
+      color: "negative",
+    });
+  }
+}
+
+export async function createPartenaire({ commit }, { compte }) {
+  try {
+    console.log(compte.mail);
+    let res = await createUserWithEmailAndPassword(
+      fire.auth,
+      compte.mail,
+      "123456"
+    );
+    compte.uid = res.user.uid;
+    console.log(compte);
+    const userRef = await addDoc(
+      collection(fire.firebasebd, "utilisateurs"),
+      compte
+    );
+    return userRef;
+  } catch (error) {
+    console.log(error);
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Error lors de la création d'un compte partenaire !",
       color: "negative",
     });
   }

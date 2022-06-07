@@ -113,7 +113,19 @@ export default {
       });
       this.listeMusee = options;
     },
-    async submit() {},
+    async submit() {
+      this.loading = true;
+      let email = this.compte.idMusee.label + "@museo.com";
+      email = email.toLowerCase();
+      email = email.replace(/ /g, "");
+      this.compte.nom = this.compte.idMusee.label;
+      this.compte.mail = email;
+      let idMusee = this.compte.idMusee.val;
+      this.compte.idMusee = this.compte.idMusee.id;
+      await this.$store.dispatch("createPartenaire", { compte: this.compte });
+      this.loading = false;
+      this.add = false;
+    },
   },
 };
 </script>
