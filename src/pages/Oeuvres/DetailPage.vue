@@ -17,9 +17,18 @@
           color="secondary"
           icon="arrow_back_ios"
         />
-        <div v-if="user && user.role !== 'part'" class="col row justify-end q-mr-md">
-          <q-btn round flat color="secondary" icon="edit" />
-          <q-btn @click="archiveOeuvre" round flat color="negative" icon="delete" />
+        <div
+          v-if="user && user.role !== 'part'"
+          class="col row justify-end q-mr-md"
+        >
+          <q-btn @click="editOeuvre" round flat color="secondary" icon="edit" />
+          <q-btn
+            @click="archiveOeuvre"
+            round
+            flat
+            color="negative"
+            icon="delete"
+          />
         </div>
       </div>
       <section class="row items-center q-mr-md q-ml-md">
@@ -69,18 +78,25 @@
             </div>
             <span class="vertical text-grey q-mt-md q-ml-md"></span>
             <div class="col q-mt-lg">
-              <p style="font-size: 16px" class="text-center text-bold">Appartenance</p>
+              <p style="font-size: 16px" class="text-center text-bold">
+                Appartenance
+              </p>
               <p style="font-size: 16px" class="text-center text-grey">
                 {{ musee.nom }}
               </p>
-              <p style="font-size: 16px" class="text-center text-bold">Exposition</p>
+              <p style="font-size: 16px" class="text-center text-bold">
+                Exposition
+              </p>
               <p style="font-size: 16px" class="text-center text-grey">
                 {{ exposition.nom }}
               </p>
             </div>
           </section>
           <div class="row items-center justify-center q-mt-md">
-            <p class="text-brown text-bold col-5 q-ma-none" style="font-size: 16px">
+            <p
+              class="text-brown text-bold col-5 q-ma-none"
+              style="font-size: 16px"
+            >
               En {{ oeuvre.etat.nom }}
               <span><q-icon :name="oeuvre.etat.icon" /></span>
             </p>
@@ -190,6 +206,9 @@ export default {
       this.musee = await this.$store.dispatch("fetchMusee", {
         idMusee: this.oeuvre.idMuse,
       });
+    },
+    editOeuvre() {
+      this.$router.push("/oeuvre/edit/" + this.id);
     },
     archiveOeuvre() {
       this.utils

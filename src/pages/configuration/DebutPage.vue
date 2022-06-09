@@ -64,6 +64,9 @@ export default {
       },
     };
   },
+  mounted() {
+    this.utils.localStorage.clear();
+  },
   methods: {
     setType() {
       this.utils.localStorage.set("config", this.configuration);

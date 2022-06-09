@@ -1,5 +1,9 @@
 <template>
-  <q-card v-if="oeuvre" v-ripple class="my-box cursor-pointer q-hoverable scale-hover">
+  <q-card
+    v-if="oeuvre"
+    v-ripple
+    class="my-box cursor-pointer q-hoverable scale-hover"
+  >
     <q-parallax @click="this.$emit('detail')" :height="150" :speed="0.5">
       <template v-slot:media>
         <img :src="oeuvre.image" />
@@ -12,7 +16,10 @@
           <q-badge
             rounded
             outline
-            :style="'margin-left: 20px; margin-right: 10px;color:' + oeuvre.type.couleur"
+            :style="
+              'margin-left: 20px; margin-right: 10px;color:' +
+              oeuvre.type.couleur
+            "
             :label="oeuvre.type.nom"
           />
           <q-badge
@@ -113,7 +120,7 @@ export default {
   },
   methods: {
     edit() {
-      this.$router.push("/oeuvre/edit/" + this.index);
+      this.$router.push("/oeuvre/edit/" + this.id);
     },
     archiveOeuvre() {
       this.utils

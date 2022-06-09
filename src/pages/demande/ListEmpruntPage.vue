@@ -2,11 +2,25 @@
   <q-page>
     <q-card square class="bg-primary text-white"
       ><q-card-section
-        ><p class="text-center text-bold" style="font-size: 30px">
-          Mes emprunts
+        ><p v-if="user" class="text-center text-bold" style="font-size: 30px">
+          {{
+            this.$route.params.id
+              ? "Emprunts du musée " + user.nom
+              : "Mes emprunts"
+          }}
         </p></q-card-section
       ></q-card
     >
+    <div v-if="this.$route.params.id" class="row">
+      <q-btn
+        :to="{ name: 'listeComptePartenaire' }"
+        class="q-ml-md"
+        round
+        flat
+        color="secondary"
+        icon="arrow_back_ios"
+      />
+    </div>
     <div v-if="emprunts">
       <q-intersection
         transition="scale"
@@ -41,13 +55,21 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("fetchUserInfo");
-    let user = this.utils.localStorage.getItem("user");
-    if (user.role === "part") {
-      if (user.etat === false) {
-        await this.$store.dispatch("signLeft");
-        this.$router.push("connexion");
+    let user = null;
+    if (!this.$route.params.id) {
+      await this.$store.dispatch("fetchUserInfo");
+      user = this.utils.localStorage.getItem("user");
+      if (user.role === "part") {
+        if (user.etat === false) {
+          await this.$store.dispatch("signLeft");
+          this.$router.push("connexion");
+        }
       }
+    } else {
+      user = await this.$store.dispatch("fetchUserInfosById", {
+        id: this.$route.params.id,
+      });
+      this.user = user;
     }
     let res = await await query(
       collection(fire.firebasebd, "demande"),
@@ -70,7 +92,15 @@ export default {
   methods: {
     async refresh() {
       this.emprunts = null;
-      let emprunts = await this.$store.dispatch("fetchAllEmprunt");
+      let emprunts = null;
+      if (!this.$route.params.id) {
+        emprunts = await this.$store.dispatch("fetchAllEmprunt");
+      } else {
+        emprunts = await this.$store.dispatch("fetchEmpruntById", {
+          id: this.$route.params.id,
+        });
+      }
+
       this.emprunts = emprunts;
     },
   },

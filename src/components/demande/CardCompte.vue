@@ -33,7 +33,7 @@
           />
           <q-btn
             v-if="infos.etat"
-            :to="'/musee/oeuvre/' + id"
+            :to="'/partenaire/emprunts/' + infos.uid"
             text-color="primary"
             color="accent"
             no-caps

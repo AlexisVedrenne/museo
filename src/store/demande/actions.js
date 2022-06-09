@@ -201,3 +201,24 @@ export async function fetchDemandeByUser({ commit }, { id }) {
     });
   }
 }
+
+export async function fetchEmpruntById({ commit }, { id }) {
+  try {
+    const q = await query(
+      collection(fire.firebasebd, "demande"),
+      where("idUser", "==", id),
+      where("etat", "==", 1)
+    );
+    const res = await getDocs(q);
+    return res || { docs: [] };
+  } catch (e) {
+    Notify.create({
+      progress: true,
+      position: "top",
+      timeout: 1000,
+      icon: "warning",
+      message: "Une erreur lors de la récupération des emprunts.",
+      color: "negative",
+    });
+  }
+}

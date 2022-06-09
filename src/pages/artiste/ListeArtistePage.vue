@@ -10,6 +10,7 @@
       >
       <div v-if="artistes">
         <q-intersection
+          once
           transition="scale"
           v-for="(artiste, index) in artistes"
           :key="index"

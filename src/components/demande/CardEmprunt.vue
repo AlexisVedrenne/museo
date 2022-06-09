@@ -26,11 +26,12 @@
       </div>
       <div>
         <q-btn
+          v-if="this.$route.params.id"
           @click="cloture"
           text-color="black"
           color="accent"
           no-caps
-          label="Clôturer cette emprunt"
+          label="Clôturer cet emprunt"
         />
       </div>
     </q-card-section>

@@ -105,8 +105,13 @@ const routes = [
         component: () => import("pages/demande/ListeDemandePage.vue"),
       },
       {
-        path: "partenaire/emprunts",
+        path: "/partenaire/emprunts",
         name: "listeEmprunts",
+        component: () => import("pages/demande/ListEmpruntPage.vue"),
+      },
+      {
+        path: "/partenaire/emprunts/:id",
+        name: "listeEmpruntsMusee",
         component: () => import("pages/demande/ListEmpruntPage.vue"),
       },
     ],
