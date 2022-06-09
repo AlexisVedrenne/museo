@@ -37,14 +37,21 @@ export default route(function (/* { store, ssrContext } */) {
   });
   Router.beforeEach(async (to, from, next) => {
     let credential = LocalStorage.getItem("authCredential");
-    let user = LocalStorage.getItem("user");
-    if (to.meta.mustBeLogged && credential) {
+    let config = LocalStorage.getItem("config");
+    if (!config) {
+      config = { fin: false };
+    }
+    if (to.meta.mustBeLogged && credential && config.fin) {
       next();
-    } else if (to.meta.mustBeLogged && !credential) {
+    } else if (to.meta.mustBeLogged && !credential && config.fin) {
       next({ name: "connexion" });
-    } else if (!to.meta.mustBeLogged && credential) {
-      if (to.name == "connexion") next({ name: "home" });
+    } else if (!to.meta.mustBeLogged && credential && config.fin) {
+      if (to.name === "connexion") next({ name: "home" });
       else next();
+    } else if (!config.fin && to.name === "connexion") {
+      next({ name: "debut" });
+    } else if (to.meta.config && config.fin) {
+      next({ name: "home" });
     } else next();
   });
   return Router;

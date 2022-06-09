@@ -12,9 +12,11 @@ import { Notify } from "quasar";
 import "core-js/es/array";
 
 export async function fecthTypeOeuvre({ dispatch }, { id }) {
-  let res = await dispatch("fetchAllTypeOeuvre");
-  let type = await res.docs.find((type) => type.id === id);
-  return type.data();
+  try {
+    let res = await dispatch("fetchAllTypeOeuvre");
+    let type = await res.docs.find((type) => type.id === id);
+    return type.data();
+  } catch (error) {}
 }
 
 export async function fetchAllTypeOeuvre() {
@@ -56,7 +58,6 @@ export async function deleteType({ commit }, { id }) {
   try {
     await deleteDoc(doc(fire.firebasebd, "typeOeuvre", id));
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",

@@ -1,9 +1,5 @@
 <template>
-  <q-card
-    v-if="oeuvre"
-    v-ripple
-    class="my-box cursor-pointer q-hoverable scale-hover"
-  >
+  <q-card v-if="oeuvre" v-ripple class="my-box cursor-pointer q-hoverable scale-hover">
     <q-parallax @click="this.$emit('detail')" :height="150" :speed="0.5">
       <template v-slot:media>
         <img :src="oeuvre.image" />
@@ -16,10 +12,7 @@
           <q-badge
             rounded
             outline
-            :style="
-              'margin-left: 20px; margin-right: 10px;color:' +
-              oeuvre.type.couleur
-            "
+            :style="'margin-left: 20px; margin-right: 10px;color:' + oeuvre.type.couleur"
             :label="oeuvre.type.nom"
           />
           <q-badge
@@ -29,31 +22,34 @@
             :label="artiste.nom + ' ' + artiste.prenom"
           />
           <span class="q-ml-sm"
-            ><q-icon color="primary" :name="oeuvre.etat.icon" />
+            ><q-icon :color="active.color" name="radio_button_checked" />
           </span>
         </div>
       </div>
 
       <div class="text-subtitle2">
-        <q-expansion-item
-          group="somegroup"
-          icon="description"
-          label="Description"
-          header-class="text-primary"
-        >
-          <p class="text-justify">{{ oeuvre.briefDescrition }}</p>
-        </q-expansion-item>
-        <q-card-actions align="right">
-          <q-btn @click="edit" flat color="secondary" icon="edit" size="15px" />
-          <q-btn
-            :disable="oeuvre.etat.nom === 'stock' ? true : false"
-            @click="archiveOeuvre"
-            flat
-            color="negative"
-            icon="delete"
-            size="15px"
-          />
-        </q-card-actions>
+        <div class="row items-center">
+          <q-expansion-item
+            class="col"
+            group="somegroup"
+            icon="description"
+            label="Description"
+            header-class="text-primary"
+          >
+            <p class="text-justify">{{ oeuvre.briefDescrition }}</p>
+          </q-expansion-item>
+          <div class="col-1 q-mr-md q-ml-md">
+            <q-btn
+              :disabled="!active.state"
+              @click="createDemande"
+              push
+              size="18px"
+              round
+              icon="mail"
+              color="secondary"
+            />
+          </div>
+        </div>
       </div>
     </q-card-section>
   </q-card>
@@ -97,9 +93,6 @@ export default {
       type: String,
       required: true,
     },
-    index: {
-      required: false,
-    },
   },
 
   data() {
@@ -107,6 +100,10 @@ export default {
       utils: useQuasar(),
       artiste: {},
       oeuvre: this.proOeuvre,
+      active: {
+        color: "",
+        sate: false,
+      },
     };
   },
   async mounted() {
@@ -117,41 +114,20 @@ export default {
       id: this.oeuvre.type,
     });
     this.oeuvre.type = type;
+    this.setActive();
   },
   methods: {
-    edit() {
-      this.$router.push("/oeuvre/edit/" + this.id);
+    setActive() {
+      if (this.oeuvre.etat.nom === "exposition") {
+        this.active.color = "positive";
+        this.active.state = true;
+      } else {
+        this.active.color = "negative";
+        this.active.state = false;
+      }
     },
-    archiveOeuvre() {
-      this.utils
-        .dialog({
-          title: "Attention !",
-          html: true,
-          message:
-            "Vous etes sur de vouloir archiver l'oeuvre <strong>'" +
-            this.oeuvre.nom +
-            "'</strong> ?",
-          cancel: true,
-          persistent: true,
-          ok: {
-            label: "Archiver",
-            color: "negative",
-            flat: true,
-          },
-          cancel: {
-            label: "Annuler",
-            flat: true,
-            color: "primary",
-          },
-        })
-        .onOk(async () => {
-          this.utils.loading.show();
-          await this.$store.dispatch("archiveOeuvre", {
-            id: this.id,
-            oeuvre: this.oeuvre,
-          });
-          this.utils.loading.hide();
-        });
+    async createDemande(id) {
+      await this.$store.dispatch("createDemande", { idOeuvre: this.id });
     },
   },
 };

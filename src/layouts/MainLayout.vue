@@ -2,17 +2,10 @@
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>
-          Administrateur
+        <q-toolbar-title v-if="user">
+          {{ !user.role === "1" ? "2istrateur" : user.nom }}
           <q-avatar> <q-img src="~assets/logoMuseoBlanc.png" /> </q-avatar
         ></q-toolbar-title>
       </q-toolbar>
@@ -39,12 +32,9 @@
             />
           </div>
         </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <div v-for="link in essentialLinks" :key="link.title">
+          <EssentialLink v-if="link.type === type || link.type === 'all'" v-bind="link" />
+        </div>
       </q-list>
     </q-drawer>
 
@@ -72,31 +62,65 @@
 <script>
 import { defineComponent, ref } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
-
+import { useQuasar } from "quasar";
 const linksList = [
   {
     title: "Oeuvres",
     caption: "",
     icon: "vrpano",
     link: { name: "home" },
+    type: "all",
   },
   {
     title: "Types oeuvres",
     caption: "",
     icon: "description",
     link: { name: "ListTypeOeuvre" },
+    type: "2",
   },
   {
     title: "Artistes",
     caption: "",
     icon: "person",
     link: { name: "ListeArtiste" },
+    type: "2",
   },
+
   {
     title: "Musées",
     caption: "",
     icon: "account_balance",
     link: { name: "listMusee" },
+    type: "2",
+  },
+  {
+    title: "Compte partenaire",
+    caption: "",
+    icon: "apartment",
+    link: { name: "listeComptePartenaire" },
+    type: "2",
+  },
+  {
+    title: "Gestion des demandes",
+    caption: "",
+    icon: "bookmark",
+    link: { name: "gestionDemande" },
+    type: "2",
+  },
+  {
+    title: "Suivit de demande",
+    caption: "",
+    icon: "shopping_cart",
+    link: { name: "listeDemandes" },
+    type: "1",
+  },
+
+  {
+    title: "Mes emprunts",
+    caption: "",
+    icon: "bookmark",
+    link: { name: "listeEmprunts" },
+    type: "1",
   },
 ];
 
@@ -111,6 +135,21 @@ export default defineComponent({
       await this.$store.dispatch("signLeft");
       this.$router.push({ name: "connexion" });
     },
+  },
+  data() {
+    return {
+      utils: useQuasar(),
+      user: null,
+      type: "",
+    };
+  },
+  mounted() {
+    this.user = this.utils.localStorage.getItem("user");
+    if (this.user.role === "part") {
+      this.type = "1";
+    } else {
+      this.type = "2";
+    }
   },
   setup() {
     const leftDrawerOpen = ref(false);

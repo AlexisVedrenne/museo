@@ -19,6 +19,24 @@
       >
         <q-form class="col row items-center q-pt-xl q-mr-xl" @submit="submit">
           <section class="col">
+            <div class="row items-center">
+              <p
+                style="font-size: 16px"
+                v-if="config"
+                class="text-center text-bold q-ma-none"
+              >
+                Connexion
+                {{ config.type === "1" ? "administrateur" : "partenaire" }}
+              </p>
+              <q-btn
+                @click="resetConfig"
+                style="border-radius: 50px"
+                class="q-ml-sm"
+                no-caps
+                color="primary"
+                label="Réinitialiser la configuration"
+              />
+            </div>
             <q-input
               v-model="email"
               class="q-mb-lg"
@@ -65,23 +83,48 @@
 </template>
 
 <script>
+import { useQuasar } from "quasar";
 export default {
   data() {
     return {
+      config: null,
+      utils: useQuasar(),
       loading: false,
       email: "",
       password: "",
     };
   },
+  mounted() {
+    this.config = this.utils.localStorage.getItem("config");
+  },
   methods: {
+    resetConfig() {
+      this.utils.localStorage.clear();
+      this.$router.push({ name: "debut" });
+    },
     async submit() {
       this.loading = true;
-      let user = await this.$store.dispatch("signIn", {
-        infos: { password: this.password, email: this.email },
-      });
-      this.loading = false;
-      if (user) {
-        this.$router.push({ name: "home" });
+      if (this.config.type == "1") {
+        let user = await this.$store.dispatch("signIn", {
+          infos: { password: this.password, email: this.email },
+        });
+        this.loading = false;
+        if (user) {
+          this.$router.push({ name: "home" });
+        }
+      } else {
+        let user = await this.$store.dispatch("signInPartenaire", {
+          infos: { password: this.password, email: this.email },
+        });
+        this.loading = false;
+        if (user) {
+          let u = this.utils.localStorage.getItem("user");
+          if (u.etat) {
+            this.$router.push({ name: "home" });
+          } else {
+            await this.$store.dispatch("signLeft");
+          }
+        }
       }
     },
   },

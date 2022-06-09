@@ -18,10 +18,9 @@ export async function fetchMusee({ commit }, { idMusee }) {
   try {
     const res = await getDocs(collection(fire.firebasebd, "musees"));
 
-    let musee = res.docs.filter((docMusee) => docMusee.id == idMusee);
+    let musee = res.docs.filter((docMusee) => docMusee.id === idMusee);
     return musee.length > 0 ? musee[0].data() : null;
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -69,7 +68,6 @@ export async function updateMusee({ commit }, { musee, id }) {
   try {
     await setDoc(doc(fire.firebasebd, "musees", id), musee);
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",
@@ -85,7 +83,6 @@ export async function deleteMusee({ commit }, { id }) {
   try {
     await deleteDoc(doc(fire.firebasebd, "musees", id));
   } catch (e) {
-    console.log(e);
     Notify.create({
       progress: true,
       position: "top",

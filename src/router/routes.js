@@ -1,9 +1,37 @@
 const routes = [
   {
     meta: { mustBeLogged: false },
+    path: "/connexion",
+    component: () => import("layouts/EmptyLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "connexion",
+        component: () => import("pages/ConnexionPage.vue"),
+      },
+    ],
+  },
+  {
+    meta: { mustBeLogged: false, config: true },
     path: "/",
-    name: "connexion",
-    component: () => import("pages/ConnexionPage.vue"),
+    component: () => import("layouts/EmptyLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "debut",
+        component: () => import("pages/configuration/DebutPage.vue"),
+      },
+      {
+        path: "code-partenaire",
+        name: "codePartenaire",
+        component: () => import("pages/configuration/CodePartenaire.vue"),
+      },
+      {
+        path: "fin-partenaire",
+        name: "finPartenaire",
+        component: () => import("pages/configuration/FinPartenaire.vue"),
+      },
+    ],
   },
   {
     meta: { mustBeLogged: true },
@@ -60,6 +88,31 @@ const routes = [
         path: "/artiste/oeuvre/:idArtiste",
         name: "listeOeuvreArtiste",
         component: () => import("pages/IndexPage.vue"),
+      },
+      {
+        path: "/demandes",
+        name: "gestionDemande",
+        component: () => import("pages/demande/GestionDemandePage.vue"),
+      },
+      {
+        path: "demandes/compte",
+        name: "listeComptePartenaire",
+        component: () => import("pages/demande/GestionComptePartenaire.vue"),
+      },
+      {
+        path: "/partenaire/demandes",
+        name: "listeDemandes",
+        component: () => import("pages/demande/ListeDemandePage.vue"),
+      },
+      {
+        path: "/partenaire/emprunts",
+        name: "listeEmprunts",
+        component: () => import("pages/demande/ListEmpruntPage.vue"),
+      },
+      {
+        path: "/partenaire/emprunts/:id",
+        name: "listeEmpruntsMusee",
+        component: () => import("pages/demande/ListEmpruntPage.vue"),
       },
     ],
   },

@@ -74,7 +74,13 @@
           </template>
         </q-select>
         <div class="column">
-          <q-btn @click="filtre" color="info" flat class="q-mr-sm" label="Filtrer" />
+          <q-btn
+            @click="filtre"
+            color="info"
+            flat
+            class="q-mr-sm"
+            label="Filtrer"
+          />
           <q-btn
             @click="resetAll"
             flat
@@ -153,12 +159,21 @@
         v-for="(oeuvre, index) in oeuvres.docs"
         :key="index"
       >
-        <CardPainting
-          @detail="detail(oeuvre.id)"
-          :index="index"
-          :id="oeuvre.id"
-          :proOeuvre="oeuvre.data()"
-        />
+        <div v-if="user.role === 'admin'">
+          <CardPainting
+            @detail="detail(oeuvre.id)"
+            :index="index"
+            :id="oeuvre.id"
+            :proOeuvre="oeuvre.data()"
+          />
+        </div>
+        <div v-else>
+          <CardOeuvrePartenaire
+            @detail="detail(oeuvre.id)"
+            :id="oeuvre.id"
+            :proOeuvre="oeuvre.data()"
+          />
+        </div>
       </q-intersection>
       <div class="col" v-if="oeuvres.docs.length === 0">
         <p class="text-center text-grey q-mt-lg" style="font-size: 18px">
@@ -169,27 +184,35 @@
     <div class="row justify-center q-mt-lg" v-else>
       <q-spinner-puff color="primary" size="50px" />
     </div>
-
-    <q-page-sticky
-      v-if="!this.$route.params.idMusee"
-      style="z-index: 2"
-      position="bottom-right"
-      :offset="[18, 18]"
-    >
-      <q-btn :to="{ name: 'ajoutOeuvre' }" fab icon="add" color="secondary" />
-    </q-page-sticky>
+    <div v-if="user">
+      <q-page-sticky
+        v-if="!this.$route.params.idMusee && user.role !== 'part'"
+        style="z-index: 2"
+        position="bottom-right"
+        :offset="[18, 18]"
+      >
+        <q-btn :to="{ name: 'ajoutOeuvre' }" fab icon="add" color="secondary" />
+      </q-page-sticky>
+    </div>
   </q-page>
 </template>
 
 <script>
-import { collection, getDocs, query, onSnapshot, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  onSnapshot,
+  where,
+} from "firebase/firestore";
 import fire from "src/boot/Firebase";
 import CardPainting from "components/Oeuvres/CardPainting.vue";
+import CardOeuvrePartenaire from "components/Oeuvres/CardOeuvrePartenaire.vue";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 export default {
   name: "IndexPage",
-  components: { CardPainting },
+  components: { CardPainting, CardOeuvrePartenaire },
   data() {
     return {
       save: null,
@@ -199,6 +222,7 @@ export default {
       filtreType: ref(null),
       filtreArtiste: ref(null),
       oeuvres: null,
+      user: null,
       types: [],
       artistes: [],
       status: [
@@ -226,6 +250,14 @@ export default {
     };
   },
   async mounted() {
+    await this.$store.dispatch("fetchUserInfo");
+    this.user = this.utils.localStorage.getItem("user");
+    if (this.user.role === "part") {
+      if (this.user.etat === false) {
+        await this.$store.dispatch("signLeft");
+        this.$router.push("connexion");
+      }
+    }
     if (this.$route.params.idMusee) {
       await this.snapshotByMusee();
     } else if (this.$route.params.idType) {
@@ -244,7 +276,12 @@ export default {
       let res = [];
       oeuvres.docs.forEach((oeuvre) => {
         let data = oeuvre.data();
-        if (data.nom.trim().toLowerCase().includes(this.recherche.trim().toLowerCase())) {
+        if (
+          data.nom
+            .trim()
+            .toLowerCase()
+            .includes(this.recherche.trim().toLowerCase())
+        ) {
           res.push(oeuvre);
         }
       });
@@ -279,24 +316,48 @@ export default {
     async filtre() {
       if (this.filtreArtiste && this.filtreType && this.filtreStatus) {
         await this.refreshByArtiste(this.filtreArtiste.value);
-        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreType.value, "type");
-        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
+        this.oeuvres = this.filtreLocal(
+          this.oeuvres,
+          this.filtreType.value,
+          "type"
+        );
+        this.oeuvres = this.filtreLocal(
+          this.oeuvres,
+          this.filtreStatus.value,
+          "status"
+        );
       } else if (this.filtreArtiste && this.filtreType) {
         await this.refreshByArtiste(this.filtreArtiste.value);
-        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreType.value, "type");
+        this.oeuvres = this.filtreLocal(
+          this.oeuvres,
+          this.filtreType.value,
+          "type"
+        );
       } else if (this.filtreArtiste && this.filtreStatus) {
         await this.refreshByArtiste(this.filtreArtiste.value);
-        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
+        this.oeuvres = this.filtreLocal(
+          this.oeuvres,
+          this.filtreStatus.value,
+          "status"
+        );
       } else if (this.filtreType && this.filtreStatus) {
         await this.refreshByType(this.filtreType.value);
-        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
+        this.oeuvres = this.filtreLocal(
+          this.oeuvres,
+          this.filtreStatus.value,
+          "status"
+        );
       } else if (this.filtreArtiste) {
         await this.refreshByArtiste(this.filtreArtiste.value);
       } else if (this.filtreType) {
         await this.refreshByType(this.filtreType.value);
       } else if (this.filtreStatus) {
         await this.refresh();
-        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
+        this.oeuvres = this.filtreLocal(
+          this.oeuvres,
+          this.filtreStatus.value,
+          "status"
+        );
       }
     },
     filtreLocal(oeuvres, filtre, typeFiltre) {
@@ -433,8 +494,8 @@ export default {
         });
       });
     },
-    detail(index) {
-      this.$router.push("/oeuvre/" + index);
+    detail(id) {
+      this.$router.push("/oeuvre/" + id);
     },
   },
 };
