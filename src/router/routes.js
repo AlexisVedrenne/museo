@@ -22,6 +22,11 @@ const routes = [
         component: () => import("pages/configuration/DebutPage.vue"),
       },
       {
+        path: "config",
+        name: "choixConfig",
+        component: () => import("pages/configuration/ConfigLogiciel.vue"),
+      },
+      {
         path: "code-partenaire",
         name: "codePartenaire",
         component: () => import("pages/configuration/CodePartenaire.vue"),

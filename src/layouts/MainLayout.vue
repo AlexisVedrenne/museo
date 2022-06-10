@@ -2,7 +2,17 @@
   <q-layout view="lHh Lpr lFf">
     <q-header>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <div v-if="user">
+          <q-btn
+            v-if="user.role !== 'visiteur'"
+            flat
+            dense
+            round
+            icon="menu"
+            aria-label="Menu"
+            @click="toggleLeftDrawer"
+          />
+        </div>
 
         <q-toolbar-title v-if="user">
           {{ !user.role === "1" ? "2istrateur" : user.nom }}
@@ -11,33 +21,42 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header>
-          <div class="row justify-center q-pa-md">
-            <q-img
-              src="~assets/logoMuseo.png"
-              loading="lazy"
-              spinner-color="white"
-              height="140px"
-              style="max-width: 150px"
-            />
+    <div v-if="user">
+      <q-drawer
+        v-if="user.role !== 'visiteur'"
+        v-model="leftDrawerOpen"
+        show-if-above
+        bordered
+      >
+        <q-list>
+          <q-item-label header>
+            <div class="row justify-center q-pa-md">
+              <q-img
+                src="~assets/logoMuseo.png"
+                loading="lazy"
+                spinner-color="white"
+                height="140px"
+                style="max-width: 150px"
+              />
 
-            <q-btn
-              @click="left"
-              class="q-mt-md"
-              flat
-              style="color: #e69138"
-              label="Deconnexion"
+              <q-btn
+                @click="left"
+                class="q-mt-md"
+                flat
+                style="color: #e69138"
+                label="Deconnexion"
+              />
+            </div>
+          </q-item-label>
+          <div v-for="link in essentialLinks" :key="link.title">
+            <EssentialLink
+              v-if="link.type === type || link.type === 'all'"
+              v-bind="link"
             />
           </div>
-        </q-item-label>
-        <div v-for="link in essentialLinks" :key="link.title">
-          <EssentialLink v-if="link.type === type || link.type === 'all'" v-bind="link" />
-        </div>
-      </q-list>
-    </q-drawer>
-
+        </q-list>
+      </q-drawer>
+    </div>
     <q-page-container>
       <transition
         :enter-active-class="

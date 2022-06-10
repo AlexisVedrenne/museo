@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <q-card class="bg-primary text-white" square>
+    <q-card v-if="user" class="bg-primary text-white" square>
       <q-card-section class="row items-center"
         ><q-select
           v-if="!this.$route.params.idArtiste"
@@ -53,6 +53,7 @@
             </q-item>
           </template></q-select
         ><q-select
+          v-if="user.role !== 'visiteur'"
           class="col-2 q-mr-md"
           color="primary"
           bg-color="secondary"
@@ -180,7 +181,7 @@
     </div>
     <div v-if="user">
       <q-page-sticky
-        v-if="!this.$route.params.idMusee && user.role !== 'part'"
+        v-if="!this.$route.params.idMusee && user.role === 'admin'"
         style="z-index: 2"
         position="bottom-right"
         :offset="[18, 18]"
@@ -238,7 +239,10 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("fetchUserInfo");
+    let config = this.utils.localStorage.getItem("config");
+    if (config.type !== "0") {
+      await this.$store.dispatch("fetchUserInfo");
+    }
     this.user = this.utils.localStorage.getItem("user");
     if (this.user.role === "part") {
       if (this.user.etat === false) {

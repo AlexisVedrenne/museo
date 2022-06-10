@@ -12,7 +12,7 @@
         </div>
       </section>
       <section class="col q-mt-xl q-ml-lg">
-        <p class="q-ma-none q-ml-sm" style="font-size: 30px">Bienvenue,</p>
+        <p class="q-ma-none q-ml-sm" style="font-size: 30px">Configuration pour,</p>
         <q-separator
           class="q-mb-lg"
           color="secondary"
@@ -22,31 +22,34 @@
           L'assistant de configuration du logiciel Muséo.
         </p>
         <p class="q-mt-lg text-center text-grey-8" style="width: 60%; font-size: 17px">
-          Vous êtes ?
+          Le logiciel de gestion du musée
         </p>
         <div style="width: 60%" class="row justify-center">
           <q-radio
             color="secondary"
             v-model="configuration.type"
             val="1"
-            label="Employé Muséo"
+            label="Gestion musée"
           />
         </div>
         <p style="width: 60%; font-size: 18px" class="text-secondary text-center q-mt-md">
           ou
         </p>
+        <p class="q-mt-lg text-center text-grey-8" style="width: 60%; font-size: 17px">
+          Le logiciel de guide pour les visiteurs
+        </p>
         <div style="width: 60%" class="row justify-center q-pr-lg">
           <q-radio
             color="secondary"
             v-model="configuration.type"
-            val="2"
-            label="Partenaire"
+            val="0"
+            label="Logiciel guide"
           />
         </div>
       </section>
     </div>
     <div class="row justify-end q-mr-lg q-mt-md">
-      <q-btn @click="setType" color="secondary" flat label="Commencer" />
+      <q-btn @click="setType" color="secondary" flat label="Terminer" />
     </div>
   </q-page>
 </template>
@@ -74,13 +77,15 @@ export default {
   },
   methods: {
     setType() {
+      this.configuration.fin = true;
       this.utils.localStorage.set("config", this.configuration);
-      if (this.configuration.type === "2") {
-        this.$router.push({ name: "codePartenaire" });
-      } else {
-        this.utils.localStorage.set("config", this.configuration);
-        this.$router.push({ name: "choixConfig" });
-      }
+      this.utils.localStorage.set("user", {
+        etat: true,
+        nom: "Visiteur",
+        role: "visiteur",
+      });
+      this.utils.localStorage.set("authCredential", true);
+      this.$router.push({ name: "home" });
     },
   },
 };
