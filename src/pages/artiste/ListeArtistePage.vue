@@ -89,7 +89,7 @@
                     <q-icon name="wallpaper" />
                   </template>
 
-                  <template v-slot:hint> Image(s) de l'oeuvre </template>
+                  <template v-slot:hint> Image de l'artiste </template>
 
                   <template v-slot:append>
                     <q-btn round dense flat icon="add" @click.stop />
