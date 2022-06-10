@@ -78,11 +78,7 @@
               <q-input
                 lazy-rules
                 :rules="[
-<<<<<<< HEAD
-                  (val) => (val && val.length > 0) || 'Vous devez écrire une addresse',
-=======
                   (val) => (val && val.length > 0) || 'Vous devez écrire une adresse',
->>>>>>> Adam-design
                 ]"
                 v-model="musee.adresse"
                 color="secondary"
