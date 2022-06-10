@@ -162,8 +162,15 @@
             :proOeuvre="oeuvre.data()"
           />
         </div>
-        <div v-else>
+        <div v-if="user.role === 'part'">
           <CardOeuvrePartenaire
+            @detail="detail(oeuvre.id)"
+            :id="oeuvre.id"
+            :proOeuvre="oeuvre.data()"
+          />
+        </div>
+        <div v-if="user.role === 'visiteur'">
+          <CardOeuvreUser
             @detail="detail(oeuvre.id)"
             :id="oeuvre.id"
             :proOeuvre="oeuvre.data()"
@@ -197,11 +204,12 @@ import { collection, getDocs, query, onSnapshot, where } from "firebase/firestor
 import fire from "src/boot/Firebase";
 import CardPainting from "components/Oeuvres/CardPainting.vue";
 import CardOeuvrePartenaire from "components/Oeuvres/CardOeuvrePartenaire.vue";
+import CardOeuvreUser from "components/Oeuvres/CardOeuvreUser.vue";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 export default {
   name: "IndexPage",
-  components: { CardPainting, CardOeuvrePartenaire },
+  components: { CardPainting, CardOeuvrePartenaire, CardOeuvreUser },
   data() {
     return {
       save: null,
@@ -361,7 +369,13 @@ export default {
     async refresh() {
       await this.refreshOptions();
       this.oeuvres = null;
-      this.oeuvres = await this.$store.dispatch("fetchAllOeuvres");
+      if (this.user.role === "visiteur") {
+        this.oeuvres = await this.$store.dispatch("fetchOeuvreByStatus", {
+          status: "exposition",
+        });
+      } else {
+        this.oeuvres = await this.$store.dispatch("fetchAllOeuvres");
+      }
     },
     async refreshByArtiste(id) {
       await this.refreshOptions();

@@ -17,7 +17,7 @@
           color="secondary"
           icon="arrow_back_ios"
         />
-        <div v-if="user && user.role !== 'part'" class="col row justify-end q-mr-md">
+        <div v-if="user && user.role === 'admin'" class="col row justify-end q-mr-md">
           <q-btn @click="editOeuvre" round flat color="secondary" icon="edit" />
           <q-btn @click="archiveOeuvre" round flat color="negative" icon="delete" />
         </div>
@@ -138,7 +138,10 @@ export default {
     };
   },
   async mounted() {
-    await this.$store.dispatch("fetchUserInfo");
+    let config = this.utils.localStorage.getItem("config");
+    if (config.type !== "0") {
+      await this.$store.dispatch("fetchUserInfo");
+    }
     this.user = this.utils.localStorage.getItem("user");
     if (!this.user.etat) {
       await this.$store.dispatch("signLeft");
