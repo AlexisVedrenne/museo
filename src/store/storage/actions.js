@@ -17,7 +17,7 @@ export async function fetchImg({ commit }, { img }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la récupération de l'image",
+      message: "Erreur lors de la récupération de l'image",
       color: "negative",
     });
   }
@@ -35,7 +35,7 @@ export async function uploadImage({ dispatch }, { image }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de l'enregistrement de l'images",
+      message: "Erreur lors de l'enregistrement de l'images",
       color: "negative",
     });
   }
@@ -52,7 +52,7 @@ export async function deleteImage({ commit }, { image }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la suppression de l'image",
+      message: "Erreur lors de la suppression de l'image",
       color: "negative",
     });
   }

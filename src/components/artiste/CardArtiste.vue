@@ -59,7 +59,7 @@
   >
     <q-card style="width: 500px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">Ajout d'un artiste</div>
+        <div class="text-h6">Modification d'un artiste</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>

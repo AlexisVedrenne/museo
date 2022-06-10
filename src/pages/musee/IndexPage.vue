@@ -62,7 +62,8 @@
               ><q-input
                 lazy-rules
                 :rules="[
-                  (val) => (val && val.length >= 10) || 'Un numéro possède 10 chiffres !',
+                  (val) =>
+                    (val && val.length >= 10) || 'Un numéro possède 10 ou 20 chiffres !',
                 ]"
                 type="number"
                 v-model="musee.tel"
@@ -77,12 +78,16 @@
               <q-input
                 lazy-rules
                 :rules="[
+<<<<<<< HEAD
                   (val) => (val && val.length > 0) || 'Vous devez écrire une addresse',
+=======
+                  (val) => (val && val.length > 0) || 'Vous devez écrire une adresse',
+>>>>>>> Adam-design
                 ]"
                 v-model="musee.adresse"
                 color="secondary"
                 class="col-7"
-                label="Addresse"
+                label="Adresse"
               >
                 <template v-slot:prepend> <q-icon name="place" /> </template
               ></q-input>

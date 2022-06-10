@@ -37,7 +37,7 @@ export async function fetchUserInfo() {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la récupération des informations !",
+      message: "Erreur lors de la récupération des informations !",
       color: "negative",
     });
   }
@@ -148,7 +148,7 @@ export async function fetchCodePartenaire({ commit }, { code }) {
     if (infos.etat) {
       await LocalStorage.set("user", infos);
     } else {
-      throw "Compte désactiver";
+      throw "Compte désactivé";
     }
 
     Notify.create({
@@ -195,7 +195,7 @@ export async function fetchUserInfosById({ commit }, { id }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la récupération des informations !",
+      message: "Erreur lors de la récupération des informations !",
       color: "negative",
     });
   }
@@ -215,7 +215,7 @@ export async function fetchComptePartenaire() {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la récupération des comptes partenaires !",
+      message: "Erreur lors de la récupération des comptes partenaires !",
       color: "negative",
     });
   }
@@ -240,7 +240,7 @@ export async function createPartenaire({ commit }, { compte }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la création d'un compte partenaire !",
+      message: "Erreur lors de la création d'un compte partenaire !",
       color: "negative",
     });
   }
@@ -260,7 +260,7 @@ export async function desactivePartenaire({ dispatch }, { id, compte }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de suppression d'un partenaire",
+      message: "Erreur lors de suppression d'un partenaire",
       color: "negative",
     });
   }

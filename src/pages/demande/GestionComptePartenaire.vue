@@ -18,7 +18,7 @@
       </q-intersection>
 
       <div v-if="comptes.docs.length == 0">
-        <p class="text-grey text-center q-mt-lg">Aucun musées trouvés...</p>
+        <p class="text-grey text-center q-mt-lg">Aucun musée trouvé...</p>
       </div>
     </div>
     <div v-else class="q-mt-xl row justify-center">

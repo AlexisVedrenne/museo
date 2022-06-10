@@ -59,7 +59,7 @@
           filled
           v-model="filtreStatus"
           :options="status"
-          label="Status"
+          label="Statut"
           clearable
         >
           <template v-slot:option="status">

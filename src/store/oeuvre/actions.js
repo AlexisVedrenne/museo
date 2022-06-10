@@ -28,7 +28,7 @@ export async function fetchAllOeuvres() {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la récupération des oeuvres",
+      message: "Erreur lors de la récupération des oeuvres",
       color: "negative",
     });
   }
@@ -60,7 +60,7 @@ export async function addOeuvre({ dispatch }, { oeuvre }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de l'ajout d'une oeuvre",
+      message: "Erreur lors de l'ajout d'une oeuvre",
       color: "negative",
     });
   }
@@ -86,7 +86,7 @@ export async function archiveOeuvre({ commit }, { oeuvre, id }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de l'archivage de l'oeuvre",
+      message: "Erreur lors de l'archivage de l'oeuvre",
       color: "negative",
     });
   }
@@ -102,7 +102,7 @@ export async function expoOeuvre({ commit }, { oeuvre, id }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de l'archivage de l'oeuvre",
+      message: "Erreur lors de l'archivage de l'oeuvre",
       color: "negative",
     });
   }
@@ -119,7 +119,7 @@ export async function fetchOeuvre({ dispatch }, { id }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la récupération de l'oeuvre",
+      message: "Erreur lors de la récupération de l'oeuvre",
       color: "negative",
     });
   }
@@ -149,7 +149,7 @@ export async function updateOeuvre({ dispatch }, { id, oeuvre }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la mise à jour de l'oeuvre",
+      message: "Erreur lors de la mise à jour de l'oeuvre",
       color: "negative",
     });
   }
@@ -169,7 +169,7 @@ export async function fetchOeuvreByMusee({ commit }, { idMusee }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la mise à jour de l'oeuvre",
+      message: "Erreur lors de la mise à jour de l'oeuvre",
       color: "negative",
     });
   }
@@ -189,7 +189,7 @@ export async function fetchOeuvreByType({ commit }, { idType }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la mise à jour de l'oeuvre",
+      message: "Erreur lors de la mise à jour de l'oeuvre",
       color: "negative",
     });
   }
@@ -209,7 +209,7 @@ export async function fetchOeuvreByArtiste({ commit }, { idArtiste }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la mise à jour de l'oeuvre",
+      message: "Erreur lors de la mise à jour de l'oeuvre",
       color: "negative",
     });
   }
@@ -233,7 +233,7 @@ export async function fetchOeuvreByStatus({ dispatch }, { status }) {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors du filtrage par statu",
+      message: "Erreur lors du filtrage par statut",
       color: "negative",
     });
   }

@@ -29,7 +29,7 @@ export async function fetchAllTypeOeuvre() {
       position: "top",
       timeout: 1000,
       icon: "warning",
-      message: "Error lors de la récupération des types oeuvres",
+      message: "Erreur lors de la récupération des types oeuvres",
       color: "negative",
     });
   }

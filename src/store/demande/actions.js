@@ -71,12 +71,12 @@ export async function createDemande({ dispatch }, { idOeuvre }) {
           position: "top",
           timeout: 1000,
           icon: "info",
-          message: "Cette demande à déjà été effectuer !",
+          message: "Cette demande à déjà été effectuée !",
           color: "info",
         });
       }
     } else {
-      throw "Compte désactiver";
+      throw "Compte désactivé";
     }
 
     return demandeRef;

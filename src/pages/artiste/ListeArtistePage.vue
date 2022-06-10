@@ -20,7 +20,7 @@
         </q-intersection>
 
         <div v-if="artistes.length == 0">
-          <p class="text-grey text-center q-mt-lg">Aucun artiste trouvés...</p>
+          <p class="text-grey text-center q-mt-lg">Aucun artiste trouvé...</p>
         </div>
       </div>
       <div v-else class="q-mt-xl row justify-center">
@@ -52,7 +52,8 @@
                   lazy-rules
                   :rules="[
                     (val) =>
-                      (val && val.length > 0) || 'Le nom du artiste doit être saisie !',
+                      (val && val.length > 0) ||
+                      'Le nom de l\'artiste doit être saisie !',
                   ]"
                   v-model="artiste.nom"
                   color="secondary"
@@ -65,7 +66,7 @@
                   :rules="[
                     (val) =>
                       (val && val.length > 0) ||
-                      'Le prenom du artiste doit être saisie !',
+                      'Le prenom de l\'artiste doit être saisie !',
                   ]"
                   v-model="artiste.prenom"
                   color="secondary"
