@@ -108,7 +108,7 @@ const linksList = [
     type: "2",
   },
   {
-    title: "Suivit de demande",
+    title: "Suivi des demandes",
     caption: "",
     icon: "shopping_cart",
     link: { name: "listeDemandes" },
