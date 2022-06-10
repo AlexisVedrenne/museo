@@ -135,9 +135,13 @@ export async function fetchAllDemande() {
   }
 }
 
-export async function acceptDemande({ commit }, { demande, id }) {
+export async function acceptDemande({ dispatch }, { demande, id }) {
   try {
     demande.etat = 1;
+    let oeuvre = await dispatch("fetchOeuvre", { id: demande.idOeuvre });
+    oeuvre = oeuvre.data();
+    oeuvre.etat = { icon: "real_estate_agent", nom: "prét" };
+    await dispatch("updateOeuvre", { id: demande.idOeuvre, oeuvre: oeuvre });
     await setDoc(doc(fire.firebasebd, "demande", id), demande);
   } catch (e) {
     Notify.create({
@@ -167,10 +171,15 @@ export async function refuseDemande({ commit }, { demande, id }) {
   }
 }
 
-export async function clotureDemande({ commit }, { id }) {
+export async function clotureDemande({ dispatch }, { id, demande }) {
   try {
+    let oeuvre = await dispatch("fetchOeuvre", { id: demande.idOeuvre });
+    oeuvre = oeuvre.data();
+    oeuvre.etat = { icon: "filter_frames", nom: "exposition" };
+    await dispatch("updateOeuvre", { id: demande.idOeuvre, oeuvre: oeuvre });
     await deleteDoc(doc(fire.firebasebd, "demande", id));
   } catch (e) {
+    console.log(e);
     Notify.create({
       progress: true,
       position: "top",

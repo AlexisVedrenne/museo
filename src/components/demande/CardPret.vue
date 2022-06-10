@@ -11,14 +11,6 @@
       <div class="col-4 row items-center justify-end">
         <q-btn @click="acceptDemande" icon="done" color="positive" flat round />
         <q-btn @click="refuseDemande" icon="close" color="negative" flat round />
-        <q-btn
-          class="q-ml-md"
-          style="width: 200px"
-          label="Voir l'oeuvre"
-          no-caps
-          text-color="back"
-          color="accent"
-        />
       </div>
     </q-card-section>
   </q-card>

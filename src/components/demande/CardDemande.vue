@@ -72,7 +72,10 @@ export default {
   },
   methods: {
     async cloture() {
-      this.$store.dispatch("clotureDemande", { id: this.id });
+      await this.$store.dispatch("clotureDemande", {
+        id: this.id,
+        demande: this.demande,
+      });
     },
   },
 };

@@ -50,8 +50,7 @@
                 lazy-rules
                 :rules="[
                   (val) =>
-                    (val && val.length > 0) ||
-                    'Le nom du musée doit être saisie !',
+                    (val && val.length > 0) || 'Le nom du musée doit être saisie !',
                 ]"
                 v-model="musee.nom"
                 color="secondary"
@@ -63,9 +62,7 @@
               ><q-input
                 lazy-rules
                 :rules="[
-                  (val) =>
-                    (val && val.length == 10) ||
-                    'Un numéro possède 10 chiffres !',
+                  (val) => (val && val.length >= 10) || 'Un numéro possède 10 chiffres !',
                 ]"
                 type="number"
                 v-model="musee.tel"
@@ -80,8 +77,7 @@
               <q-input
                 lazy-rules
                 :rules="[
-                  (val) =>
-                    (val && val.length > 0) || 'Vous devez écrire une addresse',
+                  (val) => (val && val.length > 0) || 'Vous devez écrire une addresse',
                 ]"
                 v-model="musee.adresse"
                 color="secondary"

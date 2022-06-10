@@ -52,7 +52,7 @@
             ><q-input
               lazy-rules
               :rules="[
-                (val) => (val && val.length == 10) || 'Un numéro possède 10 chiffres !',
+                (val) => (val && val.length >= 10) || 'Un numéro possède 10 chiffres !',
               ]"
               type="number"
               v-model="musee.tel"

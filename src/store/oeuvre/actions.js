@@ -133,16 +133,17 @@ export async function updateOeuvre({ dispatch }, { id, oeuvre }) {
         oeuvre.image = url;
       }
     }
-    const oeuvreRef = await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
+    await setDoc(doc(fire.firebasebd, "oeuvre", id), oeuvre);
     let artiste = await dispatch("fetchArtiste", {
       idArtiste: oeuvre.idArtiste,
     });
     await dispatch("addOeuvreArtiste", {
       idArtiste: oeuvre.idArtiste,
-      idOeuvre: oeuvreRef.id,
+      idOeuvre: id,
       artiste: artiste,
     });
   } catch (error) {
+    console.log(error);
     Notify.create({
       progress: true,
       position: "top",

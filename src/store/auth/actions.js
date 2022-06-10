@@ -21,12 +21,7 @@ import "core-js/es/array";
 export async function fetchUserInfo() {
   try {
     let credential = LocalStorage.getItem("authCredential");
-    let uid = "";
-    if (fire.auth.currentUser) {
-      uid = fire.auth.currentUser.uid;
-    } else {
-      uid = credential.user.uid;
-    }
+    let uid = credential.user.uid;
 
     const q = await query(
       collection(fire.firebasebd, "utilisateurs"),
