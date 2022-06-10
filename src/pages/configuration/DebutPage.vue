@@ -65,7 +65,12 @@ export default {
     };
   },
   mounted() {
-    this.utils.localStorage.clear();
+    let config = this.utils.localStorage.getItem("config");
+    if (config) {
+      if (config.fin) {
+        this.$router.push("connexion");
+      }
+    }
   },
   methods: {
     setType() {

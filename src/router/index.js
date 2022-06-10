@@ -38,7 +38,7 @@ export default route(function (/* { store, ssrContext } */) {
   Router.beforeEach(async (to, from, next) => {
     let credential = LocalStorage.getItem("authCredential");
     let config = LocalStorage.getItem("config");
-    if (!config) {
+    if (config === null) {
       config = { fin: false };
     }
     if (to.meta.mustBeLogged && credential && config.fin) {

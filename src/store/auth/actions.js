@@ -56,9 +56,14 @@ export async function signInPartenaire({ dispatch }, { infos }) {
       infos.password.toString().trim()
     );
     await LocalStorage.set("authCredential", res);
+    let config = LocalStorage.getItem("config");
     const userInfos = await dispatch("fetchUserInfo");
+    console.log(config);
     if (userInfos.role !== "part") {
-      throw "Compte non partenaire";
+      throw "Erreur compte partenaire";
+    }
+    if (config.code !== userInfos.uid) {
+      throw "Erreur compte partenaire";
     }
     Notify.create({
       progress: true,
