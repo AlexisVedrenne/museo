@@ -3,7 +3,7 @@
     <q-card square class="bg-primary"
       ><q-card-section
         ><p class="text-white text-center text-bold" style="font-size: 30px">
-          Liste des types d'oeuvre disponible
+          Liste des types d'oeuvres disponible
         </p></q-card-section
       ></q-card
     >

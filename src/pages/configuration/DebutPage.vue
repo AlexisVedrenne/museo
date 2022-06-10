@@ -46,7 +46,7 @@
       </section>
     </div>
     <div class="row justify-end q-mr-lg q-mt-md">
-      <q-btn @click="setType" color="secondary" flat label="Commencé" />
+      <q-btn @click="setType" color="secondary" flat label="Commencer" />
     </div>
   </q-page>
 </template>

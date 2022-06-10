@@ -18,7 +18,7 @@
       </q-intersection>
       <div v-if="demandes.docs.length === 0">
         <p class="text-grey text-center q-mt-md">
-          Aucune demandes n'a encore était effectuée...
+          Aucune demande n'a encore été effectuée...
         </p>
       </div>
     </div>

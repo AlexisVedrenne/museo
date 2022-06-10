@@ -59,7 +59,7 @@
           filled
           v-model="filtreStatus"
           :options="status"
-          label="Status"
+          label="Statut"
           clearable
         >
           <template v-slot:option="status">
@@ -74,13 +74,7 @@
           </template>
         </q-select>
         <div class="column">
-          <q-btn
-            @click="filtre"
-            color="info"
-            flat
-            class="q-mr-sm"
-            label="Filtrer"
-          />
+          <q-btn @click="filtre" color="info" flat class="q-mr-sm" label="Filtrer" />
           <q-btn
             @click="resetAll"
             flat
@@ -198,13 +192,7 @@
 </template>
 
 <script>
-import {
-  collection,
-  getDocs,
-  query,
-  onSnapshot,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, onSnapshot, where } from "firebase/firestore";
 import fire from "src/boot/Firebase";
 import CardPainting from "components/Oeuvres/CardPainting.vue";
 import CardOeuvrePartenaire from "components/Oeuvres/CardOeuvrePartenaire.vue";
@@ -276,12 +264,7 @@ export default {
       let res = [];
       oeuvres.docs.forEach((oeuvre) => {
         let data = oeuvre.data();
-        if (
-          data.nom
-            .trim()
-            .toLowerCase()
-            .includes(this.recherche.trim().toLowerCase())
-        ) {
+        if (data.nom.trim().toLowerCase().includes(this.recherche.trim().toLowerCase())) {
           res.push(oeuvre);
         }
       });
@@ -316,48 +299,24 @@ export default {
     async filtre() {
       if (this.filtreArtiste && this.filtreType && this.filtreStatus) {
         await this.refreshByArtiste(this.filtreArtiste.value);
-        this.oeuvres = this.filtreLocal(
-          this.oeuvres,
-          this.filtreType.value,
-          "type"
-        );
-        this.oeuvres = this.filtreLocal(
-          this.oeuvres,
-          this.filtreStatus.value,
-          "status"
-        );
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreType.value, "type");
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
       } else if (this.filtreArtiste && this.filtreType) {
         await this.refreshByArtiste(this.filtreArtiste.value);
-        this.oeuvres = this.filtreLocal(
-          this.oeuvres,
-          this.filtreType.value,
-          "type"
-        );
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreType.value, "type");
       } else if (this.filtreArtiste && this.filtreStatus) {
         await this.refreshByArtiste(this.filtreArtiste.value);
-        this.oeuvres = this.filtreLocal(
-          this.oeuvres,
-          this.filtreStatus.value,
-          "status"
-        );
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
       } else if (this.filtreType && this.filtreStatus) {
         await this.refreshByType(this.filtreType.value);
-        this.oeuvres = this.filtreLocal(
-          this.oeuvres,
-          this.filtreStatus.value,
-          "status"
-        );
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
       } else if (this.filtreArtiste) {
         await this.refreshByArtiste(this.filtreArtiste.value);
       } else if (this.filtreType) {
         await this.refreshByType(this.filtreType.value);
       } else if (this.filtreStatus) {
         await this.refresh();
-        this.oeuvres = this.filtreLocal(
-          this.oeuvres,
-          this.filtreStatus.value,
-          "status"
-        );
+        this.oeuvres = this.filtreLocal(this.oeuvres, this.filtreStatus.value, "status");
       }
     },
     filtreLocal(oeuvres, filtre, typeFiltre) {

@@ -34,12 +34,12 @@
           style="width: 60%; font-size: 23px"
           class="q-mt-lg text-center"
         >
-          Le musée {{ partenaire.nom }}
+          {{ partenaire.nom }}
         </p>
       </section>
     </div>
     <div class="row justify-end q-mr-lg q-mt-xl">
-      <q-btn @click="fin" color="secondary" flat label="Terminé" />
+      <q-btn @click="fin" color="secondary" flat label="Terminer" />
     </div>
   </q-page>
 </template>

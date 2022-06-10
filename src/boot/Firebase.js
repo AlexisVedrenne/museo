@@ -37,7 +37,7 @@ async function setSnapshot(q, collection) {
           ? createNotify(
               "Le musée <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été ajouter !"
+                "</strong> a été ajouté !"
             )
           : collection === "artiste"
           ? createNotify(
@@ -45,20 +45,20 @@ async function setSnapshot(q, collection) {
                 data.nom +
                 " " +
                 data.prenom +
-                "</strong> a été ajouter !"
+                "</strong> a été ajouté !"
             )
           : collection === "type"
           ? createNotify(
               "Le type <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été ajouter !"
+                "</strong> a été ajouté !"
             )
           : collection === "demande"
           ? createNotify("Une nouvelle demande de prêt a été effectué !")
           : createNotify(
               "L'oeuvre <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été ajouter !"
+                "</strong> a été ajouté !"
             );
       }
       if (change.type === "modified") {
@@ -66,7 +66,7 @@ async function setSnapshot(q, collection) {
           ? createNotify(
               "Le musée <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été modifier !"
+                "</strong> a été modifié !"
             )
           : collection === "artiste"
           ? createNotify(
@@ -74,20 +74,20 @@ async function setSnapshot(q, collection) {
                 data.nom +
                 " " +
                 data.prenom +
-                "</strong> a été modifier !"
+                "</strong> a été modifié !"
             )
           : collection === "type"
           ? createNotify(
               "Le type <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été modifier !"
+                "</strong> a été modifié !"
             )
           : collection === "demande"
           ? createNotify("Une demande a été traité !")
           : createNotify(
               "L'oeuvre <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été modifier !"
+                "</strong> a été modifié !"
             );
       }
       if (change.type === "removed") {
@@ -95,7 +95,7 @@ async function setSnapshot(q, collection) {
           ? createNotify(
               "Le musée <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été retirer !"
+                "</strong> a été retiré !"
             )
           : collection === "artiste"
           ? createNotify(
@@ -103,20 +103,20 @@ async function setSnapshot(q, collection) {
                 data.nom +
                 " " +
                 data.prenom +
-                "</strong> a été retirer !"
+                "</strong> a été retiré !"
             )
           : collection === "type"
           ? createNotify(
               "Le type <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été retirer !"
+                "</strong> a été retiré !"
             )
           : collection === "demande"
           ? createNotify("Une demande a été cloturé")
           : createNotify(
               "L'oeuvre <strong class='text-black'>" +
                 data.nom +
-                "</strong> a été retirer !"
+                "</strong> a été retiré !"
             );
       }
     });

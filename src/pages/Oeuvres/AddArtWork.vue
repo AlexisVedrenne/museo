@@ -3,10 +3,7 @@
     <q-form @submit="submit">
       <div class="row">
         <div class="col-6">
-          <div
-            class="q-gutter-y-md"
-            style="max-width: 400px; margin-left: 120px"
-          >
+          <div class="q-gutter-y-md" style="max-width: 400px; margin-left: 120px">
             <q-input
               lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Entrez un nom.']"
@@ -85,10 +82,7 @@
           </div>
         </div>
         <div class="col-6">
-          <div
-            class="q-gutter-y-md column"
-            style="max-width: 400px; margin-left: 120px"
-          >
+          <div class="q-gutter-y-md column" style="max-width: 400px; margin-left: 120px">
             <q-select
               lazy-rules
               :rules="[(val) => val || 'Choisir un musée']"
@@ -129,8 +123,7 @@
               <q-input
                 lazy-rules
                 :rules="[
-                  (val) =>
-                    (val && val.length > 0) || 'Ecire une courte description.',
+                  (val) => (val && val.length > 0) || 'Écrire une courte description.',
                 ]"
                 color="secondary"
                 v-model="oeuvre.briefDescrition"
@@ -142,7 +135,7 @@
           </div>
         </div>
       </div>
-      <p class="text-grey">Description détailler</p>
+      <p class="text-grey">Description détaillée</p>
       <div class="q-pa-md row justify-center">
         <q-editor
           class="col"
@@ -165,14 +158,7 @@
                 options: ['left', 'center', 'right', 'justify'],
               },
             ],
-            [
-              'bold',
-              'italic',
-              'strike',
-              'underline',
-              'subscript',
-              'superscript',
-            ],
+            ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
             ['token', 'hr', 'link', 'custom_btn'],
             ['print', 'fullscreen'],
             [
@@ -235,13 +221,7 @@
         />
       </div>
       <q-page-sticky position="bottom-left" :offset="[18, 18]">
-        <q-btn
-          size="20px"
-          icon="close"
-          color="negative"
-          round
-          :to="{ name: 'home' }"
-        />
+        <q-btn size="20px" icon="close" color="negative" round :to="{ name: 'home' }" />
       </q-page-sticky>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn
@@ -426,9 +406,7 @@ export default {
       let resArtistes = await this.$store.dispatch("fetchAllArtist");
       resArtistes.docs.forEach((doc) => {
         let data = doc.data();
-        if (
-          !this.artisteOptions.find((element) => element.label === data.nom)
-        ) {
+        if (!this.artisteOptions.find((element) => element.label === data.nom)) {
           this.artisteOptions.push({ label: data.nom, value: doc.id });
         }
       });
