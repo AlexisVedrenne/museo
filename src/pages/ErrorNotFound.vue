@@ -1,21 +1,18 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div class="fullscreen bg-orange text-white text-center q-pa-md flex flex-center">
     <div>
-      <div style="font-size: 30vh">
-        404
-      </div>
+      <div style="font-size: 15vh">Erreur :(</div>
 
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
-      </div>
+      <div class="text-h2" style="opacity: 0.4">Votre compte a été désactivé...</div>
 
       <q-btn
+        icon="undo"
         class="q-mt-xl"
         color="white"
-        text-color="blue"
+        text-color="orange"
         unelevated
         to="/"
-        label="Go Home"
+        label="Retour"
         no-caps
       />
     </div>
@@ -23,9 +20,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'ErrorNotFound'
-})
+  name: "ErrorNotFound",
+});
 </script>
