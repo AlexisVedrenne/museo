@@ -22,7 +22,6 @@ export async function fetchUserInfo() {
   try {
     let credential = LocalStorage.getItem("authCredential");
     let uid = credential.user.uid;
-
     const q = await query(
       collection(fire.firebasebd, "utilisateurs"),
       where("uid", "==", uid)
@@ -32,6 +31,7 @@ export async function fetchUserInfo() {
     LocalStorage.set("user", userInfo);
     return userInfo;
   } catch (error) {
+    console.log(error);
     Notify.create({
       progress: true,
       position: "top",

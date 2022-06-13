@@ -79,13 +79,17 @@ export default {
     setType() {
       this.configuration.fin = true;
       this.utils.localStorage.set("config", this.configuration);
-      this.utils.localStorage.set("user", {
-        etat: true,
-        nom: "Visiteur",
-        role: "visiteur",
-      });
-      this.utils.localStorage.set("authCredential", true);
-      this.$router.push({ name: "home" });
+      if (this.configuration.type === "0") {
+        this.utils.localStorage.set("user", {
+          etat: true,
+          nom: "Visiteur",
+          role: "visiteur",
+        });
+        this.utils.localStorage.set("authCredential", true);
+        this.$router.push({ name: "home" });
+      } else {
+        this.$router.push({ name: "connexion" });
+      }
     },
   },
 };
