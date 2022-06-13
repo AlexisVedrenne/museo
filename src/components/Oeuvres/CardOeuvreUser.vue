@@ -47,23 +47,23 @@
               color="secondary"
               @click="dialog = true"
             />
-            <q-dialog v-model="dialog">
-              <q-card style="min-width: 900px; height: 700px">
-                <q-card-section class="row items-center"> </q-card-section>
-
-                <q-card-section class="row items-center"> </q-card-section>
-
-                <!-- Notice v-close-popup -->
-                <q-card-actions position="top-right">
-                  <q-btn flat icon="close" color="primary" v-close-popup />
-                </q-card-actions>
-              </q-card>
-            </q-dialog>
           </div>
         </div>
       </div>
     </q-card-section>
   </q-card>
+  <q-dialog v-model="dialog">
+    <q-card style="min-width: 900px; height: 700px">
+      <q-card-actions position="top-right">
+        <q-btn flat icon="close" color="primary" v-close-popup />
+      </q-card-actions>
+      <q-card-section class="row items-center"> </q-card-section>
+
+      <q-card-section class="row items-center"> </q-card-section>
+
+      <!-- Notice v-close-popup -->
+    </q-card>
+  </q-dialog>
 </template>
 
 <style>
