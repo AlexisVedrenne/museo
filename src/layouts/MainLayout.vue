@@ -15,8 +15,9 @@
         </div>
 
         <q-toolbar-title v-if="user">
-          {{ !user.role === "1" ? "2istrateur" : user.nom }}
-          <q-avatar> <q-img src="~assets/logoMuseoBlanc.png" /> </q-avatar
+          {{ !user.role === "1" ? "Administrateur" : user.nom }}
+          <q-avatar v-touch-hold:2000.mouse="reset">
+            <q-img src="~assets/logoMuseoBlanc.png" /> </q-avatar
         ></q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -150,6 +151,10 @@ export default defineComponent({
     EssentialLink,
   },
   methods: {
+    reset() {
+      this.utils.localStorage.clear();
+      this.$router.push({ name: "debut" });
+    },
     async left() {
       await this.$store.dispatch("signLeft");
       this.$router.push({ name: "connexion" });
@@ -164,10 +169,12 @@ export default defineComponent({
   },
   mounted() {
     this.user = this.utils.localStorage.getItem("user");
-    if (this.user.role === "part") {
-      this.type = "1";
-    } else {
-      this.type = "2";
+    if (this.user) {
+      if (this.user.role === "part") {
+        this.type = "1";
+      } else {
+        this.type = "2";
+      }
     }
   },
   setup() {
