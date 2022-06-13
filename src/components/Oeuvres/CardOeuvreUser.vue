@@ -53,10 +53,13 @@
     </q-card-section>
   </q-card>
   <q-dialog v-model="dialog">
-    <q-card style="min-width: 900px; height: 700px">
-      <q-card-actions position="top-right">
+    <q-card style="min-width: 900px; height: 700px; border-radius: 10px">
+      <q-card-actions position="fixed-bottom">
         <q-btn flat icon="close" color="primary" v-close-popup />
       </q-card-actions>
+      <div style="margin-left: 20px">
+        Localisation de {{ oeuvre.nom }}<q-btn flat icon="my_location" color="orange" />
+      </div>
       <q-card-section class="row items-center"> </q-card-section>
 
       <q-card-section class="row items-center"> </q-card-section>
