@@ -166,7 +166,7 @@
           </div>
         </div>
       </div>
-      <p class="text-grey">Description détaillée</p>
+      <p style="font-size: 18px" class="text-bold">Description détaillée</p>
       <div class="q-pa-md row justify-center">
         <q-editor
           class="col"

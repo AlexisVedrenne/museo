@@ -66,11 +66,14 @@
 
       <q-card-section class="row items-center justify-center">
         <div class="q-mt-xl q-mr-xl q-ml-xl">
-          <CardPlan class="col" />
+          <CardPlan :exposition="proOeuvre.exposition" class="col" />
         </div>
         <div class="column">
           <div class="col-4 q-ma-none q-mb-sm" style="font-size: 20px">
-            L'oeuvre se trouve dans la salle <strong>4</strong> étage <strong>1</strong>.
+            L'oeuvre se trouve dans la salle
+            <strong>{{ proOeuvre.exposition.salle }}</strong> étage
+            <strong>{{ proOeuvre.exposition.etage }}</strong
+            >.
           </div>
           <div class="col-4 text-center q-ma-none" style="font-size: 20px">
             <q-icon name="pin_drop" color="negative" size="30px" />
