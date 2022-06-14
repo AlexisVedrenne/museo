@@ -65,10 +65,6 @@
               </template>
 
               <template v-slot:hint> Image(s) de l'oeuvre </template>
-
-              <template v-slot:append>
-                <q-btn round dense flat icon="add" @click.stop />
-              </template>
             </q-file>
             <div v-else class="row justify-center">
               <q-btn

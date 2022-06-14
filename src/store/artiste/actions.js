@@ -50,6 +50,10 @@ export async function addArtiste({ dispatch }, { artiste }) {
     if (artiste.image) {
       artiste.image = await dispatch("uploadImage", { image: artiste.image });
     }
+
+    if (artiste.audio) {
+      artiste.audio = await dispatch("uploadAudio", { audio: artiste.audio });
+    }
     const artisteRef = await addDoc(
       collection(fire.firebasebd, "artistes"),
       artiste
@@ -94,6 +98,13 @@ export async function updateArtiste({ dispatch }, { artiste, id }) {
       if (artiste.image.type.includes("image")) {
         let url = await dispatch("uploadImage", { image: artiste.image });
         artiste.image = url;
+      }
+    }
+
+    if (typeof artiste.audio !== "string") {
+      if (artiste.audio.type.includes("audio")) {
+        let url = await dispatch("uploadAudio", { audio: artiste.audio });
+        artiste.audio = url;
       }
     }
     await setDoc(doc(fire.firebasebd, "artistes", id), artiste);

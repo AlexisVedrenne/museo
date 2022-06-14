@@ -84,13 +84,22 @@
               En {{ oeuvre.etat.nom }}
               <span><q-icon :name="oeuvre.etat.icon" /></span>
             </p>
-            <q-btn
-              @click="detail = true"
-              color="secondary"
-              class="col-5"
-              no-caps
-              label="Description détaillée"
-            />
+            <div class="column justify-center">
+              <q-btn
+                @click="detail = true"
+                color="secondary"
+                class="col-5"
+                no-caps
+                label="Description détaillée"
+              />
+              <q-btn
+                @click="audio = true"
+                color="secondary"
+                class="col-5 q-mt-sm"
+                no-caps
+                label="Description audio de l'artiste"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -105,6 +114,12 @@
             <p v-html="oeuvre.description" />
           </q-card-section>
         </q-card>
+      </q-dialog>
+      <q-dialog v-model="audio">
+        <audio v-if="artiste" autoplay controls>
+          <source :src="artiste.audio" type="audio/mpeg" />
+          Le fichier audio est incorrect.
+        </audio>
       </q-dialog>
       <q-expansion-item
         v-if="user.role === 'admin'"
@@ -135,6 +150,7 @@ export default {
       musee: null,
       id: null,
       user: null,
+      audio: false,
     };
   },
   async mounted() {
