@@ -84,13 +84,22 @@
               En {{ oeuvre.etat.nom }}
               <span><q-icon :name="oeuvre.etat.icon" /></span>
             </p>
-            <q-btn
-              @click="detail = true"
-              color="secondary"
-              class="col-5"
-              no-caps
-              label="Description détaillée"
-            />
+            <div class="column justify-center">
+              <q-btn
+                @click="detail = true"
+                color="secondary"
+                class="col-5"
+                no-caps
+                label="Description détaillée"
+              />
+              <q-btn
+                @click="detail = true"
+                color="secondary"
+                class="col-5 q-mt-sm"
+                no-caps
+                label="Description audio"
+              />
+            </div>
           </div>
         </div>
       </section>
