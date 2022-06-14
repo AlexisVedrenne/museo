@@ -31,7 +31,6 @@
               lazy-rules
               :rules="[(val) => (val && val.length > 0) || 'Entrez une date.']"
               v-model="oeuvre.date"
-              type="date"
               color="secondary"
               hint="Date de l'oeuvre"
             >
