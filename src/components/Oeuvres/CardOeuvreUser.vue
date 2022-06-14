@@ -54,99 +54,28 @@
   </q-card>
   <q-dialog v-model="dialog">
     <q-card style="min-width: 900px; height: 700px; border-radius: 10px">
-      <q-card-actions position="fixed-bottom">
-        <q-btn flat icon="close" color="primary" v-close-popup />
-      </q-card-actions>
-      <div style="margin-left: 20px; font-weight: bold; font-size: 20px">
-        Localisation de {{ oeuvre.nom }}
-        <q-icon name="my_location" color="orange" size="30px" />
+      <div class="row q-mt-sm">
+        <div class="col" style="margin-left: 20px; font-weight: bold; font-size: 20px">
+          Localisation de {{ oeuvre.nom }}
+          <q-icon name="pin_drop" color="orange" size="30px" />
+        </div>
+        <div class="col-1 row justify-end q-mr-sm">
+          <q-btn class="col" flat icon="close" color="primary" v-close-popup />
+        </div>
       </div>
 
-      <div class="q-mt-xl q-mr-xl q-ml-xl">
-        <q-avatar
-          square
-          size="130px"
-          font-size="50px"
-          color="orange"
-          text-color="blue-grey-10"
-          icon="my_location"
-          style="
-            margin-left: 300px;
-            border-radius: 10px;
-            margin-top: 0.5px;
-            border: 1px solid black;
-          "
-          >2</q-avatar
-        >
-        <q-avatar
-          square
-          size="130px"
-          font-size="50px"
-          color="orange"
-          text-color="blue-grey-10"
-          icon="my_location"
-          style="border-radius: 10px; margin-top: -2px; border: 1px solid black"
-          >1</q-avatar
-        >
-        <q-avatar
-          square
-          font-size="50px"
-          color="orange"
-          text-color="blue-grey-10"
-          icon="my_location"
-          style="
-            margin-left: 300px;
-            border-bottom-left-radius: 10px;
-            margin-top: -3px;
-            border: 1px solid black;
-            width: 130px;
-            height: 200px;
-          "
-          >3</q-avatar
-        >
-        <q-avatar
-          square
-          font-size="50px"
-          size="150px"
-          color="orange"
-          text-color="blue-grey-10"
-          icon="my_location"
-          style="
-            margin-top: 45px;
-            border: 1px solid black;
-            border-bottom-right-radius: 40px;
-            border-top-right-radius: 40px;
-          "
-          >4</q-avatar
-        >
-        <q-avatar
-          square
-          font-size="50px"
-          size="150px"
-          color="orange"
-          text-color="blue-grey-10"
-          icon="my_location"
-          style="
-            margin-top: 45px;
-            margin-left: -430px;
-            border: 1px solid black;
-            border-bottom-left-radius: 40px;
-            border-top-left-radius: 40px;
-          "
-          >5</q-avatar
-        >
-      </div>
-      <div style="margin-left: 50px; margin-top: 50px; font-size: 20px">
-        L'oeuvre se trouve dans la salle <strong>4</strong> étage <strong>1</strong>.
-      </div>
-      <div style="margin-left: 50px; margin-top: 50px; font-size: 20px">
-        Localisation de l'oeuvre
-        <q-icon name="my_location" color="bg-grey-6" size="30px" />
-      </div>
-
-      <q-card-section class="row items-center"> </q-card-section>
-
-      <q-card-section class="row items-center"> </q-card-section>
+      <q-card-section class="row items-center justify-center">
+        <CardPlan class="col" />
+        <div class="col row q-ml-xl">
+          <p class="q-ma-none q-mb-sm" style="font-size: 20px">
+            L'oeuvre se trouve dans la salle <strong>4</strong> étage <strong>1</strong>.
+          </p>
+          <p class="q-ma-none" style="font-size: 20px">
+            <q-icon name="pin_drop" color="negative" size="30px" />
+            Localisation de l'oeuvre
+          </p>
+        </div>
+      </q-card-section>
 
       <!-- Notice v-close-popup -->
     </q-card>
@@ -180,6 +109,7 @@
 </style>
 
 <script>
+import CardPlan from "components/Oeuvres/CardPlan.vue";
 import { useQuasar } from "quasar";
 export default {
   props: {
@@ -192,7 +122,9 @@ export default {
       required: true,
     },
   },
-
+  components: {
+    CardPlan,
+  },
   data() {
     return {
       utils: useQuasar(),
