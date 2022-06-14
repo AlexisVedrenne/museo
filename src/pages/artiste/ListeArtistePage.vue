@@ -2,12 +2,29 @@
   <q-page>
     <main>
       <q-card square class="bg-primary"
-        ><q-card-section
-          ><p class="text-white text-center text-bold" style="font-size: 30px">
-            Liste des artistes
-          </p></q-card-section
-        ></q-card
-      >
+        ><q-card-section class="row items-center"
+          ><p
+            class="text-white text-center text-bold q-ma-none q-mr-md"
+            style="font-size: 30px"
+          >
+            Liste des artistes : {{ nb }}
+          </p>
+          <q-form class="col row" @submit="search">
+            <q-input
+              @click="refresh"
+              rounded
+              color="secondary"
+              bg-color="white"
+              outlined
+              v-model="recherche"
+              class="col q-mr-sm"
+              label="Rechercher un artiste.."
+            >
+              <template v-slot:prepend> <q-icon name="search" /> </template
+            ></q-input>
+            <q-btn type="submit" color="secondary" flat icon="search"
+          /></q-form> </q-card-section
+      ></q-card>
       <div v-if="artistes">
         <q-intersection
           once
@@ -247,12 +264,14 @@ export default {
   },
   data() {
     return {
+      recherche: "",
       utils: useQuasar(),
       types: [],
       add: false,
       loading: false,
       artistes: null,
       res: null,
+      nb: 0,
       artiste: {
         nom: "",
         prenom: "",
@@ -288,6 +307,18 @@ export default {
     });
   },
   methods: {
+    async search() {
+      await this.refresh();
+      let artistes = this.artistes;
+      let res = [];
+      artistes.forEach((artiste) => {
+        let data = artiste;
+        if (data.nom.trim().toLowerCase().includes(this.recherche.trim().toLowerCase())) {
+          res.push(artiste);
+        }
+      });
+      this.artistes = res;
+    },
     async refresh() {
       this.artistes = null;
       this.res = await this.$store.dispatch("fetchAllArtist");
@@ -296,6 +327,7 @@ export default {
         artistes.push(this.res.docs[i].data());
       }
       this.artistes = Object.values(artistes);
+      this.nb = this.artistes.length;
     },
     async submit() {
       this.loading = true;

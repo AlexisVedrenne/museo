@@ -1,12 +1,26 @@
 <template>
   <q-page>
     <q-card square class="bg-primary text-white"
-      ><q-card-section
-        ><p class="text-center text-bold" style="font-size: 30px">
-          Liste des comptes partenaires
-        </p></q-card-section
-      ></q-card
-    >
+      ><q-card-section class="row items-center"
+        ><p class="text-center text-bold q-ma-none q-mr-md" style="font-size: 30px">
+          Liste des comptes partenaires : {{ nb }}
+        </p>
+        <q-form class="col row" @submit="search">
+          <q-input
+            @click="refresh"
+            rounded
+            color="secondary"
+            bg-color="white"
+            outlined
+            v-model="recherche"
+            class="col q-mr-sm"
+            label="Rechercher un compte..."
+          >
+            <template v-slot:prepend> <q-icon name="search" /> </template
+          ></q-input>
+          <q-btn type="submit" color="secondary" flat icon="search"
+        /></q-form> </q-card-section
+    ></q-card>
     <div v-if="comptes">
       <q-intersection
         transition="scale"
@@ -67,6 +81,8 @@ export default {
   },
   data() {
     return {
+      nb: 0,
+      recherche: "",
       loading: false,
       comptes: null,
       add: false,
@@ -99,10 +115,23 @@ export default {
     });
   },
   methods: {
+    async search() {
+      await this.refresh();
+      let comptes = this.comptes;
+      let res = [];
+      comptes.docs.forEach((compte) => {
+        let data = compte.data();
+        if (data.nom.trim().toLowerCase().includes(this.recherche.trim().toLowerCase())) {
+          res.push(compte);
+        }
+      });
+      this.comptes = { docs: res };
+    },
     async refresh() {
       this.comptes = null;
       let comptes = await this.$store.dispatch("fetchComptePartenaire");
       this.comptes = comptes;
+      this.nb = comptes.docs.length;
     },
     async setOptions() {
       let musees = await this.$store.dispatch("fetchAllMusee");

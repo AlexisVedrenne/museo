@@ -2,12 +2,29 @@
   <q-page>
     <main>
       <q-card square class="bg-primary"
-        ><q-card-section
-          ><p class="text-white text-center text-bold" style="font-size: 30px">
-            Liste des musées
-          </p></q-card-section
-        ></q-card
-      >
+        ><q-card-section class="row items-center"
+          ><p
+            class="text-white text-center text-bold q-ma-none q-mr-md"
+            style="font-size: 30px"
+          >
+            Liste des musées : {{ nb }}
+          </p>
+          <q-form class="col row" @submit="search">
+            <q-input
+              @click="refresh"
+              rounded
+              color="secondary"
+              bg-color="white"
+              outlined
+              v-model="recherche"
+              class="col q-mr-sm"
+              label="Rechercher un musée.."
+            >
+              <template v-slot:prepend> <q-icon name="search" /> </template
+            ></q-input>
+            <q-btn type="submit" color="secondary" flat icon="search"
+          /></q-form> </q-card-section
+      ></q-card>
       <div v-if="musees">
         <q-intersection
           once
@@ -114,6 +131,8 @@ export default {
   },
   data() {
     return {
+      nb: 0,
+      recherche: "",
       add: false,
       loading: false,
       musees: null,
@@ -142,6 +161,18 @@ export default {
     });
   },
   methods: {
+    async search() {
+      await this.refresh();
+      let musees = this.musees;
+      let res = [];
+      musees.forEach((musee) => {
+        let data = musee;
+        if (data.nom.trim().toLowerCase().includes(this.recherche.trim().toLowerCase())) {
+          res.push(musee);
+        }
+      });
+      this.musees = res;
+    },
     async refresh() {
       this.musees = null;
       this.res = await this.$store.dispatch("fetchAllMusee");
@@ -150,6 +181,7 @@ export default {
         musees.push(this.res.docs[i].data());
       }
       this.musees = Object.values(musees);
+      this.nb = this.musees.length;
     },
     async submit() {
       this.loading = true;
