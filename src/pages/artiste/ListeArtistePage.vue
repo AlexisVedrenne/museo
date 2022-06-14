@@ -91,10 +91,6 @@
                   </template>
 
                   <template v-slot:hint> Image de l'artiste </template>
-
-                  <template v-slot:append>
-                    <q-btn round dense flat icon="add" @click.stop />
-                  </template>
                 </q-file>
                 <div v-else class="row justify-center">
                   <q-btn
@@ -102,6 +98,30 @@
                     flat
                     color="negative"
                     label="Changer l'image"
+                  />
+                </div>
+                <q-file
+                  v-if="artiste.audio === null"
+                  lazy-rules
+                  :rules="[(val) => val || 'Choisir un fichier audio']"
+                  accept="audio/*"
+                  color="secondary"
+                  bottom-slots
+                  v-model="artiste.audio"
+                  counter
+                >
+                  <template v-slot:before>
+                    <q-icon name="audio_file" />
+                  </template>
+
+                  <template v-slot:hint> Description audio de l'artiste </template>
+                </q-file>
+                <div v-else class="row justify-center">
+                  <q-btn
+                    @click="artiste.audio = null"
+                    flat
+                    color="negative"
+                    label="Changer le fichier audio"
                   />
                 </div>
                 <div class="row justify-center">
@@ -241,6 +261,7 @@ export default {
         bibliographie: "",
         idOeuvre: [],
         archiver: false,
+        audio: null,
       },
     };
   },
