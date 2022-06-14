@@ -223,11 +223,10 @@ export async function fetchComptePartenaire() {
 
 export async function createPartenaire({ commit }, { compte }) {
   try {
-    let res = await createUserWithEmailAndPassword(
-      fire.auth,
-      compte.mail,
-      "123456"
-    );
+    let mdp = compte.nom.toLowerCase();
+    mdp = mdp.replace(/ /g, "");
+    mdp = "museo" + compte.role + mdp;
+    let res = await createUserWithEmailAndPassword(fire.auth, compte.mail, mdp);
     compte.uid = res.user.uid;
     const userRef = await addDoc(
       collection(fire.firebasebd, "utilisateurs"),

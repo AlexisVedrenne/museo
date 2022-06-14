@@ -14,7 +14,7 @@ const auth = fireauth.getAuth(app);
 const user = LocalStorage.getItem("user");
 function createNotify(message) {
   if (user) {
-    if (user.role === "admin") {
+    if (user.role == "admin") {
       Notify.create({
         progress: true,
         position: "top-right",
