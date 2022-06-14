@@ -179,7 +179,7 @@
       </q-intersection>
       <div class="col" v-if="oeuvres.docs.length === 0">
         <p class="text-center text-grey q-mt-lg" style="font-size: 18px">
-          Aucune oeuvres n'a été trouvé...
+          Aucune oeuvre n'a été trouvé...
         </p>
       </div>
     </div>

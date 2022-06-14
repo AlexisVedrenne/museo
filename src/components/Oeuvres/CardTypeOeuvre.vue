@@ -2,7 +2,7 @@
   <q-item>
     <q-item-section>
       <div class="row items-center">
-        <q-badge :style="'color:'+proType.couleur" outline :label="proType.nom"/>
+        <q-badge :style="'color:' + proType.couleur" outline :label="proType.nom" />
       </div>
     </q-item-section>
     <q-btn @click="edit = true" round flat color="secondary" icon="edit" />
@@ -43,7 +43,7 @@
             <q-btn
               :loading="loading"
               type="submit"
-              style="border-raduis: 10px"
+              style="border-radius: 10px"
               label="Modifier"
               no-caps
               color="secondary"
