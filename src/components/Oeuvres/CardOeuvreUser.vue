@@ -57,7 +57,7 @@
       <div class="row q-mt-sm">
         <div class="col" style="margin-left: 20px; font-weight: bold; font-size: 20px">
           Localisation de {{ oeuvre.nom }}
-          <q-icon name="pin_drop" color="orange" size="30px" />
+          <q-icon name="pin_drop" color="secondary" size="30px" />
         </div>
         <div class="col-1 row justify-end q-mr-sm">
           <q-btn class="col" flat icon="close" color="primary" v-close-popup />
@@ -65,15 +65,20 @@
       </div>
 
       <q-card-section class="row items-center justify-center">
-        <CardPlan class="col" />
-        <div class="col row q-ml-xl">
-          <p class="q-ma-none q-mb-sm" style="font-size: 20px">
-            L'oeuvre se trouve dans la salle <strong>4</strong> étage <strong>1</strong>.
-          </p>
-          <p class="q-ma-none" style="font-size: 20px">
+        <div class="q-mt-xl q-mr-xl q-ml-xl">
+          <CardPlan :exposition="proOeuvre.exposition" class="col" />
+        </div>
+        <div class="column">
+          <div class="col-4 q-ma-none q-mb-sm" style="font-size: 20px">
+            L'oeuvre se trouve dans la salle
+            <strong>{{ proOeuvre.exposition.salle }}</strong> étage
+            <strong>{{ proOeuvre.exposition.etage }}</strong
+            >.
+          </div>
+          <div class="col-4 text-center q-ma-none" style="font-size: 20px">
             <q-icon name="pin_drop" color="negative" size="30px" />
             Localisation de l'oeuvre
-          </p>
+          </div>
         </div>
       </q-card-section>
 

@@ -60,7 +60,7 @@
                 <q-btn
                   :loading="loading"
                   type="submit"
-                  style="border-raduis: 10px"
+                  style="border-radius: 10px"
                   label="Ajouter"
                   no-caps
                   color="secondary"

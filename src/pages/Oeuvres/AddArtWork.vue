@@ -118,6 +118,38 @@
                 <q-icon name="account_balance" />
               </template>
             </q-select>
+            <div v-if="etat">
+              <div class="row" v-if="etat.value.nom === 'exposition'">
+                <q-select
+                  class="col"
+                  lazy-rules
+                  :rules="[(val) => val || 'Spécifier le numéro de salle']"
+                  color="secondary"
+                  v-model="oeuvre.exposition.salle"
+                  :options="[1, 2, 3, 4, 5]"
+                  label="Numéro de salle"
+                >
+                  <template v-slot:before>
+                    <q-icon name="view_timeline" />
+                  </template>
+                </q-select>
+
+                <q-select
+                  lazy-rules
+                  class="col q-ml-sm"
+                  :rules="[(val) => val || 'Spécifier cette valeur']"
+                  color="secondary"
+                  v-model="oeuvre.exposition.etage"
+                  :options="[1, 2, 3]"
+                  label="Etage"
+                >
+                  <template v-slot:before>
+                    <q-icon name="elevator" />
+                  </template>
+                </q-select>
+              </div>
+            </div>
+
             <div class="q-pa-md" style="max-width: 400px">
               <q-input
                 lazy-rules
@@ -134,7 +166,7 @@
           </div>
         </div>
       </div>
-      <p class="text-grey">Description détaillée</p>
+      <p style="font-size: 18px" class="text-bold">Description détaillée</p>
       <div class="q-pa-md row justify-center">
         <q-editor
           class="col"
@@ -283,6 +315,10 @@ export default {
         etat: "",
         description: "",
         briefDescrition: "",
+        exposition: {
+          salle: "",
+          etage: "",
+        },
       },
     };
   },
