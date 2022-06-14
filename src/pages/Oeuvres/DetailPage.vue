@@ -97,7 +97,7 @@
                 color="secondary"
                 class="col-5 q-mt-sm"
                 no-caps
-                label="Description audio"
+                label="Description audio de l'artiste"
               />
             </div>
           </div>
