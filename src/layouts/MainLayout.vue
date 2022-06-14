@@ -16,7 +16,7 @@
 
         <q-toolbar-title v-if="user">
           {{ !user.role === "1" ? "Administrateur" : user.nom }}
-          <q-avatar v-touch-hold:2000.mouse="reset">
+          <q-avatar v-touch-hold:2000.mouse="diag">
             <q-img src="~assets/logoMuseoBlanc.png" /> </q-avatar
         ></q-toolbar-title>
       </q-toolbar>
@@ -77,6 +77,30 @@
       </transition>
     </q-page-container>
   </q-layout>
+  <q-dialog v-model="exit">
+    <q-card style="width: 500px">
+      <q-card-section>
+        <p class="text-bold q-ma-none" style="font-size: 16px">
+          L'accès à cette zone require un mot de passe administrateur
+        </p></q-card-section
+      >
+
+      <q-card-section>
+        <q-form @submit="reset">
+          <q-input
+            v-model="mdp"
+            type="password"
+            required
+            class="q-mb-md"
+            color="secondary"
+            label="Entrer le mot de passe administrateur"
+          ></q-input>
+          <div class="col row justify-center">
+            <q-btn color="secondary" type="submit" label="Confirmer" />
+          </div>
+        </q-form> </q-card-section
+    ></q-card>
+  </q-dialog>
 </template>
 
 <script>
@@ -151,9 +175,16 @@ export default defineComponent({
     EssentialLink,
   },
   methods: {
+    diag() {
+      this.exit = true;
+    },
     reset() {
-      this.utils.localStorage.clear();
-      this.$router.push({ name: "debut" });
+      if (this.mdp === "museoadmin") {
+        this.utils.localStorage.clear();
+        this.$router.push({ name: "debut" });
+      } else {
+        this.mdp = "";
+      }
     },
     async left() {
       await this.$store.dispatch("signLeft");
@@ -162,6 +193,8 @@ export default defineComponent({
   },
   data() {
     return {
+      exit: false,
+      mdp: "",
       utils: useQuasar(),
       user: null,
       type: "",
