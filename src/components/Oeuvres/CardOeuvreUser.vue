@@ -54,15 +54,28 @@
   </q-card>
   <q-dialog v-model="dialog">
     <q-card style="min-width: 900px; height: 700px; border-radius: 10px">
-      <q-card-actions position="fixed-bottom">
-        <q-btn flat icon="close" color="primary" v-close-popup />
-      </q-card-actions>
-      <div style="margin-left: 20px">
-        Localisation de {{ oeuvre.nom }}<q-btn flat icon="my_location" color="orange" />
+      <div class="row q-mt-sm">
+        <div class="col" style="margin-left: 20px; font-weight: bold; font-size: 20px">
+          Localisation de {{ oeuvre.nom }}
+          <q-icon name="pin_drop" color="orange" size="30px" />
+        </div>
+        <div class="col-1 row justify-end q-mr-sm">
+          <q-btn class="col" flat icon="close" color="primary" v-close-popup />
+        </div>
       </div>
-      <q-card-section class="row items-center"> </q-card-section>
 
-      <q-card-section class="row items-center"> </q-card-section>
+      <q-card-section class="row items-center justify-center">
+        <CardPlan class="col" />
+        <div class="col row q-ml-xl">
+          <p class="q-ma-none q-mb-sm" style="font-size: 20px">
+            L'oeuvre se trouve dans la salle <strong>4</strong> étage <strong>1</strong>.
+          </p>
+          <p class="q-ma-none" style="font-size: 20px">
+            <q-icon name="pin_drop" color="negative" size="30px" />
+            Localisation de l'oeuvre
+          </p>
+        </div>
+      </q-card-section>
 
       <!-- Notice v-close-popup -->
     </q-card>
@@ -96,6 +109,7 @@
 </style>
 
 <script>
+import CardPlan from "components/Oeuvres/CardPlan.vue";
 import { useQuasar } from "quasar";
 export default {
   props: {
@@ -108,7 +122,9 @@ export default {
       required: true,
     },
   },
-
+  components: {
+    CardPlan,
+  },
   data() {
     return {
       utils: useQuasar(),
