@@ -7,7 +7,7 @@
             class="text-white text-center text-bold q-ma-none q-mr-md"
             style="font-size: 30px"
           >
-            Liste des musées
+            Liste des musées : {{ nb }}
           </p>
           <q-form class="col row" @submit="search">
             <q-input
@@ -131,6 +131,7 @@ export default {
   },
   data() {
     return {
+      nb: 0,
       recherche: "",
       add: false,
       loading: false,
@@ -180,6 +181,7 @@ export default {
         musees.push(this.res.docs[i].data());
       }
       this.musees = Object.values(musees);
+      this.nb = this.musees.length;
     },
     async submit() {
       this.loading = true;

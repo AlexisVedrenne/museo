@@ -3,7 +3,7 @@
     <q-card square class="bg-primary text-white"
       ><q-card-section class="row items-center"
         ><p class="text-center text-bold q-ma-none q-mr-md" style="font-size: 30px">
-          Liste des comptes partenaires
+          Liste des comptes partenaires : {{ nb }}
         </p>
         <q-form class="col row" @submit="search">
           <q-input
@@ -14,7 +14,7 @@
             outlined
             v-model="recherche"
             class="col q-mr-sm"
-            label="Rechercher un musée.."
+            label="Rechercher un compte..."
           >
             <template v-slot:prepend> <q-icon name="search" /> </template
           ></q-input>
@@ -81,6 +81,7 @@ export default {
   },
   data() {
     return {
+      nb: 0,
       recherche: "",
       loading: false,
       comptes: null,
@@ -130,6 +131,7 @@ export default {
       this.comptes = null;
       let comptes = await this.$store.dispatch("fetchComptePartenaire");
       this.comptes = comptes;
+      this.nb = comptes.docs.length;
     },
     async setOptions() {
       let musees = await this.$store.dispatch("fetchAllMusee");

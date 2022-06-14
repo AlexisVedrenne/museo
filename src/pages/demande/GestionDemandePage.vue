@@ -3,7 +3,7 @@
     <q-card square class="bg-primary text-white"
       ><q-card-section
         ><p class="text-center text-bold" style="font-size: 30px">
-          Liste des demandes de prêt
+          Liste des demandes de prêt : {{ nb }}
         </p></q-card-section
       ></q-card
     >
@@ -35,6 +35,7 @@ export default {
   data() {
     return {
       demandes: null,
+      nb: 0,
     };
   },
   async mounted() {
@@ -62,6 +63,7 @@ export default {
       this.demandes = null;
       let demandes = await this.$store.dispatch("fetchAllDemande");
       this.demandes = demandes;
+      this.nb = demandes.docs.length;
     },
   },
 };

@@ -7,7 +7,7 @@
             class="text-white text-center text-bold q-ma-none q-mr-md"
             style="font-size: 30px"
           >
-            Liste des artistes
+            Liste des artistes : {{ nb }}
           </p>
           <q-form class="col row" @submit="search">
             <q-input
@@ -271,6 +271,7 @@ export default {
       loading: false,
       artistes: null,
       res: null,
+      nb: 0,
       artiste: {
         nom: "",
         prenom: "",
@@ -326,6 +327,7 @@ export default {
         artistes.push(this.res.docs[i].data());
       }
       this.artistes = Object.values(artistes);
+      this.nb = this.artistes.length;
     },
     async submit() {
       this.loading = true;
